@@ -4,24 +4,25 @@ import 'dart:io';
 import 'package:abulfadhwl_android/api.dart';
 import 'package:abulfadhwl_android/models/song.dart';
 import 'package:abulfadhwl_android/models/song_category.dart';
+import 'package:audioplayer/audioplayer.dart';
 import 'package:dio/dio.dart';
 // ignore: import_of_legacy_library_into_null_safe
 // import 'package:downloads_path_provider/downloads_path_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_media_notification/flutter_media_notification.dart';
 
 // ignore: import_of_legacy_library_into_null_safe
 // import 'package:audioplayer/audioplayer.dart';
 // ignore: import_of_legacy_library_into_null_safe
-// import 'package:flutter_media_notification/flutter_media_notification.dart';
 
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
+// import 'package:media_notification/media_notification.dart';
 import 'package:path_provider/path_provider.dart';
 
-// enum PlayerState { stopped, playing, paused }
 typedef void OnError(Exception exception);
 
-enum PlayerState { stopped, playing, paused }
+// enum AudioPlayerState { STOPPED, PLAYING, PAUSED }
 
 class SongsProvider extends ChangeNotifier {
   List<SongCategory> _categories = [];
@@ -41,22 +42,14 @@ class SongsProvider extends ChangeNotifier {
   // int changeIndex = 0;
   // int songIndex = 0;
 
-  // late AudioPlayer audioPlayer;
+  late AudioPlayer audioPlayer;
 
-  PlayerState playerState = PlayerState.stopped;
+  AudioPlayerState playerState = AudioPlayerState.STOPPED;
 
-  get isPlaying => playerState == PlayerState.playing;
-  get isPaused => playerState == PlayerState.paused;
+  get durationText => duration.toString().split('.').first;
 
-  get durationText =>
-      // ignore: unnecessary_null_comparison
-      duration != null ? duration.toString().split('.').first : '';
-
-  get positionText =>
-      // ignore: unnecessary_null_comparison
-      position != null ? position.toString().split('.').first : '';
-
-  bool isMuted = false;
+  get positionText => position.toString().split('.').first;
+  notifyListeners();
 
   // ignore: cancel_subscriptions
   late StreamSubscription positionSubscription;
@@ -66,131 +59,130 @@ class SongsProvider extends ChangeNotifier {
   void dispose() {
     positionSubscription.cancel();
     audioPlayerStateSubscription.cancel();
-    // audioPlayer.stop();
+    audioPlayer.stop();
     super.dispose();
   }
 
-  // void initAudioPlayer() {
-  //   audioPlayer = AudioPlayer();
-  //   positionSubscription =
-  //       audioPlayer.onAudioPositionChanged.listen((p) => position = p);
-  //   audioPlayerStateSubscription = audioPlayer.onPlayerStateChanged.listen((s) {
-  //     if (s == AudioPlayerState.PLAYING) {
-  //       duration = audioPlayer.duration;
-  //     } else if (s == AudioPlayerState.STOPPED) {
-  //       onComplete();
+  void initAudioPlayer() {
+    audioPlayer = AudioPlayer();
+    positionSubscription =
+        audioPlayer.onAudioPositionChanged.listen((p) => position = p);
+    notifyListeners();
+    audioPlayerStateSubscription = audioPlayer.onPlayerStateChanged.listen((s) {
+      if (s == AudioPlayerState.PLAYING) {
+        duration = audioPlayer.duration;
+      } else if (s == AudioPlayerState.STOPPED) {
+        onComplete();
 
-  //       position = duration;
-  //     }
-  //   }, onError: (msg) {
-  //     playerState = PlayerState.stopped;
-  //     duration = Duration(seconds: 0);
-  //     position = Duration(seconds: 0);
-  //   });
-  //   notifyListeners();
-  // }
+        notifyListeners();
+        position = duration;
+        notifyListeners();
+      }
+    }, onError: (msg) {
+      playerState = AudioPlayerState.STOPPED;
+      duration = Duration(seconds: 0);
+      position = Duration(seconds: 0);
+    });
+    notifyListeners();
+  }
 
-  // Future play() async {
-  //   await audioPlayer.play(currentSongFile);
-  //   playerState = PlayerState.playing;
-  //   // MediaNotification.showNotification(
-  //   //     title: currentSongTitle,
-  //   //     author: 'Sheikh Abul Fadhwl Kassim Mafuta Kassim');
+  Future play() async {
+    await audioPlayer.play(currentSongFile);
+    playerState = AudioPlayerState.PLAYING;
+    MediaNotification.showNotification(
+        title: currentSongTitle,
+        author: 'Sheikh Abul Fadhwl Kassim Mafuta Kassim');
 
-  //   notifyListeners();
-  // }
+    notifyListeners();
+    print(durationText);
+    print('durationText');
+    print(durationText);
+  }
 
-  // Future pause() async {
-  //   audioPlayer.pause();
-  //   playerState = PlayerState.paused;
-  //   notifyListeners();
-  // }
+  Future pause() async {
+    audioPlayer.pause();
+    playerState = AudioPlayerState.PAUSED;
+    notifyListeners();
+  }
 
-  // Future stop() async {
-  //   await audioPlayer.stop();
-  //   playerState = PlayerState.stopped;
-  //   position = Duration();
-  //   notifyListeners();
-  // }
+  Future stop() async {
+    await audioPlayer.stop();
+    playerState = AudioPlayerState.STOPPED;
+    position = Duration();
+    notifyListeners();
+  }
 
-  // Future mute(bool muted) async {
-  //   await audioPlayer.mute(muted);
+  Future next() async {
+    if (repeatMode == 0) {
+      return null;
+    } else if (repeatMode == 1) {
+      stop();
+      play();
+    } else if (repeatMode == 2) {
+      if (currentSongIndex == playlist.length - 1) {
+        currentSongIndex = 0;
+        currentSongFile =
+            api + 'song/file/' + playlist[currentSongIndex].id.toString();
+        currentSongId = playlist[currentSongIndex].id;
+        currentSongTitle = playlist[currentSongIndex].title;
+        currentSongDescription = playlist[currentSongIndex].description;
+        stop();
+        play();
+      } else {
+        currentSongIndex++;
+        currentSongFile =
+            api + 'song/file/' + playlist[currentSongIndex].id.toString();
+        currentSongId = playlist[currentSongIndex].id;
+        currentSongTitle = playlist[currentSongIndex].title;
+        currentSongDescription = playlist[currentSongIndex].description;
+        stop();
+        play();
+      }
+    } else
+      return null;
+    notifyListeners();
+  }
 
-  //   isMuted = muted;
-  //   notifyListeners();
-  // }
+  Future previous() async {
+    if (repeatMode == 0) {
+      return null;
+    } else if (repeatMode == 1) {
+      stop();
+      play();
+    } else if (repeatMode == 2) {
+      if (currentSongIndex == 0) {
+        currentSongIndex = playlist.length - 1;
+        currentSongFile =
+            api + 'song/file/' + playlist[currentSongIndex].id.toString();
+        currentSongId = playlist[currentSongIndex].id;
+        currentSongTitle = playlist[currentSongIndex].title;
+        currentSongDescription = playlist[currentSongIndex].description;
+        stop();
+        play();
+      } else {
+        currentSongIndex--;
+        currentSongFile =
+            api + 'song/file/' + playlist[currentSongIndex].id.toString();
+        currentSongId = playlist[currentSongIndex].id;
+        currentSongTitle = playlist[currentSongIndex].title;
+        currentSongDescription = playlist[currentSongIndex].description;
+        stop();
+        play();
+      }
+    } else
+      return null;
+    notifyListeners();
+  }
 
-  // Future next() async {
-  //   if (repeatMode == 0) {
-  //     return null;
-  //   } else if (repeatMode == 1) {
-  //     stop();
-  //     play();
-  //   } else if (repeatMode == 2) {
-  //     if (currentSongIndex == playlist.length - 1) {
-  //       currentSongIndex = 0;
-  //       currentSongFile =
-  //           api + 'song/file/' + playlist[currentSongIndex].id.toString();
-  //       currentSongId = playlist[currentSongIndex].id;
-  //       currentSongTitle = playlist[currentSongIndex].title;
-  //       currentSongDescription = playlist[currentSongIndex].description;
-  //       stop();
-  //       play();
-  //     } else {
-  //       currentSongIndex++;
-  //       currentSongFile =
-  //           api + 'song/file/' + playlist[currentSongIndex].id.toString();
-  //       currentSongId = playlist[currentSongIndex].id;
-  //       currentSongTitle = playlist[currentSongIndex].title;
-  //       currentSongDescription = playlist[currentSongIndex].description;
-  //       stop();
-  //       play();
-  //     }
-  //   } else
-  //     return null;
-  //   notifyListeners();
-  // }
-
-  // Future previous() async {
-  //   if (repeatMode == 0) {
-  //     return null;
-  //   } else if (repeatMode == 1) {
-  //     stop();
-  //     play();
-  //   } else if (repeatMode == 2) {
-  //     if (currentSongIndex == 0) {
-  //       currentSongIndex = playlist.length - 1;
-  //       currentSongFile =
-  //           api + 'song/file/' + playlist[currentSongIndex].id.toString();
-  //       currentSongId = playlist[currentSongIndex].id;
-  //       currentSongTitle = playlist[currentSongIndex].title;
-  //       currentSongDescription = playlist[currentSongIndex].description;
-  //       stop();
-  //       play();
-  //     } else {
-  //       currentSongIndex--;
-  //       currentSongFile =
-  //           api + 'song/file/' + playlist[currentSongIndex].id.toString();
-  //       currentSongId = playlist[currentSongIndex].id;
-  //       currentSongTitle = playlist[currentSongIndex].title;
-  //       currentSongDescription = playlist[currentSongIndex].description;
-  //       stop();
-  //       play();
-  //     }
-  //   } else
-  //     return null;
-  //   notifyListeners();
-  // }
-
-  // void onComplete() {
-  //   playerState = PlayerState.stopped;
-  //   // repeatMode == 0
-  //   //     ? stop()
-  //   //     : repeatMode == 1
-  //   //         ? play()
-  //   //         : next();
-  //   notifyListeners();
-  // }
+  void onComplete() {
+    playerState = AudioPlayerState.STOPPED;
+    // repeatMode == 0
+    //     ? stop()
+    //     : repeatMode == 1
+    //         ? play()
+    //         : next();
+    notifyListeners();
+  }
 
   // late StreamSubscription _positionSubscription;
   // late StreamSubscription _audioPlayerStateSubscription;
@@ -246,20 +238,4 @@ class SongsProvider extends ChangeNotifier {
       print(e);
     }
   }
-
-  // RadioPlayer radioPlayer = RadioPlayer();
-
-  // bool isPlaying = false;
-  // List<String>? metadata;
-  // void initRadioPlayer() {
-  //   radioPlayer.stateStream.listen((value) {
-  //     isPlaying = value;
-  //     notifyListeners();
-  //   });
-  //   radioPlayer.metadataStream.listen((value) {
-  //     metadata = value;
-  //     notifyListeners();
-  //   });
-  // }
-
 }

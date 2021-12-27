@@ -57,9 +57,7 @@ class SplashScreenState extends State<AnimatedSplashScreen>
                 padding: EdgeInsets.only(bottom: 10, right: 10),
                 child: Text(
                   'V 0.1',
-                  style: TextStyle(
-                      color: Colors.deepPurple[800],
-                      fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               )
             ],

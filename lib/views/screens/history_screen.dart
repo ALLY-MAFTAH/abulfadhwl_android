@@ -8,16 +8,12 @@ class HistoryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final _dataObject = Provider.of<DataProvider>(context);
     return Scaffold(
-      backgroundColor: Colors.orange[50],
+      // backgroundColor: Colors.orange[50],
       appBar: AppBar(
-        iconTheme: new IconThemeData(
-          color: Colors.deepPurple[800],
-        ),
+        iconTheme: new IconThemeData(),
         title: Text(
           'History',
-          style: TextStyle(
-            color: Colors.deepPurple[800],
-          ),
+          style: TextStyle(),
         ),
       ),
       drawer: DrawerPage(),
@@ -28,7 +24,7 @@ class HistoryScreen extends StatelessWidget {
         padding: const EdgeInsets.all(5),
         child: Container(
           decoration: BoxDecoration(
-              color: Colors.orange[200],
+              // color: Colors.orange[100],
               borderRadius: BorderRadius.circular(5)),
           child: _dataObject.histories.isEmpty
               ? Center(
@@ -39,32 +35,37 @@ class HistoryScreen extends StatelessWidget {
                     return Container(
                       width: MediaQuery.of(context).size.width,
                       decoration: BoxDecoration(
-                          color: Colors.orange[200],
-                          borderRadius: BorderRadius.circular(10)),
+                          color: Colors.orange[50],
+                          borderRadius: BorderRadius.circular(10), boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.shade300,
+                        blurRadius: 10,
+                        offset: Offset(0, 10), // shadow direction: bottom right
+                      )
+                    ],),
                       child: Column(
                         children: <Widget>[
                           ExpansionTile(
                             title: Text(
-                              _dataObject.histories[index].section.toString() +". "+ _dataObject.histories[index].heading,
+                              _dataObject.histories[index].section.toString() +
+                                  ". " +
+                                  _dataObject.histories[index].heading,
                               style: TextStyle(
-                                  color: Colors.deepPurple[800],
                                   fontWeight: FontWeight.bold,
-                                  fontStyle: FontStyle.italic),
+                                  fontStyle: FontStyle.normal),
                             ),
                             children: <Widget>[
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      color: Colors.orange[100],
+                                      color: Colors.white,
                                       borderRadius: BorderRadius.circular(5)),
                                   child: Padding(
                                     padding: const EdgeInsets.all(5.0),
                                     child: SelectableText(
-                                      _dataObject
-                                          .histories[index].content,
-                                      style: TextStyle(
-                                          color: Colors.deepPurple[800]),
+                                      _dataObject.histories[index].content,
+                                      style: TextStyle(),
                                       textAlign: TextAlign.justify,
                                     ),
                                   ),
@@ -72,7 +73,7 @@ class HistoryScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          Divider(),
+                          // Divider(),
                         ],
                       ),
                     );

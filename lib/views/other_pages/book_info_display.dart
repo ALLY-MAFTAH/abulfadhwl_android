@@ -21,7 +21,7 @@ class BookInfoDisplay extends StatefulWidget {
   final int tagNum;
 
   const BookInfoDisplay(
-      { Key? key, required this.bookDetails, required this.tagNum})
+      {Key? key, required this.bookDetails, required this.tagNum})
       : super(key: key);
 
   @override
@@ -38,7 +38,6 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
     timeDilation = 1;
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Colors.orange[50],
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(left: 10, top: 35, right: 10),
@@ -87,7 +86,7 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                     child: IconButton(
                       icon: Image(
                         image: AssetImage('assets/icons/dismiss_music@3x.png'),
-                        color: Colors.orange[700],
+                        color: Colors.orange,
                       ),
                       onPressed: () {
                         Navigator.pop(context);
@@ -102,7 +101,7 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                         // ignore: deprecated_member_use
                         RaisedButton(
                           elevation: 10,
-                          color: Colors.orange[700],
+                          color: Colors.orange,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                           child: Text(
@@ -120,7 +119,7 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                         // ignore: deprecated_member_use
                         RaisedButton(
                           elevation: 10,
-                          color: Colors.orange[700],
+                          color: Colors.orange,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                           child: Text(
@@ -136,7 +135,7 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                         // ignore: deprecated_member_use
                         RaisedButton(
                           elevation: 10,
-                          color: Colors.orange[700],
+                          color: Colors.orange,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
                           child: Text(
@@ -148,7 +147,6 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                                 'book/file/' +
                                 widget.bookDetails.id.toString();
                             downloadFile(bookUrl, widget.bookDetails.title);
-                            
                           },
                         ),
                       ],
@@ -166,7 +164,7 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                   children: <Widget>[
                     Icon(
                       FontAwesomeIcons.book,
-                      color: Colors.orange[700],
+                      color: Colors.orange,
                       size: 20,
                     ),
                     SizedBox(width: 10),
@@ -175,13 +173,8 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text('Jina la Kitabu:',
-                              style: TextStyle(
-                                  color: Colors.deepPurple[800],
-                                  fontWeight: FontWeight.bold)),
-                          Text(widget.bookDetails.title,
-                              style: TextStyle(
-                                color: Colors.deepPurple,
-                              ))
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          Text(widget.bookDetails.title, style: TextStyle())
                         ],
                       ),
                     ),
@@ -195,7 +188,7 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                   children: <Widget>[
                     Icon(
                       Icons.person,
-                      color: Colors.orange[700],
+                      color: Colors.orange,
                       size: 20,
                     ),
                     SizedBox(width: 10),
@@ -204,13 +197,8 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text('Jina la Mtunzi:',
-                              style: TextStyle(
-                                  color: Colors.deepPurple[800],
-                                  fontWeight: FontWeight.bold)),
-                          Text(widget.bookDetails.author,
-                              style: TextStyle(
-                                color: Colors.deepPurple,
-                              ))
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          Text(widget.bookDetails.author, style: TextStyle())
                         ],
                       ),
                     ),
@@ -224,7 +212,7 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                   children: <Widget>[
                     Icon(
                       FontAwesomeIcons.calendarAlt,
-                      color: Colors.orange[700],
+                      color: Colors.orange,
                       size: 20,
                     ),
                     SizedBox(width: 10),
@@ -233,13 +221,8 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text('Mwaka wa Chapisho:',
-                              style: TextStyle(
-                                  color: Colors.deepPurple[800],
-                                  fontWeight: FontWeight.bold)),
-                          Text(widget.bookDetails.pubYear,
-                              style: TextStyle(
-                                color: Colors.deepPurple,
-                              ))
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          Text(widget.bookDetails.pubYear, style: TextStyle())
                         ],
                       ),
                     ),
@@ -253,7 +236,7 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                   children: <Widget>[
                     Icon(
                       Icons.content_copy,
-                      color: Colors.orange[700],
+                      color: Colors.orange,
                       size: 20,
                     ),
                     SizedBox(width: 10),
@@ -262,13 +245,9 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text('Nambari ya Chapa:',
-                              style: TextStyle(
-                                  color: Colors.deepPurple[800],
-                                  fontWeight: FontWeight.bold)),
+                              style: TextStyle(fontWeight: FontWeight.bold)),
                           Text(widget.bookDetails.edition.toString(),
-                              style: TextStyle(
-                                color: Colors.deepPurple,
-                              ))
+                              style: TextStyle())
                         ],
                       ),
                     ),
@@ -282,7 +261,7 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                   children: <Widget>[
                     Icon(
                       Icons.info,
-                      color: Colors.orange[700],
+                      color: Colors.orange,
                       size: 20,
                     ),
                     SizedBox(width: 10),
@@ -291,14 +270,10 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text('Maelezo Kuhusu Kitabu:',
-                              style: TextStyle(
-                                  color: Colors.deepPurple[800],
-                                  fontWeight: FontWeight.bold)),
+                              style: TextStyle(fontWeight: FontWeight.bold)),
                           Text(
                             widget.bookDetails.description,
-                            style: TextStyle(
-                              color: Colors.deepPurple,
-                            ),
+                            style: TextStyle(),
                             textAlign: TextAlign.justify,
                           )
                         ],
@@ -337,36 +312,37 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
       //     progressString = ((rec / total) * 100).toStringAsFixed(0) + "%";
       //   });
       //   print(downloadsDirectory!.path);
-        
+
       // });
       return showModalBottomSheet(
-                                backgroundColor: Colors.transparent,
-                                isDismissible: true,
-                                context: context,
-                                builder: (_) {
-                                  
-                                  return Container(
-                                    height: 150,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(10),
-                                          topRight: Radius.circular(10)),
-                                      color: Colors.black.withOpacity(0.9),
-                                    ),
-                                    child: Column(
-                                      children: <Widget>[!downloading?CircularProgressIndicator():
-                                        Text(
-                                          "Downloading... $progressString",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            // fontSize: 13,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                });
+          backgroundColor: Colors.transparent,
+          isDismissible: true,
+          context: context,
+          builder: (_) {
+            return Container(
+              height: 150,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10)),
+                color: Colors.black.withOpacity(0.9),
+              ),
+              child: Column(
+                children: <Widget>[
+                  !downloading
+                      ? CircularProgressIndicator()
+                      : Text(
+                          "Downloading... $progressString",
+                          style: TextStyle(
+                            color: Colors.white,
+                            // fontSize: 13,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                ],
+              ),
+            );
+          });
     } catch (e) {
       print(e);
     }

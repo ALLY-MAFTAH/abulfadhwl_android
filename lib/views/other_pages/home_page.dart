@@ -19,32 +19,45 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final songCategoryProvider = Provider.of<SongsProvider>(context);
-    final _dataProvider=Provider.of<DataProvider>(context);
+    final _dataProvider = Provider.of<DataProvider>(context);
     final List<Widget> _screens = [
-      HomeScreen(dataProvider: _dataProvider,),
+      HomeScreen(
+        dataProvider: _dataProvider,
+      ),
       BooksScreen(),
-      AudiosScreen(songCategories: songCategoryProvider.categories,),
+      AudiosScreen(
+        songCategories: songCategoryProvider.categories,
+      ),
       HistoryScreen()
     ];
 
     return Scaffold(
       body: _screens[_currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        elevation: 10,
-        selectedItemColor: Colors.orange[700],
-        unselectedItemColor: Colors.grey[600],
-        onTap: tappedTab,
-        currentIndex: _currentIndex,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.home), label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.book), label: 'Books'),
-          BottomNavigationBarItem(
-              icon: Icon(FontAwesomeIcons.microphone), label: 'Audios'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person), label: 'History')
-        ],
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black,
+              blurRadius: 10,
+              offset: Offset(2.0, 2.0), // shadow direction: bottom right
+            )
+          ],
+        ),
+        child: BottomNavigationBar(
+          selectedItemColor: Colors.orange,
+          unselectedItemColor: Colors.grey[600],
+          onTap: tappedTab,
+          currentIndex: _currentIndex,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+                icon: Icon(FontAwesomeIcons.home), label: 'Home'),
+            BottomNavigationBarItem(
+                icon: Icon(FontAwesomeIcons.book), label: 'Books'),
+            BottomNavigationBarItem(
+                icon: Icon(FontAwesomeIcons.microphone), label: 'Audios'),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'History')
+          ],
+        ),
       ),
     );
   }

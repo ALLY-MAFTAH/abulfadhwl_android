@@ -2,6 +2,7 @@ import 'package:abulfadhwl_android/models/song_category.dart';
 import 'package:abulfadhwl_android/views/components/album_card.dart';
 import 'package:abulfadhwl_android/views/other_pages/drawer_page.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AudiosScreen extends StatefulWidget {
   final List<SongCategory> songCategories;
@@ -20,7 +21,6 @@ class _AudiosScreenState extends State<AudiosScreen> {
 
   @override
   void initState() {
-
     print(widget.songCategories);
     widget.songCategories.forEach((category) {
       _tabs.add(Tab(
@@ -44,33 +44,25 @@ class _AudiosScreenState extends State<AudiosScreen> {
   Widget build(BuildContext context) {
     return widget.songCategories.isEmpty
         ? Scaffold(
-            backgroundColor: Colors.orange[50],
             appBar: AppBar(
-                iconTheme: new IconThemeData(
-                  color: Colors.deepPurple[800],
-                ),
+                iconTheme: new IconThemeData(),
                 title: Text(
                   'Audios',
-                  style: TextStyle(
-                    color: Colors.deepPurple[800],
-                  ),
+                  style: TextStyle(),
                 )),
             drawer: DrawerPage(),
-            body: Center(child: CircularProgressIndicator(),),
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
           )
         : DefaultTabController(
             length: widget.songCategories.length,
             child: Scaffold(
-              backgroundColor: Colors.orange[50],
               appBar: AppBar(
-                iconTheme: new IconThemeData(
-                  color: Colors.deepPurple[800],
-                ),
+                iconTheme: new IconThemeData(),
                 title: Text(
                   'Audios',
-                  style: TextStyle(
-                    color: Colors.deepPurple[800],
-                  ),
+                  style: TextStyle(),
                 ),
                 actions: <Widget>[
                   IconButton(
@@ -78,20 +70,34 @@ class _AudiosScreenState extends State<AudiosScreen> {
                     onPressed: () {},
                   )
                 ],
-                bottom: TabBar(
-                    unselectedLabelColor: Colors.deepPurple,
-                    indicatorColor: Colors.deepPurple,
-                    indicatorWeight: 3,
-                    unselectedLabelStyle:
-                        TextStyle(fontWeight: FontWeight.normal),
-                    labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                    labelColor: Colors.deepPurple[800],
-                    isScrollable: true,
-                    tabs: _tabs),
               ),
               drawer: DrawerPage(),
-              
-              body: TabBarView(children: _screens),
+              body: Column(
+                children: [
+                  Card(
+                    elevation: 10,
+                    color: Colors.orange[50],
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10))),
+                    child: TabBar(
+                        indicator: BoxDecoration(
+                            color: Colors.orange,
+                            borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(10),
+                                bottomRight: Radius.circular(10))),
+                        unselectedLabelStyle:
+                            GoogleFonts.gelasio(fontWeight: FontWeight.normal),
+                        labelStyle: GoogleFonts.gelasio(
+                          fontWeight: FontWeight.bold,
+                        ),
+                        isScrollable: true,
+                        tabs: _tabs),
+                  ),
+                  Expanded(child: TabBarView(children: _screens)),
+                ],
+              ),
             ),
           );
   }

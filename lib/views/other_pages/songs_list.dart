@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:abulfadhwl_android/constants/more_button_constants.dart';
+import 'package:audioplayer/audioplayer.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_media_notification/flutter_media_notification.dart';
 // ignore: import_of_legacy_library_into_null_safe
 // import 'package:flutter_media_notification/flutter_media_notification.dart';
 import 'package:share/share.dart';
@@ -44,31 +46,31 @@ class _SongsListState extends State<SongsList> {
   @override
   void initState() {
     _showMyBottomSheetCallBack = _showBottomSheet;
-    // widget.songProvider.initAudioPlayer();
-    // MediaNotification.setListener('play', () {
-    //   setState(() {
-    //     widget.songProvider.isPlaying
-    //         ? widget.songProvider.pause()
-    //         : widget.songProvider.play();
-    //   });
-    // });
-    // MediaNotification.setListener('pause', () {
-    //   setState(() {
-    //      widget.songProvider.isPlaying
-    //         ? widget.songProvider.pause():
-    //     widget.songProvider.play();
-    //   });
-    // });
-    // MediaNotification.setListener('next', () {
-    //   setState(() {
-    //     widget.songProvider.next();
-    //   });
-    // });
-    // MediaNotification.setListener('prev', () {
-    //   setState(() {
-    //     widget.songProvider.previous();
-    //   });
-    // });
+    widget.songProvider.initAudioPlayer();
+    MediaNotification.setListener('play', () {
+      setState(() {
+        widget.songProvider.playerState == AudioPlayerState.PLAYING
+            ? widget.songProvider.pause()
+            : widget.songProvider.play();
+      });
+    });
+    MediaNotification.setListener('pause', () {
+      setState(() {
+        widget.songProvider.playerState == AudioPlayerState.PLAYING
+            ? widget.songProvider.pause()
+            : widget.songProvider.play();
+      });
+    });
+    MediaNotification.setListener('next', () {
+      setState(() {
+        widget.songProvider.next();
+      });
+    });
+    MediaNotification.setListener('prev', () {
+      setState(() {
+        widget.songProvider.previous();
+      });
+    });
 
     super.initState();
   }
@@ -77,12 +79,10 @@ class _SongsListState extends State<SongsList> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Colors.orange[50],
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
-            color: Colors.deepPurple[800],
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -90,7 +90,7 @@ class _SongsListState extends State<SongsList> {
         ),
         title: Text(
           widget.title,
-          style: TextStyle(color: Colors.deepPurple[800]),
+          style: TextStyle(),
         ),
       ),
       body: Column(
@@ -108,7 +108,6 @@ class _SongsListState extends State<SongsList> {
                           padding: const EdgeInsets.only(
                               left: 5, top: 1.5, right: 5),
                           child: InkWell(
-                            focusColor: Colors.blue,
                             onTap: () {
                               setState(() {
                                 widget.songProvider.currentSongIndex = index;
@@ -122,22 +121,19 @@ class _SongsListState extends State<SongsList> {
                                 widget.songProvider.currentSongDescription =
                                     widget.songs[index].description;
 
-                                // widget.songProvider.stop();
-                                // widget.songProvider.play();
+                                widget.songProvider.stop();
+                                widget.songProvider.play();
                               });
                             },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(3),
-                                color: widget.songProvider.currentSongId ==
-                                        widget.songs[index].id
-                                    ? Colors.orange[200]
-                                    : Colors.orange[100],
-                              ),
+                            child: Card(
+                              color: widget.songProvider.currentSongId ==
+                                      widget.songs[index].id
+                                  ? Colors.orange[50]
+                                  : Colors.white,
                               child: Row(children: <Widget>[
                                 Icon(
                                   Icons.music_note,
-                                  color: Colors.orange[700],
+                                  color: Colors.orange,
                                 ),
                                 Expanded(
                                   child: Container(
@@ -148,28 +144,27 @@ class _SongsListState extends State<SongsList> {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
-                                          widget.songs[index].title,
+                                          widget.songs[index].title +
+                                              "jhg ytfdfgu ftyuiuytbytyu guiuy n uytfgyu ytfyuuh yuiu ",
                                           maxLines: 1,
                                           style: TextStyle(
-                                              fontSize: 12,
-                                              color: Colors.deepPurple[800],
-                                              fontWeight: FontWeight.bold,
-                                              fontStyle: widget.songProvider
+                                              fontSize: 14,
+                                              fontWeight: widget.songProvider
                                                           .currentSongId ==
                                                       widget.songs[index].id
-                                                  ? FontStyle.italic
-                                                  : FontStyle.normal),
+                                                  ? FontWeight.bold
+                                                  : FontWeight.normal),
                                         ),
                                         Text(
                                           widget.songs[index].description,
                                           style: TextStyle(
-                                              color: Colors.deepPurple,
                                               fontSize: 12,
-                                              fontStyle: widget.songProvider
+                                              color: Colors.grey[600],
+                                              fontWeight: widget.songProvider
                                                           .currentSongId ==
                                                       widget.songs[index].id
-                                                  ? FontStyle.italic
-                                                  : FontStyle.normal),
+                                                  ? FontWeight.bold
+                                                  : FontWeight.normal),
                                         )
                                       ],
                                     ),
@@ -180,18 +175,17 @@ class _SongsListState extends State<SongsList> {
                                           widget.songs[index].id
                                       ? Icon(
                                           FontAwesomeIcons.play,
-                                          color: Colors.orange[700],
+                                          color: Colors.orange,
                                         )
                                       : PopupMenuButton<String>(
                                           icon: Icon(
                                             Icons.more_vert,
-                                            color: Colors.orange[700],
+                                            color: Colors.orange,
                                           ),
                                           elevation: 8,
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(5)),
-                                          color: Colors.orange[50],
                                           onSelected: choiceAction,
                                           itemBuilder: (_) {
                                             widget.songProvider
@@ -203,8 +197,6 @@ class _SongsListState extends State<SongsList> {
                                                 child: Text(
                                                   choice,
                                                   style: TextStyle(
-                                                      color: Colors
-                                                          .deepPurple[800],
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
@@ -221,6 +213,7 @@ class _SongsListState extends State<SongsList> {
                       itemCount: widget.songs.length,
                     )),
           ),
+
           widget.songs.isEmpty
               ? Container()
               : widget.songProvider.currentSongFile.isEmpty
@@ -230,7 +223,17 @@ class _SongsListState extends State<SongsList> {
                         _showMyBottomSheetCallBack!();
                       },
                       child: Container(
-                        color: Colors.white,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black,
+                              blurRadius: 10,
+                              offset: Offset(
+                                  2.0, 2.0), // shadow direction: bottom right
+                            )
+                          ],
+                          color: Colors.orange[50],
+                        ),
                         height: 60,
                         child: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -239,7 +242,7 @@ class _SongsListState extends State<SongsList> {
                                 height: 40,
                                 width: 35,
                                 child: Image(
-                                  color: Colors.orange[700],
+                                  color: Colors.orange,
                                   image: AssetImage("assets/icons/music.png"),
                                 ),
                               ),
@@ -256,7 +259,6 @@ class _SongsListState extends State<SongsList> {
                                         maxLines: 1,
                                         style: TextStyle(
                                             fontSize: 15,
-                                            color: Colors.deepPurple[800],
                                             fontWeight: FontWeight.bold),
                                       ),
                                       Text(
@@ -264,7 +266,6 @@ class _SongsListState extends State<SongsList> {
                                             .currentSongDescription,
                                         maxLines: 1,
                                         style: TextStyle(
-                                            color: Colors.deepPurple,
                                             fontSize: 13,
                                             fontStyle: FontStyle.italic),
                                       )
@@ -273,27 +274,28 @@ class _SongsListState extends State<SongsList> {
                                 ),
                               ),
                               Container(
-                                child: widget.songProvider.isPlaying
+                                child: widget.songProvider.playerState ==
+                                        AudioPlayerState.PLAYING
                                     ? IconButton(
                                         iconSize: 30,
                                         icon: Icon(
                                           FontAwesomeIcons.pause,
-                                          color: Colors.orange[700],
+                                          color: Colors.orange,
                                         ),
                                         onPressed: () {
                                           setState(() {
-                                            // widget.songProvider.pause();
+                                            widget.songProvider.pause();
                                           });
                                         })
                                     : IconButton(
                                         iconSize: 30,
                                         icon: Icon(
                                           FontAwesomeIcons.play,
-                                          color: Colors.orange[700],
+                                          color: Colors.orange,
                                         ),
                                         onPressed: () {
                                           setState(() {
-                                            // widget.songProvider.play();
+                                            widget.songProvider.play();
                                           });
                                         }),
                               ),
@@ -342,8 +344,8 @@ class _SongsListState extends State<SongsList> {
             widget.songs[widget.songProvider.currentSongIndex].description;
         // Play audio
 
-        // widget.songProvider.stop();
-        // widget.songProvider.play();
+        widget.songProvider.stop();
+        widget.songProvider.play();
       });
     } else if (choice == MoreButtonConstants.ShareAudio) {
       Share.share(api +

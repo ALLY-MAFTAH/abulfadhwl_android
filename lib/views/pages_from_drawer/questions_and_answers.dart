@@ -20,13 +20,11 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
     final _dataObject = Provider.of<DataProvider>(context);
     return Scaffold(
         key: _scaffoldKey,
-        backgroundColor: Colors.orange[50],
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
               size: 25,
-              color: Colors.deepPurple[800],
             ),
             onPressed: () {
               Navigator.pop(context);
@@ -34,9 +32,7 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
           ),
           title: Text(
             'Maswali na Majibu',
-            style: TextStyle(
-              color: Colors.deepPurple[800],
-            ),
+            style: TextStyle(),
           ),
         ),
         body: CustomScrollView(physics: BouncingScrollPhysics(), slivers: <
@@ -47,11 +43,9 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
               children: <Widget>[
                 Padding(
                     padding: const EdgeInsets.all(5),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.orange[100],
-                        borderRadius: BorderRadius.circular(5),
-                      ),
+                    child: Card(
+                        color: Colors.orange[50],
+                      
                       child: Form(
                         key: _formKey,
                         child: Padding(
@@ -84,7 +78,7 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                                 children: <Widget>[
                                   FloatingActionButton(
                                     elevation: 8,
-                                    backgroundColor: Colors.orange[700],
+                                    backgroundColor: Colors.orange,
                                     child: Icon(
                                       Icons.send,
                                       color: Colors.white,
@@ -120,20 +114,7 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
               ],
             )
           ])),
-          SliverList(
-              delegate: SliverChildListDelegate([
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Center(
-                child: Text('MASWALI YALIYOJIBIWA',
-                    style: TextStyle(
-                      color: Colors.deepPurple[800],
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline,
-                    )),
-              ),
-            ),
-          ])),
+          
           SliverList(
               delegate:
                   SliverChildBuilderDelegate((BuildContext context, int index) {
@@ -150,7 +131,7 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                         padding: const EdgeInsets.only(left: 35, right: 5),
                         child: Card(
                           elevation: 8,
-                          color: Colors.orange[200],
+                          color: Colors.orange[50],
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(15),
@@ -164,14 +145,12 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                                 Text(
                                   'Swali: ',
                                   style: TextStyle(
-                                      color: Colors.deepPurple[800],
                                       fontSize: 12,
                                       fontWeight: FontWeight.bold),
                                 ),
                                 SelectableText(
                                   _dataObject.answers[index].qn,
                                   style: TextStyle(
-                                    color: Colors.deepPurple[800],
                                     fontSize: 12,
                                   ),
                                   textAlign: TextAlign.justify,
@@ -180,14 +159,13 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                                   title: Text(
                                     'Jibu: ',
                                     style: TextStyle(
-                                        color: Colors.deepPurple[800],
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   children: <Widget>[
                                     Container(
                                         decoration: BoxDecoration(
-                                            color: Colors.orange[100],
+                                            color: Colors.white,
                                             borderRadius:
                                                 BorderRadius.circular(5)),
                                         padding: EdgeInsets.all(5),
@@ -209,7 +187,7 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                         height: 30,
                         width: 30,
                         decoration: BoxDecoration(
-                            color: Colors.orange[300],
+                            color: Colors.orange,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(15),
                                 topRight: Radius.circular(15),
@@ -218,11 +196,13 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                     ),
                     CircleAvatar(
                       radius: 17,
-                      backgroundColor: Colors.orange[300],
+                      backgroundColor: Colors.orange,
                       child: Text(
                         qnsNumber.toString(),
                         style: TextStyle(
-                            fontSize: 10, color: Colors.deepPurple[800]),
+                          fontSize: 13,
+                          color: Colors.white
+                        ),
                         textAlign: TextAlign.center,
                       ),
                     )

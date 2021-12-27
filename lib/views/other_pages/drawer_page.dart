@@ -1,7 +1,7 @@
-
 import 'package:abulfadhwl_android/views/other_pages/oval_right_border_cliper.dart';
 import 'package:abulfadhwl_android/views/pages_from_drawer/about_us_page.dart';
 import 'package:abulfadhwl_android/views/pages_from_drawer/contact_us_page.dart';
+import 'package:abulfadhwl_android/views/pages_from_drawer/live_duruus_and_timetable_page.dart';
 import 'package:abulfadhwl_android/views/pages_from_drawer/questions_and_answers.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -14,7 +14,7 @@ class DrawerPage extends StatelessWidget {
       child: Drawer(
         child: Container(
           decoration: BoxDecoration(
-              color: Colors.orange[50],
+              color: Colors.white,
               boxShadow: [BoxShadow(color: Colors.orange)]),
           width: 320,
           child: SafeArea(
@@ -22,26 +22,24 @@ class DrawerPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(
-                    height: 20,
-                  ),
+                  
                   Container(
-                    height: 100,
+                    height: 170,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                          image: AssetImage('assets/icons/bismillah.png')),
+                          image: AssetImage('assets/images/ALLY W  008.png')),
                     ),
                   ),
-                  SizedBox(height: 5.0),
                   Text(
                     "قاسم ابن مفوتا بن قاسم",
-                    style: TextStyle(color: Colors.deepPurple, fontSize: 15.0, fontWeight: FontWeight.bold),
+                    style:
+                        TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     " حفـظه اللـه ورعـاه ووفقـه وبارك فيه وفي علمه",
-                    style: TextStyle(color: Colors.deepPurple, fontSize: 13.0),
+                    style: TextStyle(fontSize: 13.0),
                   ),
                   SizedBox(height: 25.0),
                   Divider(),
@@ -57,15 +55,15 @@ class DrawerPage extends StatelessWidget {
                         ),
                         Text(
                           "Live Duruus",
-                          style: TextStyle(color: Colors.deepPurple[700]),
+                          style: TextStyle(),
                         ),
                       ],
                     ),
-                    // onTap: () {
-                    //   Navigator.push(context, MaterialPageRoute(builder: (_) {
-                    //     return LiveDuruusAndTimetablePage();
-                    //   }));
-                    // },
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) {
+                        return LiveDuruusAndTimetablePage();
+                      }));
+                    },
                   ),
                   Divider(),
                   ListTile(
@@ -80,7 +78,7 @@ class DrawerPage extends StatelessWidget {
                         ),
                         Text(
                           "Maswali & Majibu",
-                          style: TextStyle(color: Colors.deepPurple[700]),
+                          style: TextStyle(),
                         ),
                       ],
                     ),
@@ -103,7 +101,7 @@ class DrawerPage extends StatelessWidget {
                         ),
                         Text(
                           "About Us",
-                          style: TextStyle(color: Colors.deepPurple[700]),
+                          style: TextStyle(),
                         ),
                       ],
                     ),
@@ -126,7 +124,7 @@ class DrawerPage extends StatelessWidget {
                         ),
                         Text(
                           "Contact Us",
-                          style: TextStyle(color: Colors.deepPurple[700]),
+                          style: TextStyle(),
                         ),
                       ],
                     ),
@@ -149,7 +147,7 @@ class DrawerPage extends StatelessWidget {
                   //       ),
                   //       Text(
                   //         "Settings",
-                  //         style: TextStyle(color: Colors.deepPurple[700]),
+                  //         style: TextStyle( ),
                   //       ),
                   //     ],
                   //   ),

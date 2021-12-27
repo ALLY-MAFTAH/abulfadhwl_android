@@ -1,19 +1,17 @@
 import 'package:abulfadhwl_android/views/other_pages/home_page.dart';
 import 'package:flutter/material.dart';
-// ignore: import_of_legacy_library_into_null_safe
-// import 'package:marquee_flutter/marquee_flutter.dart';
+import 'package:marquee_flutter/marquee_flutter.dart';
 import 'package:share/share.dart';
 
 class AboutUs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    int _currentYear = DateTime.now().year;
     return Scaffold(
-      backgroundColor: Colors.orange[50],
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
-            color: Colors.deepPurple[800],
           ),
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (_) {
@@ -23,7 +21,7 @@ class AboutUs extends StatelessWidget {
         ),
         title: Text(
           'About Us',
-          style: TextStyle(color: Colors.deepPurple[800]),
+          style: TextStyle(),
         ),
       ),
       body: SingleChildScrollView(
@@ -31,12 +29,9 @@ class AboutUs extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(10),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.orange[100],
-                ),
-                width: MediaQuery.of(context).size.width,
+              child: Card(
+                elevation: 9,
+                color: Colors.orange[50],
                 child: Column(
                   children: <Widget>[
                     Padding(
@@ -46,26 +41,31 @@ class AboutUs extends StatelessWidget {
                           textAlign: TextAlign.justify,
                         )),
                     Container(
-                      color: Colors.orange[200],
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10))),
                       width: MediaQuery.of(context).size.width,
                       child: Column(
                         children: <Widget>[
                           Text(
                             '** إن الدال على الخير كفاعله **',
                             style: TextStyle(
-                                fontWeight: FontWeight.w800,
-                                color: Colors.deepPurple[800]),
+                              fontWeight: FontWeight.w800,
+                            ),
                           ),
                           Text(
                             'Mshirikishe Ndugu Yako Katika Kheri Hii ',
                             style: TextStyle(
-                                fontWeight: FontWeight.w800,
-                                color: Colors.deepPurple[800]),
+                              fontWeight: FontWeight.w800,
+                            ),
                           ),
                           CircleAvatar(
                             radius: 25,
+                            backgroundColor: Colors.orange,
                             child: IconButton(
-                              color: Colors.orange[700],
+                              color: Colors.white,
                               icon: Icon(Icons.share),
                               onPressed: () {
                                 Share.share(
@@ -84,21 +84,19 @@ class AboutUs extends StatelessWidget {
                 ),
               ),
             ),
-            // Container(
-            //   height: 25,
-            //   child: MarqueeWidget(
-            //     text: 'Ndugu Katika Imani Usitusahau Katika Dua Zako  ',
-            //     textStyle: TextStyle(
-            //       color: Colors.deepPurple[800],
-            //     ),
-            //   ),
-            // ),
+            Container(
+              height: 25,
+              child: MarqueeWidget(
+                text: 'Ndugu Katika Imani Usitusahau Katika Dua Zako  ',
+                textStyle: TextStyle(),
+              ),
+            ),
           ],
         ),
       ),
       bottomNavigationBar: BottomAppBar(
         elevation: 10,
-        color: Colors.lime[900],
+        color: Colors.orange,
         child: Container(
           height: 53,
           child: Column(
@@ -108,7 +106,9 @@ class AboutUs extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Icon(Icons.copyright, size: 15),
-                  Text('2020 Markaz Shaykhil Islaam Ibn Taymiyyah',
+                  Text(
+                      _currentYear.toString() +
+                          ' Markaz Shaykhil Islaam Ibn Taymiyyah',
                       style: TextStyle(fontSize: 9)),
                 ],
               ),

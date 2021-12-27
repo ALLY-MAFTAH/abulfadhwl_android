@@ -1,13 +1,9 @@
-
 class Announcement {
   final int id;
   final String news;
-  final String date;
+  final DateTime date;
 
-  Announcement(
-      {required this.id,
-      required this.news,
-      required this.date});
+  Announcement({required this.id, required this.news, required this.date});
 
   Announcement.fromMap(Map<String, dynamic> map)
       : assert(map['id'] != null),
@@ -15,5 +11,6 @@ class Announcement {
         assert(map['date'] != null),
         id = map['id'],
         news = map['news'],
-        date = map['date'];
+        // date = map['date'];
+        date = DateTime.parse(map['date']);
 }

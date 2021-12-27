@@ -27,12 +27,10 @@ class _ContactUsState extends State<ContactUs> {
     final _dataObject = Provider.of<DataProvider>(context);
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Colors.orange[50],
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios,
-            color: Colors.deepPurple[800],
           ),
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (_) {
@@ -42,14 +40,14 @@ class _ContactUsState extends State<ContactUs> {
         ),
         title: Text(
           'Wasiliana Nasi',
-          style: TextStyle(color: Colors.deepPurple[800]),
+          style: TextStyle(),
         ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Container(
           decoration: BoxDecoration(
-              color: Colors.orange[100],
+              color: Colors.orange[50],
               borderRadius: BorderRadius.circular(10)),
           child: CustomScrollView(
             slivers: <Widget>[
@@ -59,7 +57,7 @@ class _ContactUsState extends State<ContactUs> {
                     padding: const EdgeInsets.all(10),
                     child: Text(
                       'Ukamilifu ni wa Allah ﷻ pekee, nasi ni wadhaifu mno, wingi wa kukosea, tuliojawa na kila aina ya mapungufu. Kwa lolote katika makosa na mapungufu yaliyopatikana katika Application hii, ukiwa kama mpenda kheri na mwenye kutaka kuisukuma da\'wah hii mbele, basi usisite kutukosoa na kutuelekeza pale penye na mapungufu kwa lengo la kurekebisha.\n\nUngana nasi kupitia mitandao ya kijamii kwa link hizi:',
-                      style: TextStyle(color: Colors.deepPurple[800]),
+                      style: TextStyle(),
                       textAlign: TextAlign.justify,
                     ),
                   )
@@ -86,8 +84,7 @@ class _ContactUsState extends State<ContactUs> {
                                   child: CircleAvatar(
                                     backgroundImage: NetworkImageWithRetry(api +
                                         'link/icon/' +
-                                        _dataObject.links[index].id
-                                            .toString()),
+                                        _dataObject.links[index].id.toString()),
                                   ),
                                 ),
                               ),
@@ -96,7 +93,6 @@ class _ContactUsState extends State<ContactUs> {
                               ),
                               Text(_dataObject.links[index].title,
                                   style: TextStyle(
-                                      color: Colors.deepPurple,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 15))
                             ],
@@ -118,7 +114,7 @@ class _ContactUsState extends State<ContactUs> {
                         children: <Widget>[
                           Text(
                               "Vilevile unaweza kututumia ujumbe wa maandishi kupitia fomu hii:\nNB: Hii si sehemu kwa ajili ya maswali ya kielimu.",
-                              style: TextStyle(color: Colors.deepPurple[800])),
+                              style: TextStyle()),
                           SizedBox(
                             height: 10,
                           ),
@@ -148,8 +144,7 @@ class _ContactUsState extends State<ContactUs> {
                             validator: (emailValue) {
                               if (emailValue!.isEmpty)
                                 return "Tafadhali ingiza barua pepe yako";
-                              else
-                              if (!RegExp(
+                              else if (!RegExp(
                                       r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
                                   .hasMatch(emailValue)) {
                                 return 'Hii barua pepe si sahihi';
@@ -195,7 +190,7 @@ class _ContactUsState extends State<ContactUs> {
                             children: <Widget>[
                               FloatingActionButton(
                                 elevation: 10,
-                                backgroundColor: Colors.orange[700],
+                                backgroundColor: Colors.orange,
                                 child: Icon(
                                   Icons.send,
                                   color: Colors.white,
@@ -231,7 +226,7 @@ class _ContactUsState extends State<ContactUs> {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                        color: Colors.orange,
+                        color: Colors.white,
                         borderRadius: BorderRadius.only(
                             bottomLeft: Radius.circular(10),
                             bottomRight: Radius.circular(10))),
@@ -241,101 +236,94 @@ class _ContactUsState extends State<ContactUs> {
                           padding: const EdgeInsets.all(5),
                           child: Text(
                             "Kwa faida mbalimbali za kielimu, pia unaweza kutembelea kurasa na applications zetu nyingine kupitia links hizi:",
-                            style: TextStyle(color: Colors.deepPurple),
+                            style: TextStyle(),
                             textAlign: TextAlign.center,
                           ),
                         ),
-                        Divider(),
-                        // Padding(
-                        //   padding: const EdgeInsets.only(top: 5, bottom: 5),
-                        //   child: _dataObject.links.isEmpty
-                        //       ? Container()
-                        //       : Row(
-                        //           children: <Widget>[
-                        //             Expanded(
-                        //               child: FlatButton(
-                        //                 child: Column(
-                        //                   crossAxisAlignment:
-                        //                       CrossAxisAlignment.center,
-                        //                   children: <Widget>[
-                        //                     CircleAvatar(
-                        //                       backgroundImage:
-                        //                           NetworkImageWithRetry(
-                        //                               api + 'link/icon/1'),
-                        //                     ),
-                        //                     Text(
-                        //                       _dataObject.links[1].title,
-                        //                       style: TextStyle(
-                        //                           color: Colors.deepPurple[800],
-                        //                           fontSize: 8),
-                        //                       textAlign: TextAlign.center,
-                        //                     )
-                        //                   ],
-                        //                 ),
-                        //                 onPressed: () {
-                        //                   String linkUrl =
-                        //                       _dataObject.links[1].url;
-                        //                   _launchURL(linkUrl);
-                        //                 },
-                        //               ),
-                        //             ),
-                        //             Expanded(
-                        //               child: FlatButton(
-                        //                 child: Column(
-                        //                   crossAxisAlignment:
-                        //                       CrossAxisAlignment.center,
-                        //                   children: <Widget>[
-                        //                     CircleAvatar(
-                        //                       backgroundImage:
-                        //                           NetworkImageWithRetry(
-                        //                               api + 'link/icon/1'),
-                        //                     ),
-                        //                     Text(
-                        //                       _dataObject.links[1].title,
-                        //                       style: TextStyle(
-                        //                           color: Colors.deepPurple[800],
-                        //                           fontSize: 8),
-                        //                       textAlign: TextAlign.center,
-                        //                     )
-                        //                   ],
-                        //                 ),
-                        //                 onPressed: () {
-                        //                   String linkUrl =
-                        //                       _dataObject.links[1].url;
-                        //                   _launchURL(linkUrl);
-                        //                 },
-                        //               ),
-                        //             ),
-                        //             Expanded(
-                        //               child: FlatButton(
-                        //                 child: Column(
-                        //                   crossAxisAlignment:
-                        //                       CrossAxisAlignment.center,
-                        //                   children: <Widget>[
-                        //                     CircleAvatar(
-                        //                       backgroundImage:
-                        //                           NetworkImageWithRetry(
-                        //                               api + 'link/icon/1'),
-                        //                     ),
-                        //                     Text(
-                        //                       _dataObject.links[1].title,
-                        //                       style: TextStyle(
-                        //                           color: Colors.deepPurple[800],
-                        //                           fontSize: 8),
-                        //                       textAlign: TextAlign.center,
-                        //                     )
-                        //                   ],
-                        //                 ),
-                        //                 onPressed: () {
-                        //                   String linkUrl =
-                        //                       _dataObject.links[1].url;
-                        //                   _launchURL(linkUrl);
-                        //                 },
-                        //               ),
-                        //             ),
-                        //           ],
-                        //         ),
-                        // ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 5, bottom: 5),
+                          child: _dataObject.links.isEmpty
+                              ? Container()
+                              : Row(
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: TextButton(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            CircleAvatar(
+                                              backgroundImage:
+                                                  NetworkImageWithRetry(
+                                                      api + 'link/icon/1'),
+                                            ),
+                                            Text(
+                                              _dataObject.links[0].title,
+                                              style: TextStyle(fontSize: 8),
+                                              textAlign: TextAlign.center,
+                                            )
+                                          ],
+                                        ),
+                                        onPressed: () {
+                                          String linkUrl =
+                                              _dataObject.links[0].url;
+                                          _launchURL(linkUrl);
+                                        },
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: TextButton(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            CircleAvatar(
+                                              backgroundImage:
+                                                  NetworkImageWithRetry(
+                                                      api + 'link/icon/1'),
+                                            ),
+                                            Text(
+                                              _dataObject.links[0].title,
+                                              style: TextStyle(fontSize: 8),
+                                              textAlign: TextAlign.center,
+                                            )
+                                          ],
+                                        ),
+                                        onPressed: () {
+                                          String linkUrl =
+                                              _dataObject.links[0].url;
+                                          _launchURL(linkUrl);
+                                        },
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: TextButton(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            CircleAvatar(
+                                              backgroundImage:
+                                                  NetworkImageWithRetry(
+                                                      api + 'link/icon/1'),
+                                            ),
+                                            Text(
+                                              _dataObject.links[0].title,
+                                              style: TextStyle(fontSize: 8),
+                                              textAlign: TextAlign.center,
+                                            )
+                                          ],
+                                        ),
+                                        onPressed: () {
+                                          String linkUrl =
+                                              _dataObject.links[0].url;
+                                          _launchURL(linkUrl);
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                        ),
                       ],
                     ),
                   )

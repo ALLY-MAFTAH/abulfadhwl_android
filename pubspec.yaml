@@ -35,7 +35,7 @@ dependencies:
   shared_preferences: any
   url_launcher: any
   transformer_page_view: any
-  # marquee_flutter: ^0.1.4
+  marquee_flutter: ^0.1.4
   carousel_slider: any
   share: any
   flutter_image: any
@@ -43,11 +43,15 @@ dependencies:
   http: any
   pull_to_refresh: any
   dio: any
-  # audioplayer: any
+  audioplayer: any
   open_file: any
   radio_player: any
   file_picker: any
   path_provider: any
+  flutter_media_notification: any
+  google_fonts: any
+  intl: any
+  sweetalert: ^0.0.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

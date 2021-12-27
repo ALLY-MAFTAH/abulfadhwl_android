@@ -18,7 +18,6 @@ class AlbumCard extends StatefulWidget {
 }
 
 class _AlbumCardState extends State<AlbumCard> {
-
   @override
   void initState() {
     super.initState();
@@ -27,42 +26,36 @@ class _AlbumCardState extends State<AlbumCard> {
   @override
   Widget build(BuildContext context) {
     final _songObject = Provider.of<SongsProvider>(context);
-    return Padding(
-      padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
-      child: InkWell(
-        onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (_) {
-            return SongsList(
-              songs: widget.album.songs,
-              title: widget.album.name,
-              songProvider: _songObject,
-            );
-          }));
-          print(widget.album.songs);
-          setState(() {
-            _songObject.playlist = widget.album.songs;
-          });
-        },
-        child: Container(
-          padding: EdgeInsets.all(8),
-          decoration: BoxDecoration(
-              color: Colors.orange[200],
-              borderRadius: BorderRadius.circular(10)),
+    return InkWell(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (_) {
+          return SongsList(
+            songs: widget.album.songs,
+            title: widget.album.name,
+            songProvider: _songObject,
+          );
+        }));
+        print(widget.album.songs);
+        setState(() {
+          _songObject.playlist = widget.album.songs;
+        });
+      },
+      child: Card(
+        color: Colors.orange[50],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
           child: Row(
             children: <Widget>[
               Icon(
                 FontAwesomeIcons.folderMinus,
-                color: Colors.orange[800],
+                color: Colors.orange,
               ),
               Expanded(
                 child: Container(
                   padding: EdgeInsets.only(left: 5, top: 10, bottom: 10),
                   child: Text(
                     widget.album.name,
-                    style: TextStyle(
-                        color: Colors.deepPurple[800],
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
               )

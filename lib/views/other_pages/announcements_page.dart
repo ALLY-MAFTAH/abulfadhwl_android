@@ -1,20 +1,19 @@
 import 'package:abulfadhwl_android/models/announcement.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Announcements extends StatelessWidget {
   final List<Announcement> announcementDetails;
 
-  const Announcements({ Key? key, required this.announcementDetails})
+  const Announcements({Key? key, required this.announcementDetails})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.orange[50],
         appBar: AppBar(
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
-              color: Colors.deepPurple[800],
             ),
             onPressed: () {
               Navigator.pop(context);
@@ -22,18 +21,15 @@ class Announcements extends StatelessWidget {
           ),
           title: Text(
             'Matangazo na Matukio',
-            style: TextStyle(color: Colors.deepPurple[800]),
+            style: TextStyle(),
           ),
         ),
         body: ListView.builder(
           itemBuilder: (BuildContext context, int index) {
-            return Padding(
-              padding: const EdgeInsets.only(left: 10, top: 5, right: 10),
-              child: Container(
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                    color: Colors.orange[100],
-                    borderRadius: BorderRadius.circular(10)),
+            return Card(
+              color: Colors.orange[50],
+              child: Padding(
+                padding: const EdgeInsets.all(10),
                 child: Column(
                   children: <Widget>[
                     Container(
@@ -49,22 +45,31 @@ class Announcements extends StatelessWidget {
                                 ),
                                 Text(
                                   "Imetolewa: " +
-                                      announcementDetails[index].date,
+                                      "${announcementDetails[index].date.day}/${announcementDetails[index].date.month}/${announcementDetails[index].date.year}",
                                   style: TextStyle(
-                                    color: Colors.grey[700],
-                                  ),
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold),
                                 )
                               ],
                             )
-                          : Container(),
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  "Imetolewa: " +
+                                      "${announcementDetails[index].date.day}/${announcementDetails[index].date.month}/${announcementDetails[index].date.year}",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                  ),
+                                )
+                              ],
+                            ),
                     ),
                     Text(
                       announcementDetails[index].news,
                       style: index == 0
-                          ? TextStyle(
-                              color: Colors.deepPurple[800],
-                              fontWeight: FontWeight.bold)
-                          : TextStyle(color: Colors.deepPurple[900]),
+                          ? TextStyle(fontWeight: FontWeight.bold)
+                          : TextStyle(),
                       textAlign: TextAlign.justify,
                     ),
                   ],

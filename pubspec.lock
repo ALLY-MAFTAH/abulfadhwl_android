@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.10.0"
+  audioplayer:
+    dependency: "direct main"
+    description:
+      name: audioplayer
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.8.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -57,6 +64,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.15.0"
+  crypto:
+    dependency: transitive
+    description:
+      name: crypto
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.1"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -111,6 +125,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.1.0"
+  flutter_media_notification:
+    dependency: "direct main"
+    description:
+      name: flutter_media_notification
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.6"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -118,6 +139,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.5"
+  flutter_sequence_animation:
+    dependency: transitive
+    description:
+      name: flutter_sequence_animation
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -135,6 +163,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "9.2.0"
+  google_fonts:
+    dependency: "direct main"
+    description:
+      name: google_fonts
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.1"
   http:
     dependency: "direct main"
     description:
@@ -149,6 +184,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.0.0"
+  intl:
+    dependency: "direct main"
+    description:
+      name: intl
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.17.0"
   js:
     dependency: transitive
     description:
@@ -156,6 +198,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.6.3"
+  marquee_flutter:
+    dependency: "direct main"
+    description:
+      name: marquee_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.4"
   matcher:
     dependency: transitive
     description:
@@ -392,6 +441,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  sweetalert:
+    dependency: "direct main"
+    description:
+      name: sweetalert
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.1"
   term_glyph:
     dependency: transitive
     description:

@@ -4,6 +4,7 @@ import 'package:abulfadhwl_android/views/initial_pages/animated_splash_screen.da
 import 'package:flutter/material.dart';
 import 'package:abulfadhwl_android/providers/songs_provider.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -18,7 +19,7 @@ class Abulfadhwl extends StatefulWidget {
 }
 
 class _AbulfadhwlState extends State<Abulfadhwl> {
- final DataProvider _dataProvider = DataProvider();
+  final DataProvider _dataProvider = DataProvider();
 
   final SongsProvider _songsProvider = SongsProvider();
 
@@ -35,14 +36,14 @@ class _AbulfadhwlState extends State<Abulfadhwl> {
     _dataProvider.getAllStreams();
     _dataProvider.getAllLinks();
     _dataProvider.getAllAnswers();
-
   }
 
   @override
   void dispose() {
     _songsProvider.dispose();
     super.dispose();
-  }  
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -58,9 +59,10 @@ class _AbulfadhwlState extends State<Abulfadhwl> {
         title: 'Abul Fadhwl App',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.orange,
-        ),
+            textTheme: GoogleFonts.gelasioTextTheme(),
+            primarySwatch: Colors.orange),
         home: AnimatedSplashScreen(),
       ),
     );
-  }}
+  }
+}

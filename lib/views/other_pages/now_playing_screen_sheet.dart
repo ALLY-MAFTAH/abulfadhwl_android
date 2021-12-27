@@ -1,6 +1,6 @@
-
 import 'package:abulfadhwl_android/models/song.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+import 'package:audioplayer/audioplayer.dart';
 // import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -27,6 +27,9 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
 
   @override
   void initState() {
+    setState(() {
+      widget.songProvider.initAudioPlayer();
+    });
     super.initState();
   }
 
@@ -40,7 +43,7 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
         child: Column(
           children: <Widget>[
             Container(
-              color: Colors.white,
+              color: Colors.orange[50],
               height: 60,
               child: Row(children: <Widget>[
                 Container(
@@ -48,7 +51,7 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                   width: 25,
                   child: Icon(
                     Icons.music_note,
-                    color: Colors.orange[700],
+                    color: Colors.orange,
                   ),
                 ),
                 Expanded(
@@ -61,24 +64,20 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                           _songObject.currentSongTitle,
                           maxLines: 1,
                           style: TextStyle(
-                              fontSize: 15,
-                              color: Colors.deepPurple[800],
-                              fontWeight: FontWeight.bold),
+                              fontSize: 15, fontWeight: FontWeight.bold),
                         ),
                         Text(
                           _songObject.currentSongDescription,
                           maxLines: 1,
                           style: TextStyle(
-                              color: Colors.deepPurple,
-                              fontSize: 12,
-                              fontStyle: FontStyle.italic),
+                              fontSize: 12, fontStyle: FontStyle.italic),
                         )
                       ],
                     ),
                   ),
                 ),
                 IconButton(
-                  color: Colors.orange[700],
+                  color: Colors.orange,
                   icon: Icon(FontAwesomeIcons.share),
                   onPressed: () {
                     Share.share(
@@ -90,134 +89,155 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
             ),
             Stack(
               children: <Widget>[
-                Card(
-                  elevation: 10,
-                  child: Stack(
-                    alignment: Alignment.topCenter,
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            "شيخ أبو الفضل قاسم مفوتا قاسم",
-                            style: TextStyle(
-                                color: Colors.deepPurple[800],
-                                fontWeight: FontWeight.w800),
-                          ),
-                          Text(
-                            "حفظه الله ورعاه",
-                            style: TextStyle(color: Colors.deepPurple),
-                          ),
-                          CircleAvatar(
-                            radius: 140,
-                            backgroundColor:
-                                Colors.orange[50]!.withOpacity(0.5),
-                            child: Icon(
-                              FontAwesomeIcons.music,
-                              size: 110,
-                              color: Colors.orange[100]!.withOpacity(0.3),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 300, bottom: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey,
+                        blurRadius: 10,
+                        offset: Offset(0, 10), // shadow direction: bottom right
+                      )
+                    ],
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(10),
+                            bottomRight: Radius.circular(10))),
+                    child: Stack(
+                      alignment: Alignment.topCenter,
+                      children: <Widget>[
+                        Column(
                           children: <Widget>[
-                            Container(
-                              child: _songObject.changeShuffleIcon
-                                  ? IconButton(
-                                      iconSize: 30,
-                                      icon: Icon(
-                                        Icons.shuffle,
-                                        color: Colors.orange[700],
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          _songObject.changeShuffleIcon =
-                                              !_songObject.changeShuffleIcon;
-                                        });
-                                      },
-                                    )
-                                  : IconButton(
-                                      iconSize: 30,
-                                      icon: Icon(
-                                        Icons.shuffle,
-                                        color: Colors.grey,
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          _songObject.changeShuffleIcon =
-                                              !_songObject.changeShuffleIcon;
-                                        });
-                                      },
-                                    ),
+                            SizedBox(
+                              height: 5,
                             ),
-                            Container(
-                              child: _songObject.repeatMode == 0
-                                  ? IconButton(
-                                      iconSize: 30,
-                                      icon: Icon(
-                                        Icons.repeat,
-                                        color: Colors.grey,
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          print(_songObject.repeatMode);
-                                          _songObject.repeatMode++;
-                                        });
-                                      },
-                                    )
-                                  : _songObject.repeatMode == 1
-                                      ? IconButton(
-                                          iconSize: 30,
-                                          icon: Icon(
-                                            Icons.repeat_one,
-                                            color: Colors.orange[700],
-                                          ),
-                                          onPressed: () {
-                                            setState(() {
-                                              print(_songObject.repeatMode);
-                                              _songObject.repeatMode++;
-                                            });
-                                          },
-                                        )
-                                      : IconButton(
-                                          iconSize: 30,
-                                          icon: Icon(
-                                            Icons.repeat,
-                                            color: Colors.orange[700],
-                                          ),
-                                          onPressed: () {
-                                            setState(() {
-                                              print(_songObject.repeatMode);
-                                              _songObject.repeatMode =
-                                                  _songObject.repeatMode - 2;
-                                            });
-                                          },
-                                        ),
+                            Text(
+                              "شيخ أبو الفضل قاسم بن مفوتا بن قاسم بن عثمان",
+                              style: TextStyle(fontWeight: FontWeight.w800),
+                            ),
+                            Text(
+                              "حفظه الله ورعاه",
+                              style: TextStyle(),
+                            ),
+                            CircleAvatar(
+                              radius: 100,
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  Image(
+                                    image: AssetImage(
+                                        'assets/images/ALLY W  008.png'),
+                                    colorBlendMode: BlendMode.darken,
+                                  ),
+                                  Center(
+                                    child: CircleAvatar(
+                                      radius: 120,
+                                      backgroundColor:
+                                          Colors.white.withOpacity(0.7),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
                           ],
                         ),
-                      )
-                    ],
+                        Padding(
+                          padding: EdgeInsets.only(top: 244, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                child: _songObject.changeShuffleIcon
+                                    ? IconButton(
+                                        iconSize: 30,
+                                        icon: Icon(
+                                          Icons.shuffle,
+                                          color: Colors.orange,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            _songObject.changeShuffleIcon =
+                                                !_songObject.changeShuffleIcon;
+                                          });
+                                        },
+                                      )
+                                    : IconButton(
+                                        iconSize: 30,
+                                        icon: Icon(
+                                          Icons.shuffle,
+                                          color: Colors.grey,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            _songObject.changeShuffleIcon =
+                                                !_songObject.changeShuffleIcon;
+                                          });
+                                        },
+                                      ),
+                              ),
+                              Container(
+                                child: _songObject.repeatMode == 0
+                                    ? IconButton(
+                                        iconSize: 30,
+                                        icon: Icon(
+                                          Icons.repeat,
+                                          color: Colors.grey,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            print(_songObject.repeatMode);
+                                            _songObject.repeatMode++;
+                                          });
+                                        },
+                                      )
+                                    : _songObject.repeatMode == 1
+                                        ? IconButton(
+                                            iconSize: 30,
+                                            icon: Icon(
+                                              Icons.repeat_one,
+                                              color: Colors.orange,
+                                            ),
+                                            onPressed: () {
+                                              setState(() {
+                                                print(_songObject.repeatMode);
+                                                _songObject.repeatMode++;
+                                              });
+                                            },
+                                          )
+                                        : IconButton(
+                                            iconSize: 30,
+                                            icon: Icon(
+                                              Icons.repeat,
+                                              color: Colors.orange,
+                                            ),
+                                            onPressed: () {
+                                              setState(() {
+                                                print(_songObject.repeatMode);
+                                                _songObject.repeatMode =
+                                                    _songObject.repeatMode - 2;
+                                              });
+                                            },
+                                          ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
                 // ignore: unnecessary_null_comparison
                 if (_songObject.duration != null)
                   Padding(
-                      padding: EdgeInsets.only(top: 360, left: 10, right: 10),
+                      padding: EdgeInsets.only(top: 300, left: 10, right: 10),
                       child: ProgressBar(
                         timeLabelType: TimeLabelType.totalTime,
                         progress: _songObject.position,
-                        // buffered: _songObject.buffered,
+                        timeLabelTextStyle: TextStyle(color: Colors.black),
                         total: _songObject.duration,
-                        timeLabelTextStyle:
-                            TextStyle(color: Colors.deepPurple[800]),
-                        // onSeek: _songObject.audioPlayer.seek(9),
+                        // onSeek: _songObject.audioPlayer(8),
                       ))
               ],
             ),
@@ -232,35 +252,35 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                       iconSize: 50,
                       icon: Icon(
                         Icons.skip_previous,
-                        color: Colors.orange[700],
+                        color: Colors.orange,
                       ),
-                      onPressed: () {                        
-                        // _songObject.previous();
-                                              },
+                      onPressed: () {
+                        _songObject.previous();
+                      },
                     ),
                   ),
                   Container(
-                    child: _songObject.isPlaying
+                    child: _songObject.playerState == AudioPlayerState.PLAYING
                         ? IconButton(
                             iconSize: 50,
                             icon: Icon(
                               FontAwesomeIcons.pause,
-                              color: Colors.orange[700],
+                              color: Colors.orange,
                             ),
                             onPressed: () {
                               setState(() {
-                                // _songObject.pause();
+                                _songObject.pause();
                               });
                             })
                         : IconButton(
                             iconSize: 50,
                             icon: Icon(
                               FontAwesomeIcons.play,
-                              color: Colors.orange[700],
+                              color: Colors.orange,
                             ),
                             onPressed: () {
                               setState(() {
-                                // _songObject.play();
+                                _songObject.play();
                               });
                             }),
                   ),
@@ -269,7 +289,7 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                         iconSize: 50,
                         icon: Icon(
                           Icons.skip_next,
-                          color: Colors.orange[700],
+                          color: Colors.orange,
                         ),
                         onPressed: () {
                           setState(() {
@@ -290,10 +310,9 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                             //         .songs[_songObject.currentSongIndex]
                             //         .description;
                             //   }
-                          //  //  _songObject.next();
-                            //   // Play audio
-                            //   _songObject.stop();
-                            //   _songObject.play();
+                            _songObject.next();
+                            _songObject.stop();
+                            _songObject.play();
                           });
                         }),
                   ),
@@ -306,11 +325,11 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
             // ignore: deprecated_member_use
             RaisedButton.icon(
               elevation: 5,
-              color: Colors.orange[700],
+              color: Colors.orange,
               icon: Icon(
                 FontAwesomeIcons.download,
-                color: Colors.deepPurple[800],
                 size: 17,
+                color: Colors.white
               ),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10)),
@@ -347,7 +366,6 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                         : null));
               },
             ),
-           
           ],
         ),
       ),

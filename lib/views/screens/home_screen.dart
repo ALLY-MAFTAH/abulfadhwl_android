@@ -1,22 +1,8 @@
-// ignore_for_file: unnecessary_import
 
-// ignore: unused_import
-import 'dart:async';
-// ignore: unused_import
-import 'dart:io';
-import 'dart:ui';
+
 import 'package:abulfadhwl_android/providers/data_provider.dart';
-// ignore: import_of_legacy_library_into_null_safe, unused_import
-import 'package:dio/dio.dart';
-// ignore: import_of_legacy_library_into_null_safe
-// import 'package:downloads_path_provider/downloads_path_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/cupertino.dart';
-// ignore: import_of_legacy_library_into_null_safe
-// import 'package:marquee_flutter/marquee_flutter.dart';
-// ignore: import_of_legacy_library_into_null_safe, unused_import
-import 'package:path_provider/path_provider.dart';
+import 'package:marquee_flutter/marquee_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:abulfadhwl_android/views/other_pages/announcements_page.dart';
 import 'package:abulfadhwl_android/views/other_pages/drawer_page.dart';
@@ -37,16 +23,12 @@ class _HomeScreenState extends State<HomeScreen> {
     final _dataObject = Provider.of<DataProvider>(context);
     // List<Slide> slides = _dataObject.slides;
     return Scaffold(
-        backgroundColor: Colors.orange[50],
+        // backgroundColor: Colors.orange[50],
         appBar: AppBar(
-          iconTheme: new IconThemeData(
-            color: Colors.deepPurple[800],
-          ),
+          iconTheme: new IconThemeData(),
           title: Text(
             'Home',
-            style: TextStyle(
-              color: Colors.deepPurple[800],
-            ),
+            style: TextStyle(),
           ),
         ),
         drawer: DrawerPage(),
@@ -59,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ? Container()
                   : Container(
                       height: 25,
-                      color: Colors.orange[100],
+                      color: Colors.orange[50],
                       child: InkWell(
                         onTap: () {
                           Navigator.push(context,
@@ -77,14 +59,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               image: AssetImage("assets/icons/new.png"),
                               fit: BoxFit.fill,
                             ),
-                            // Expanded(
-                            //   child: MarqueeWidget(
-                            //     text: _dataObject.announcements[0].news,
-                            //     textStyle: TextStyle(
-                            //         color: Colors.deepPurple[800],
-                            //         fontWeight: FontWeight.bold),
-                            //   ),
-                            // ),
+                            Expanded(
+                              child: MarqueeWidget(
+                                text: _dataObject.announcements[0].news,
+                                textStyle:
+                                    TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -128,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             //           style: TextStyle(
                             //               color: Colors.white, fontSize: 13),
                             //         ),
-                            //         backgroundColor: Colors.grey[800],
+                            //         backgroundColor: Colors.grey ,
                             //       );
                             //     });
                           },
@@ -176,48 +157,48 @@ class _HomeScreenState extends State<HomeScreen> {
   //         progressString = ((rec / total) * 100).toStringAsFixed(0) + "%";
   //       });
   //       print(downloadsDirectory!.path);
-        // return showDialog(
-        //     context: context,
-        //     barrierDismissible: false,
-        //     builder: (_) {
-        //       Timer(Duration(seconds: 3), () {
-        //         Navigator.of(context).pop();
-        //       });
-        //       return AlertDialog(
-        //         title: Row(
-        //           children: <Widget>[
-        //             Icon(
-        //               Icons.check,
-        //               color: Colors.green,
-        //             ),
-        //             Text(
-        //               " Image saved successfully! ",
-        //               style: TextStyle(
-        //                 color: Colors.white,
-        //                 fontSize: 13,
-        //               ),
-        //             )
-        //           ],
-        //         ),
-        //         content: RichText(
-        //           text: TextSpan(
-        //               text: "Go ",
-        //               style: TextStyle(
-        //                 color: Colors.white,
-        //               ),
-        //               children: <TextSpan>[
-        //                 TextSpan(
-        //                     text: "->Device Storage->Download",
-        //                     style: TextStyle(
-        //                         color: Colors.white,
-        //                         fontWeight: FontWeight.bold,
-        //                         fontStyle: FontStyle.italic))
-        //               ]),
-        //         ),
-        //         backgroundColor: Colors.grey[800]!.withOpacity(0.5),
-        //         elevation: 10,
-        //       );
-        //     });
+  // return showDialog(
+  //     context: context,
+  //     barrierDismissible: false,
+  //     builder: (_) {
+  //       Timer(Duration(seconds: 3), () {
+  //         Navigator.of(context).pop();
+  //       });
+  //       return AlertDialog(
+  //         title: Row(
+  //           children: <Widget>[
+  //             Icon(
+  //               Icons.check,
+  //               color: Colors.green,
+  //             ),
+  //             Text(
+  //               " Image saved successfully! ",
+  //               style: TextStyle(
+  //                 color: Colors.white,
+  //                 fontSize: 13,
+  //               ),
+  //             )
+  //           ],
+  //         ),
+  //         content: RichText(
+  //           text: TextSpan(
+  //               text: "Go ",
+  //               style: TextStyle(
+  //                 color: Colors.white,
+  //               ),
+  //               children: <TextSpan>[
+  //                 TextSpan(
+  //                     text: "->Device Storage->Download",
+  //                     style: TextStyle(
+  //                         color: Colors.white,
+  //                         fontWeight: FontWeight.bold,
+  //                         fontStyle: FontStyle.italic))
+  //               ]),
+  //         ),
+  //         backgroundColor: Colors.grey !.withOpacity(0.5),
+  //         elevation: 10,
+  //       );
+  //     });
   //     });
   //   } catch (e) {
   //     print(e);
