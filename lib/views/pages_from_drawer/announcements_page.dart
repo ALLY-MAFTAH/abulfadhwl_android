@@ -1,6 +1,6 @@
 import 'package:abulfadhwl_android/models/announcement.dart';
+import 'package:abulfadhwl_android/home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class Announcements extends StatelessWidget {
   final List<Announcement> announcementDetails;
@@ -16,7 +16,10 @@ class Announcements extends StatelessWidget {
               Icons.arrow_back_ios,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (_) {
+                return Home();
+              }));
             },
           ),
           title: Text(

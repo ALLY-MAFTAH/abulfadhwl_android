@@ -1,11 +1,11 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image/network.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:abulfadhwl_android/api.dart';
+import 'package:abulfadhwl_android/constants/api.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
-import 'package:abulfadhwl_android/views/other_pages/home_page.dart';
-import 'package:radio_player/radio_player.dart';
+import 'package:abulfadhwl_android/home_page.dart';
 
 class LiveDuruusAndTimetablePage extends StatefulWidget {
   @override
@@ -15,13 +15,10 @@ class LiveDuruusAndTimetablePage extends StatefulWidget {
 
 class _LiveDuruusAndTimetablePageState
     extends State<LiveDuruusAndTimetablePage> {
-  RadioPlayer _radioPlayer = RadioPlayer();
-  bool isPlaying = false;
-  List<String>? metadata;
+  final assetsAudioPlayer = AssetsAudioPlayer();
+
   @override
   void initState() {
-    initRadioPlayer();
-
     super.initState();
   }
 
@@ -39,122 +36,138 @@ class _LiveDuruusAndTimetablePageState
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
               return Home();
             }));
-
-            // FlutterRadio.stop();
           },
         ),
         title: Text(
-          'Live Duruus na Ratiba',
+          'Darsa Mubaashara na Ratiba',
           style: TextStyle(),
         ),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              child: Column(
+        child: _dataObject.streams.isEmpty
+            ? Center(child: CircularProgressIndicator())
+            : Column(
                 children: <Widget>[
                   SizedBox(
                     height: 10,
                   ),
-                  _dataObject.streams[0].title.isEmpty
-                      ? Center(child: CircularProgressIndicator())
-                      : Text(
+                  Container(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
                           _dataObject.streams[0].title,
                           textAlign: TextAlign.center,
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
-                  Text(
-                    _dataObject.streams[0].description,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(),
+                        Text(
+                          _dataObject.streams[0].description,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          height: 85,
+                          width: 85,
+                          decoration: BoxDecoration(
+                              color: Colors.orange[50],
+                              borderRadius: BorderRadius.circular(42.5)),
+                          child: PlayerBuilder.isPlaying(
+                              player: assetsAudioPlayer,
+                              builder: (context, isPlaying) {
+                                return InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      isPlaying
+                                          ? assetsAudioPlayer.pause()
+                                          : _playRadio(
+                                              _dataObject.streams[0].url,
+                                              _dataObject
+                                                  .streams[0].description,
+                                              _dataObject.streams[0].title,
+                                            );
+                                    });
+                                  },
+                                  child: Icon(
+                                    isPlaying
+                                        ? Icons.pause_rounded
+                                        : Icons.play_arrow_rounded,
+                                    color: Colors.orange,
+                                    size: 80,
+                                  ),
+                                );
+                              }),
+                        ),
+                      ],
+                    ),
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    height: 85,
-                    width: 85,
-                    decoration: BoxDecoration(
-                        color: Colors.orange[50],
-                        borderRadius: BorderRadius.circular(42.5)),
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          _radioPlayer.setMediaItem(
-                              _dataObject.streams[0].title,
-                              _dataObject.streams[0].url,
-                              api +
-                                  'stream/timetable/' +
-                                  _dataObject.streams[0].id.toString());
-                          isPlaying
-                              ? _radioPlayer.pause()
-                              : _radioPlayer.play();
-                        });
-                      },
-                      child: Icon(
-                        isPlaying
-                            ? Icons.pause_rounded
-                            : Icons.play_arrow_rounded,
-                        color: Colors.orange,
-                        size: 80,
+                  Center(
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.only(left: 20, top: 15, right: 20),
+                      child: CircleAvatar(
+                        radius: MediaQuery.of(context).size.width * 3 / 11,
+                        backgroundColor: Colors.orange[50],
+                        child: Image(
+                          image: AssetImage("assets/icons/live.png"),
+                        ),
                       ),
                     ),
                   ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Card(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: Text(
+                            "RATIBA YA DARSA ZA  'AAM",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.all(10),
+                          child: Image(
+                              image: NetworkImageWithRetry(api +
+                                  'stream/timetable/' +
+                                  _dataObject.streams[0].id.toString())),
+                        )
+                      ],
+                    ),
+                  )
                 ],
               ),
-            ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(left: 20, top: 15, right: 20),
-                child: CircleAvatar(
-                  radius: MediaQuery.of(context).size.width * 3 / 11,
-                  backgroundColor: Colors.orange[50],
-                  child: Image(
-                    image: AssetImage("assets/icons/live.png"),
-                    color: Colors.orange,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              "RATIBA YA DARSA ZA  'AAM",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  decoration: TextDecoration.underline),
-              textAlign: TextAlign.center,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Container(
-                child: Image(
-                    image: NetworkImageWithRetry(api +
-                        'stream/timetable/' +
-                        _dataObject.streams[0].id.toString())),
-              ),
-            )
-          ],
-        ),
       ),
     );
   }
 
-  void initRadioPlayer() {
-    _radioPlayer.stateStream.listen((value) {
-      setState(() {
-        isPlaying = value;
-      });
-    });
-    _radioPlayer.metadataStream.listen((value) {
-      setState(() {
-        metadata = value;
-      });
-    });
+  void _playRadio(String url, String title, String album) async {
+    try {
+      await assetsAudioPlayer.open(
+          Audio.liveStream(
+            url,
+            metas: Metas(
+              title: title,
+              artist: "Sheikh Abul Fadhwl Kassim Mafuta Kassim",
+              album: album,
+              image: MetasImage.asset("assets/icons/app_icon.png"),
+            ),
+          ),
+          showNotification: true,
+          notificationSettings:
+              NotificationSettings(nextEnabled: false, prevEnabled: false));
+    } catch (t) {
+      print(t.toString());
+      print("stream unreachable");
+    }
   }
 }

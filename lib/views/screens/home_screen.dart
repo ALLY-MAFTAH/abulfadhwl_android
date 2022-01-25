@@ -1,11 +1,19 @@
+// ignore_for_file: import_of_legacy_library_into_null_safe, deprecated_member_use
 
-
+import 'package:abulfadhwl_android/constants/api.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
+import 'package:animated_image_list/AnimatedImageList.dart';
 import 'package:flutter/material.dart';
 import 'package:marquee_flutter/marquee_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:abulfadhwl_android/views/other_pages/announcements_page.dart';
+import 'package:abulfadhwl_android/views/pages_from_drawer/announcements_page.dart';
 import 'package:abulfadhwl_android/views/other_pages/drawer_page.dart';
+
+class MyImage {
+  final String url;
+  final String name;
+  const MyImage(this.url, this.name);
+}
 
 class HomeScreen extends StatefulWidget {
   final DataProvider dataProvider;
@@ -21,194 +29,136 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final _dataObject = Provider.of<DataProvider>(context);
-    // List<Slide> slides = _dataObject.slides;
+    final arr = <MyImage>[];
+    for (var i = 0; i < widget.dataProvider.slides.length; i++) {
+      arr.add(MyImage(
+          api + 'slide/file/' + widget.dataProvider.slides[i].id.toString(),
+          widget.dataProvider.slides[i].number.toString()));
+    }
+
     return Scaffold(
-        // backgroundColor: Colors.orange[50],
         appBar: AppBar(
           iconTheme: new IconThemeData(),
           title: Text(
-            'Home',
+            'Mwanzo',
             style: TextStyle(),
           ),
         ),
         drawer: DrawerPage(),
-        body: CustomScrollView(
-          slivers: <Widget>[
-            SliverList(
-                delegate: SliverChildBuilderDelegate(
-                    (BuildContext context, int index) {
-              return _dataObject.announcements.isEmpty
-                  ? Container()
-                  : Container(
-                      height: 25,
-                      color: Colors.orange[50],
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (_) {
-                            return Announcements(
-                              announcementDetails: _dataObject.announcements,
-                            );
-                          }));
-                        },
-                        child: Row(
-                          children: <Widget>[
-                            Image(
-                              width: 40,
-                              height: 20,
-                              image: AssetImage("assets/icons/new.png"),
-                              fit: BoxFit.fill,
-                            ),
-                            Expanded(
-                              child: MarqueeWidget(
-                                text: _dataObject.announcements[0].news,
-                                textStyle:
-                                    TextStyle(fontWeight: FontWeight.bold),
+        body: RefreshIndicator(
+          onRefresh: widget.dataProvider.reloadPage,
+          child: CustomScrollView(
+            physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics()),
+            slivers: <Widget>[
+              SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                      (BuildContext context, int index) {
+                return _dataObject.announcements.isEmpty
+                    ? Container()
+                    : Container(
+                        height: 25,
+                        color: Colors.orange[50],
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (_) {
+                              return Announcements(
+                                announcementDetails: _dataObject.announcements,
+                              );
+                            }));
+                          },
+                          child: Row(
+                            children: <Widget>[
+                              Image(
+                                width: 40,
+                                height: 20,
+                                image: AssetImage("assets/icons/new.png"),
+                                fit: BoxFit.fill,
+                              ),
+                              Expanded(
+                                child: MarqueeWidget(
+                                  text: _dataObject.announcements[0].news,
+                                  textStyle:
+                                      TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+              }, childCount: 1)),
+              SliverList(
+                delegate: SliverChildListDelegate(<Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        left: 15, top: 10, right: 15, bottom: 10),
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: RaisedButton(
+                            padding: EdgeInsets.all(5),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            color: Colors.orange,
+                            child: Text(
+                              'تفسير القران الكريم',
+                              textAlign: TextAlign.center,
+                              textDirection: TextDirection.rtl,
+                              style: TextStyle(
+                                fontSize: 23,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    );
-            }, childCount: 1)),
-            SliverList(
-              delegate: SliverChildListDelegate(<Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(
-                      left: 15, top: 10, right: 15, bottom: 10),
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        // ignore: deprecated_member_use
-                        child: RaisedButton(
-                          padding: EdgeInsets.all(5),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          color: Colors.orange[700],
-                          child: Text(
-                            'تفسير القران الكريم',
-                            textAlign: TextAlign.center,
-                            textDirection: TextDirection.rtl,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 23,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            onPressed: () {},
+                            elevation: 10,
                           ),
-                          onPressed: () {
-                            // return showDialog<T> (
-                            //     context: context,
-                            //     barrierDismissible: false,
-                            //     builder: (_) {
-                            //       Timer(Duration(seconds: 3), () {
-                            //         Navigator.of(context).pop();
-                            //       });
-                            //       return AlertDialog(
-                            //         content: Text(
-                            //           "Tafsiri ya Qur-an bado haijakamilika. Itawekwa pindi itakapokamilika, In shaa Allah ",
-                            //           style: TextStyle(
-                            //               color: Colors.white, fontSize: 13),
-                            //         ),
-                            //         backgroundColor: Colors.grey ,
-                            //       );
-                            //     });
-                          },
-                          elevation: 10,
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
 
-                // ******************************* IMAGE SLIDES CONTAINER *********************************
-                Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: Container(
-                      height: MediaQuery.of(context).size.height * 3 / 5,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Center(
-                        child: Text("data"),
-                      )),
-                ),
-              ]),
-            )
-          ],
+                  // ******************************* IMAGE SLIDES CONTAINER *********************************
+                  Padding(
+                    padding: const EdgeInsets.all(0),
+                    child: Container(
+                        height: MediaQuery.of(context).size.height * 3 / 5,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Container(
+                          child: AnimatedImageList(
+                            images: arr.map((e) => e.url).toList(),
+                            builder: (context, index, progress) {
+                              return Positioned.directional(
+                                  textDirection: TextDirection.ltr,
+                                  bottom: 15,
+                                  start: 25,
+                                  child: Opacity(
+                                    opacity: progress > 1
+                                        ? (2 - progress)
+                                        : progress,
+                                    child: Text(
+                                      arr[index].name,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ));
+                            },
+                            scrollDirection: Axis.vertical,
+                            itemExtent: 150,
+                            maxExtent: 400,
+                          ),
+                        )),
+                  ),
+                ]),
+              )
+            ],
+          ),
         ));
   }
-
-  // Future<void> downloadFile(slideFileUrl, slideFileName) async {
-  //   Dio dio = Dio();
-  //   try {
-  //     Directory? downloadsDirectory = await getExternalStorageDirectory();
-  //     downloadsDirectory = await DownloadsPathProvider.downloadsDirectory;
-
-  //     await dio.download(
-  //         slideFileUrl,
-  //         downloadsDirectory.path +
-  //             "/" +
-  //             slideFileName +
-  //             ".Image from Abul Fadhwl App.png",
-  //         onReceiveProgress: (rec, total) {
-  //       print("Rec: $rec, Total: $total");
-  //       setState(() {
-  //         downloading = true;
-  //         progressString = ((rec / total) * 100).toStringAsFixed(0) + "%";
-  //       });
-  //       print(downloadsDirectory!.path);
-  // return showDialog(
-  //     context: context,
-  //     barrierDismissible: false,
-  //     builder: (_) {
-  //       Timer(Duration(seconds: 3), () {
-  //         Navigator.of(context).pop();
-  //       });
-  //       return AlertDialog(
-  //         title: Row(
-  //           children: <Widget>[
-  //             Icon(
-  //               Icons.check,
-  //               color: Colors.green,
-  //             ),
-  //             Text(
-  //               " Image saved successfully! ",
-  //               style: TextStyle(
-  //                 color: Colors.white,
-  //                 fontSize: 13,
-  //               ),
-  //             )
-  //           ],
-  //         ),
-  //         content: RichText(
-  //           text: TextSpan(
-  //               text: "Go ",
-  //               style: TextStyle(
-  //                 color: Colors.white,
-  //               ),
-  //               children: <TextSpan>[
-  //                 TextSpan(
-  //                     text: "->Device Storage->Download",
-  //                     style: TextStyle(
-  //                         color: Colors.white,
-  //                         fontWeight: FontWeight.bold,
-  //                         fontStyle: FontStyle.italic))
-  //               ]),
-  //         ),
-  //         backgroundColor: Colors.grey !.withOpacity(0.5),
-  //         elevation: 10,
-  //       );
-  //     });
-  //     });
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  //   setState(() {
-  //     downloading = false;
-  //     progressString = "Completed";
-  //   });
-  //   print("Download completed");
-  // }
 }
 
 // ******************* METHOD FOR TAFSEER BUTTON *************************

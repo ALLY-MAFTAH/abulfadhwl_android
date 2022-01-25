@@ -1,4 +1,10 @@
+// ignore_for_file: unnecessary_null_comparison
+
+import 'package:abulfadhwl_android/constants/api.dart';
+import 'package:abulfadhwl_android/home_page.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
 
@@ -10,14 +16,13 @@ class QuestionsAndAnswers extends StatefulWidget {
 class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-
   FocusNode _qnsFocusNode = FocusNode();
-
   TextEditingController _qnsController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     final _dataObject = Provider.of<DataProvider>(context);
+
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
@@ -27,7 +32,10 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
               size: 25,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (_) {
+                return Home();
+              }));
             },
           ),
           title: Text(
@@ -44,8 +52,7 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                 Padding(
                     padding: const EdgeInsets.all(5),
                     child: Card(
-                        color: Colors.orange[50],
-                      
+                      color: Colors.orange[50],
                       child: Form(
                         key: _formKey,
                         child: Padding(
@@ -81,7 +88,6 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                                     backgroundColor: Colors.orange,
                                     child: Icon(
                                       Icons.send,
-                                      color: Colors.white,
                                     ),
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
@@ -114,11 +120,11 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
               ],
             )
           ])),
-          
           SliverList(
               delegate:
                   SliverChildBuilderDelegate((BuildContext context, int index) {
             int qnsNumber = 1 + index;
+                                                      final _assetsAudioPlayer = AssetsAudioPlayer();
             return Padding(
                 padding: const EdgeInsets.only(left: 5, top: 10, right: 5),
                 child: Stack(
@@ -164,15 +170,55 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                                   ),
                                   children: <Widget>[
                                     Container(
+                                        width:
+                                            MediaQuery.of(context).size.width,
                                         decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
                                                 BorderRadius.circular(5)),
                                         padding: EdgeInsets.all(5),
-                                        child: SelectableText(
-                                          _dataObject.answers[index].ans,
-                                          textAlign: TextAlign.justify,
-                                        ))
+                                        child: _dataObject
+                                                    .answers[index].audioAns ==
+                                                null
+                                            ? SelectableText(
+                                                _dataObject
+                                                    .answers[index].textAns,
+                                                textAlign: TextAlign.justify,
+                                              )
+                                            :
+                                            
+
+                                            PlayerBuilder.isPlaying(
+                                                player: _assetsAudioPlayer,
+                                                builder: (context, isPlaying) {
+                                                  return FloatingActionButton(
+
+                                                    child: Icon(
+                                                      isPlaying
+                                                          ? Icons.pause
+                                                          : Icons.play_arrow,
+                                                      size: 50,
+                                                      color: Colors.black,
+                                                    ),
+                                                    onPressed: () async {
+                                                      try {
+                                                        await isPlaying
+                                                            ? _assetsAudioPlayer
+                                                                .pause() :_assetsAudioPlayer
+                                                                .open(
+                                                                Audio.network(api +
+                                                                    'answer/audioAns/' +
+                                                                    _dataObject
+                                                                        .answers[
+                                                                            index]
+                                                                        .id
+                                                                        .toString()),
+                                                              )
+                                                            ;
+                                                      } catch (t) {}
+                                                    },
+                                                  );
+                                                }))
                                   ],
                                 ),
                               ],
@@ -187,7 +233,7 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                         height: 30,
                         width: 30,
                         decoration: BoxDecoration(
-                            color: Colors.orange,
+                            color: Colors.black,
                             borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(15),
                                 topRight: Radius.circular(15),
@@ -196,12 +242,11 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                     ),
                     CircleAvatar(
                       radius: 17,
-                      backgroundColor: Colors.orange,
+                      backgroundColor: Colors.black,
                       child: Text(
                         qnsNumber.toString(),
                         style: TextStyle(
                           fontSize: 13,
-                          color: Colors.white
                         ),
                         textAlign: TextAlign.center,
                       ),

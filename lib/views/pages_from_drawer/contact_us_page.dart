@@ -2,8 +2,8 @@ import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image/network.dart';
 import 'package:provider/provider.dart';
-import 'package:abulfadhwl_android/api.dart';
-import 'package:abulfadhwl_android/views/other_pages/home_page.dart';
+import 'package:abulfadhwl_android/constants/api.dart';
+import 'package:abulfadhwl_android/home_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactUs extends StatefulWidget {
@@ -33,7 +33,7 @@ class _ContactUsState extends State<ContactUs> {
             Icons.arrow_back_ios,
           ),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (_) {
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
               return Home();
             }));
           },
@@ -193,7 +193,7 @@ class _ContactUsState extends State<ContactUs> {
                                 backgroundColor: Colors.orange,
                                 child: Icon(
                                   Icons.send,
-                                  color: Colors.white,
+                                  color: Colors.black,
                                 ),
                                 onPressed: () {
                                   if (_formKey.currentState!.validate()) {

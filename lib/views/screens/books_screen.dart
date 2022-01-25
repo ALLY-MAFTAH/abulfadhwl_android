@@ -1,12 +1,11 @@
-import 'package:abulfadhwl_android/api.dart';
+import 'package:abulfadhwl_android/constants/api.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
+import 'package:abulfadhwl_android/views/components/pdf_reader.dart';
 import 'package:abulfadhwl_android/views/other_pages/book_info_display.dart';
 import 'package:abulfadhwl_android/views/other_pages/drawer_page.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image/network.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -25,7 +24,7 @@ class _BooksScreenState extends State<BooksScreen> {
         appBar: AppBar(
           iconTheme: IconThemeData(),
           title: Text(
-            'Books',
+            'Vitabu na Makala',
             style: TextStyle(),
           ),
         ),
@@ -63,14 +62,17 @@ class _BooksScreenState extends State<BooksScreen> {
             Expanded(
               child: TabBarView(
                 children: <Widget>[
-                  _dataObject.books.isEmpty
-                      ? Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : ListView.builder(
-                          physics: BouncingScrollPhysics(),
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
+                  RefreshIndicator(
+                    onRefresh: _dataObject.reloadPage,
+                    child: ListView.builder(
+                      physics: const BouncingScrollPhysics(
+                          parent: AlwaysScrollableScrollPhysics()),
+                      itemBuilder: (BuildContext context, int index) {
+                        return _dataObject.books.isEmpty
+                            ? Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : Padding(
                                 padding: const EdgeInsets.only(
                                   left: 5,
                                   top: 5,
@@ -136,24 +138,31 @@ class _BooksScreenState extends State<BooksScreen> {
                                           shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(10)),
-                                          child: Text('SOMA',
-                                              style: TextStyle(
-                                                  color: Colors.white)),
+                                          child: Text(
+                                            'SOMA',
+                                          ),
                                           onPressed: () {
-                                            var bookUrl = api +
-                                                'book/file/' +
-                                                _dataObject.books[index].id
-                                                    .toString();
-                                            OpenFile.open(bookUrl);
+                                            Navigator.push(context,
+                                                MaterialPageRoute(builder: (_) {
+                                              return BookReader(
+                                                  bookTitle: _dataObject
+                                                      .books[index].title,
+                                                  pdfUrl: api +
+                                                      'book/file/' +
+                                                      _dataObject
+                                                          .books[index].id
+                                                          .toString());
+                                            }));
                                           },
                                         ),
                                       ],
                                     ),
                                   ),
                                 ));
-                          },
-                          itemCount: _dataObject.books.length,
-                        ),
+                      },
+                      itemCount: _dataObject.books.length,
+                    ),
+                  ),
                   _dataObject.articles.isEmpty
                       ? Center(
                           child: CircularProgressIndicator(),
@@ -174,12 +183,18 @@ class _BooksScreenState extends State<BooksScreen> {
                                       onTap: () {
                                         String articleUrl = api +
                                             'article/file/' +
-                                            _dataObject.books[index].id
+                                            _dataObject.articles[index].id
                                                 .toString();
-                                        openArticleFile(articleUrl);
+                                        Navigator.push(context,
+                                            MaterialPageRoute(builder: (_) {
+                                          return BookReader(
+                                              bookTitle: _dataObject
+                                                  .articles[index].title,
+                                              pdfUrl: articleUrl);
+                                        }));
                                       },
                                       child: Card(
-                                       elevation: 9,
+                                        elevation: 9,
                                         margin: EdgeInsets.all(3),
                                         child: Container(
                                           decoration: BoxDecoration(
@@ -194,7 +209,7 @@ class _BooksScreenState extends State<BooksScreen> {
                                                   fit: BoxFit.cover),
                                               borderRadius:
                                                   BorderRadius.circular(5)),
-                                                                                  ),
+                                        ),
                                       )),
                                 );
                               }, childCount: _dataObject.articles.length),
@@ -212,31 +227,5 @@ class _BooksScreenState extends State<BooksScreen> {
       ),
       length: 2,
     );
-  }
-
-  void openBookFile(var bookUrl) async {
-    var _openResult = 'Unknown';
-
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-    if (result != null) {
-      bookUrl = result.files.single.path;
-    } else {
-      // User canceled the picker
-    }
-    final _result = await OpenFile.open(bookUrl);
-    print(_result.message);
-
-    setState(() {
-      _openResult = "type=${_result.type}  message=${_result.message}";
-    });
-  }
-
-  void openArticleFile(String articleUrl) async {
-    if (await canLaunch(articleUrl)) {
-      await launch(articleUrl);
-    } else {
-      throw 'Could not launch $articleUrl';
-    }
   }
 }

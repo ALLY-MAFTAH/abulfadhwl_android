@@ -1,4 +1,6 @@
-import 'package:abulfadhwl_android/views/other_pages/home_page.dart';
+// ignore_for_file: import_of_legacy_library_into_null_safe
+
+import 'package:abulfadhwl_android/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:marquee_flutter/marquee_flutter.dart';
 import 'package:share/share.dart';
@@ -14,13 +16,13 @@ class AboutUs extends StatelessWidget {
             Icons.arrow_back_ios,
           ),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (_) {
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
               return Home();
             }));
           },
         ),
         title: Text(
-          'About Us',
+          'Kuhusu Sisi',
           style: TextStyle(),
         ),
       ),
@@ -65,7 +67,7 @@ class AboutUs extends StatelessWidget {
                             radius: 25,
                             backgroundColor: Colors.orange,
                             child: IconButton(
-                              color: Colors.white,
+                              color: Colors.black,
                               icon: Icon(Icons.share),
                               onPressed: () {
                                 Share.share(

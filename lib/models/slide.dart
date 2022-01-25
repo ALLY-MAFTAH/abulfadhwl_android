@@ -2,7 +2,7 @@
 class Slide {
   final int id;
   final String file;
-  final String number;
+  final int number;
 
   Slide({
     required this.id,
@@ -18,3 +18,4 @@ class Slide {
         file = map['file'],
         number = map['number'];
 }
+

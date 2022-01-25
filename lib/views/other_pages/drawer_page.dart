@@ -1,14 +1,18 @@
+import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:abulfadhwl_android/views/other_pages/oval_right_border_cliper.dart';
 import 'package:abulfadhwl_android/views/pages_from_drawer/about_us_page.dart';
+import 'package:abulfadhwl_android/views/pages_from_drawer/announcements_page.dart';
 import 'package:abulfadhwl_android/views/pages_from_drawer/contact_us_page.dart';
 import 'package:abulfadhwl_android/views/pages_from_drawer/live_duruus_and_timetable_page.dart';
 import 'package:abulfadhwl_android/views/pages_from_drawer/questions_and_answers.dart';
+import 'package:abulfadhwl_android/views/pages_from_drawer/settings_page.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class DrawerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _dataProvider = Provider.of<DataProvider>(context);
     return ClipPath(
       clipper: OvalRightBorderClipper(),
       child: Drawer(
@@ -22,7 +26,6 @@ class DrawerPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  
                   Container(
                     height: 170,
                     alignment: Alignment.center,
@@ -47,19 +50,21 @@ class DrawerPage extends StatelessWidget {
                     title: Row(
                       children: <Widget>[
                         Icon(
-                          FontAwesomeIcons.broadcastTower,
-                          color: Colors.orange[600],
+                          Icons.radio,
                         ),
                         SizedBox(
                           width: 10,
                         ),
                         Text(
-                          "Live Duruus",
+                          "Darsa Mubaashara",
                           style: TextStyle(),
                         ),
                       ],
                     ),
                     onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) {
+                        return ContactUs();
+                      }));
                       Navigator.push(context, MaterialPageRoute(builder: (_) {
                         return LiveDuruusAndTimetablePage();
                       }));
@@ -71,7 +76,6 @@ class DrawerPage extends StatelessWidget {
                       children: <Widget>[
                         Icon(
                           Icons.live_help,
-                          color: Colors.orange[600],
                         ),
                         SizedBox(
                           width: 10,
@@ -93,14 +97,37 @@ class DrawerPage extends StatelessWidget {
                     title: Row(
                       children: <Widget>[
                         Icon(
-                          Icons.info,
-                          color: Colors.orange[600],
+                          Icons.announcement,
                         ),
                         SizedBox(
                           width: 10,
                         ),
                         Text(
-                          "About Us",
+                          "Matangazo na Matukio",
+                          style: TextStyle(),
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) {
+                        return Announcements(
+                          announcementDetails: _dataProvider.announcements,
+                        );
+                      }));
+                    },
+                  ),
+                  Divider(),
+                  ListTile(
+                    title: Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.info,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Kuhusu Sisi",
                           style: TextStyle(),
                         ),
                       ],
@@ -117,13 +144,12 @@ class DrawerPage extends StatelessWidget {
                       children: <Widget>[
                         Icon(
                           Icons.contacts,
-                          color: Colors.orange[600],
                         ),
                         SizedBox(
                           width: 10,
                         ),
                         Text(
-                          "Contact Us",
+                          "Wasiliana Nasi",
                           style: TextStyle(),
                         ),
                       ],
@@ -135,29 +161,28 @@ class DrawerPage extends StatelessWidget {
                     },
                   ),
                   Divider(),
-                  // ListTile(
-                  //   title: Row(
-                  //     children: <Widget>[
-                  //       Icon(
-                  //         Icons.settings,
-                  //         color: Colors.orange[600],
-                  //       ),
-                  //       SizedBox(
-                  //         width: 10,
-                  //       ),
-                  //       Text(
-                  //         "Settings",
-                  //         style: TextStyle( ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  //   onTap: () {
-                  //     Navigator.push(context, MaterialPageRoute(builder: (_) {
-                  //       return Settings();
-                  //     }));
-                  //   },
-                  // ),
-                  // Divider(),
+                  ListTile(
+                    title: Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.settings,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Mipangilio",
+                          style: TextStyle(),
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) {
+                        return Settings();
+                      }));
+                    },
+                  ),
+                  Divider(),
                 ],
               ),
             ),

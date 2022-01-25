@@ -34,30 +34,30 @@ dependencies:
   provider: any
   shared_preferences: any
   url_launcher: any
-  transformer_page_view: any
   marquee_flutter: ^0.1.4
-  carousel_slider: any
   share: any
   flutter_image: any
   selectable_autolink_text: any
   http: any
-  pull_to_refresh: any
   dio: any
-  audioplayer: any
-  open_file: any
-  radio_player: any
-  file_picker: any
-  path_provider: any
-  flutter_media_notification: any
+  assets_audio_player: ^3.0.3+1
   google_fonts: any
-  intl: any
   sweetalert: ^0.0.1
+  animated_image_list: ^1.0.0
+  get_it: ^7.2.0
+  audio_service: ^0.18.3
+  just_audio: ^0.9.18
+  syncfusion_flutter_pdfviewer: ^19.4.43-beta
+  material_floating_search_bar: ^0.3.6
+  searchfield: ^0.5.6
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
+  flutter_lints: ^1.0.4
   flutter_test:
     sdk: flutter
 

@@ -1,4 +1,5 @@
 import 'package:abulfadhwl_android/models/song_category.dart';
+import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:abulfadhwl_android/views/components/album_card.dart';
 import 'package:abulfadhwl_android/views/other_pages/drawer_page.dart';
 import 'package:flutter/material.dart';
@@ -6,8 +7,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AudiosScreen extends StatefulWidget {
   final List<SongCategory> songCategories;
+  final DataProvider dataProvider;
 
-  const AudiosScreen({Key? key, required this.songCategories})
+  const AudiosScreen(
+      {Key? key,
+      required this.songCategories,
+      required this.dataProvider})
       : super(key: key);
 
   @override
@@ -26,15 +31,19 @@ class _AudiosScreenState extends State<AudiosScreen> {
       _tabs.add(Tab(
         text: category.name,
       ));
-      print("objectiiiiiii");
-      _screens.add(ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          return AlbumCard(
-            album: category.albums[index],
-            songs: category.albums[index].songs,
-          );
-        },
-        itemCount: category.albums.length,
+      _screens.add(RefreshIndicator(
+              onRefresh: widget.dataProvider.reloadPage,
+        child: ListView.builder(
+          physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
+          itemBuilder: (BuildContext context, int index) {
+            return AlbumCard(
+              album: category.albums[index],
+              songs: category.albums[index].songs,
+            );
+          },
+          itemCount: category.albums.length,
+        ),
       ));
     });
     super.initState();
@@ -47,12 +56,22 @@ class _AudiosScreenState extends State<AudiosScreen> {
             appBar: AppBar(
                 iconTheme: new IconThemeData(),
                 title: Text(
-                  'Audios',
+                  'Sauti',
                   style: TextStyle(),
                 )),
             drawer: DrawerPage(),
-            body: Center(
-              child: CircularProgressIndicator(),
+            body: RefreshIndicator(
+              onRefresh: widget.dataProvider.reloadPage,
+              child: ListView(
+                physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
+                children: [
+                  Align(
+                    alignment: Alignment.center,
+                    child: Center(child: Container()),
+                  ),
+                ],
+              ),
             ),
           )
         : DefaultTabController(
@@ -61,7 +80,7 @@ class _AudiosScreenState extends State<AudiosScreen> {
               appBar: AppBar(
                 iconTheme: new IconThemeData(),
                 title: Text(
-                  'Audios',
+                  'Sauti',
                   style: TextStyle(),
                 ),
                 actions: <Widget>[
@@ -101,4 +120,5 @@ class _AudiosScreenState extends State<AudiosScreen> {
             ),
           );
   }
+
 }

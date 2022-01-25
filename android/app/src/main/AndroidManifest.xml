@@ -2,16 +2,9 @@
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 	<uses-permission android:name="android.permission.INTERNET" />
-	<application android:usesCleartextTraffic="true" android:label="abulfadhwl_android" android:name="${applicationName}" android:icon="@mipmap/ic_launcher">
-		<activity android:name=".MainActivity" android:exported="true" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
-			<!--
-			Specifies an Android theme to apply to this Activity as soon as
-			the Android process has started. This theme is visible to the user
-			while the Flutter UI initializes. After that, this theme continues
-			to determine the Window background behind the Flutter UI.
-			-->
-			<meta-data android:name="io.flutter.embedding.android.SplashScreenDrawable" android:resource="@drawable/launch_background" />
-			<!-- <meta-data android:name="io.flutter.embedding.android.NormalTheme" android:resource="@style/NormalTheme" /> -->
+	<application android:usesCleartextTraffic="true" android:label="Abulfadhwl App" android:name="${applicationName}" android:icon="@mipmap/app_icon">
+		<activity android:name="com.ryanheise.audioservice.AudioServiceActivity" android:exported="true" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
+			<meta-data android:name="io.flutter.embedding.android.NormalTheme" android:resource="@style/NormalTheme" />
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
@@ -22,5 +15,15 @@
 		This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
 		-->
 		<meta-data android:name="flutterEmbedding" android:value="2" />
+		<service android:name="com.ryanheise.audioservice.AudioService">
+			<intent-filter>
+				<action android:name="android.media.browse.MediaBrowserService" />
+			</intent-filter>
+		</service>
+		<receiver android:name="com.ryanheise.audioservice.MediaButtonReceiver">
+			<intent-filter>
+				<action android:name="android.intent.action.MEDIA_BUTTON" />
+			</intent-filter>
+		</receiver>
 	</application>
 </manifest>

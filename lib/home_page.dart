@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
-import 'package:abulfadhwl_android/providers/songs_provider.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -18,7 +17,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final songCategoryProvider = Provider.of<SongsProvider>(context);
     final _dataProvider = Provider.of<DataProvider>(context);
     final List<Widget> _screens = [
       HomeScreen(
@@ -26,7 +24,8 @@ class _HomeState extends State<Home> {
       ),
       BooksScreen(),
       AudiosScreen(
-        songCategories: songCategoryProvider.categories,
+        dataProvider: _dataProvider,
+        songCategories: _dataProvider.categories,
       ),
       HistoryScreen()
     ];
@@ -50,12 +49,12 @@ class _HomeState extends State<Home> {
           currentIndex: _currentIndex,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.home), label: 'Home'),
+                icon: Icon(FontAwesomeIcons.home), label: 'Mwanzo'),
             BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.book), label: 'Books'),
+                icon: Icon(FontAwesomeIcons.book), label: 'Vitabu na Makala'),
             BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.microphone), label: 'Audios'),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'History')
+                icon: Icon(FontAwesomeIcons.music), label: 'Sauti'),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Historia')
           ],
         ),
       ),

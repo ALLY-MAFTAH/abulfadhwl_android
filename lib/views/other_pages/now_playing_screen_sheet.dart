@@ -1,19 +1,14 @@
 import 'package:abulfadhwl_android/models/song.dart';
-import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
-import 'package:audioplayer/audioplayer.dart';
-// import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+import 'package:abulfadhwl_android/providers/data_provider.dart';
+import 'package:abulfadhwl_android/views/components/controls.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:abulfadhwl_android/providers/songs_provider.dart';
 import 'package:share/share.dart';
-
 class NowPlayingScreenSheet extends StatefulWidget {
   final List<Song> songs;
-  final SongsProvider songProvider;
+  final DataProvider dataProvider;
 
-  const NowPlayingScreenSheet(
-      {Key? key, required this.songs, required this.songProvider})
+  NowPlayingScreenSheet(
+      {Key? key, required this.songs, required this.dataProvider})
       : super(key: key);
 
   @override
@@ -27,19 +22,16 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
 
   @override
   void initState() {
-    setState(() {
-      widget.songProvider.initAudioPlayer();
-    });
+    setState(() {});
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final _songObject = Provider.of<SongsProvider>(context);
-    return Container(
+    return Scaffold(
       key: _scaffoldKey,
-      height: MediaQuery.of(context).size.height,
-      child: SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             Container(
@@ -51,7 +43,6 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                   width: 25,
                   child: Icon(
                     Icons.music_note,
-                    color: Colors.orange,
                   ),
                 ),
                 Expanded(
@@ -60,14 +51,9 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
+                        CurrentSongTitle(),
                         Text(
-                          _songObject.currentSongTitle,
-                          maxLines: 1,
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          _songObject.currentSongDescription,
+                          widget.dataProvider.currentSong.description,
                           maxLines: 1,
                           style: TextStyle(
                               fontSize: 12, fontStyle: FontStyle.italic),
@@ -78,10 +64,10 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                 ),
                 IconButton(
                   color: Colors.orange,
-                  icon: Icon(FontAwesomeIcons.share),
+                  icon: Icon(Icons.share),
                   onPressed: () {
                     Share.share(
-                      _songObject.currentSongFile,
+                      widget.dataProvider.currentSong.file,
                     );
                   },
                 ),
@@ -94,8 +80,8 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey,
-                        blurRadius: 10,
-                        offset: Offset(0, 10), // shadow direction: bottom right
+                        blurRadius: 15,
+                        offset: Offset(0, 10),
                       )
                     ],
                   ),
@@ -147,79 +133,12 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                           padding: EdgeInsets.only(top: 244, bottom: 20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              Container(
-                                child: _songObject.changeShuffleIcon
-                                    ? IconButton(
-                                        iconSize: 30,
-                                        icon: Icon(
-                                          Icons.shuffle,
-                                          color: Colors.orange,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            _songObject.changeShuffleIcon =
-                                                !_songObject.changeShuffleIcon;
-                                          });
-                                        },
-                                      )
-                                    : IconButton(
-                                        iconSize: 30,
-                                        icon: Icon(
-                                          Icons.shuffle,
-                                          color: Colors.grey,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            _songObject.changeShuffleIcon =
-                                                !_songObject.changeShuffleIcon;
-                                          });
-                                        },
-                                      ),
-                              ),
-                              Container(
-                                child: _songObject.repeatMode == 0
-                                    ? IconButton(
-                                        iconSize: 30,
-                                        icon: Icon(
-                                          Icons.repeat,
-                                          color: Colors.grey,
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            print(_songObject.repeatMode);
-                                            _songObject.repeatMode++;
-                                          });
-                                        },
-                                      )
-                                    : _songObject.repeatMode == 1
-                                        ? IconButton(
-                                            iconSize: 30,
-                                            icon: Icon(
-                                              Icons.repeat_one,
-                                              color: Colors.orange,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                print(_songObject.repeatMode);
-                                                _songObject.repeatMode++;
-                                              });
-                                            },
-                                          )
-                                        : IconButton(
-                                            iconSize: 30,
-                                            icon: Icon(
-                                              Icons.repeat,
-                                              color: Colors.orange,
-                                            ),
-                                            onPressed: () {
-                                              setState(() {
-                                                print(_songObject.repeatMode);
-                                                _songObject.repeatMode =
-                                                    _songObject.repeatMode - 2;
-                                              });
-                                            },
-                                          ),
+                            children: [
+                              RepeatButton(),
+                              IconButton(
+                                icon: Icon(Icons.download,
+                                    color: Colors.orange, size: 30),
+                                onPressed: () {},
                               ),
                             ],
                           ),
@@ -228,143 +147,25 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                     ),
                   ),
                 ),
-                // ignore: unnecessary_null_comparison
-                if (_songObject.duration != null)
-                  Padding(
-                      padding: EdgeInsets.only(top: 300, left: 10, right: 10),
-                      child: ProgressBar(
-                        timeLabelType: TimeLabelType.totalTime,
-                        progress: _songObject.position,
-                        timeLabelTextStyle: TextStyle(color: Colors.black),
-                        total: _songObject.duration,
-                        // onSeek: _songObject.audioPlayer(8),
-                      ))
+                Padding(
+                  padding: EdgeInsets.only(top: 300, left: 10, right: 10),
+                  child: AudioProgressBar(),
+                )
               ],
             ),
-
             Padding(
               padding: const EdgeInsets.only(left: 40, right: 40),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Expanded(
-                    child: IconButton(
-                      iconSize: 50,
-                      icon: Icon(
-                        Icons.skip_previous,
-                        color: Colors.orange,
-                      ),
-                      onPressed: () {
-                        _songObject.previous();
-                      },
-                    ),
-                  ),
-                  Container(
-                    child: _songObject.playerState == AudioPlayerState.PLAYING
-                        ? IconButton(
-                            iconSize: 50,
-                            icon: Icon(
-                              FontAwesomeIcons.pause,
-                              color: Colors.orange,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _songObject.pause();
-                              });
-                            })
-                        : IconButton(
-                            iconSize: 50,
-                            icon: Icon(
-                              FontAwesomeIcons.play,
-                              color: Colors.orange,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _songObject.play();
-                              });
-                            }),
-                  ),
-                  Expanded(
-                    child: IconButton(
-                        iconSize: 50,
-                        icon: Icon(
-                          Icons.skip_next,
-                          color: Colors.orange,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            //   if (_songObject.currentSongIndex ==
-                            //       widget.songs.length - 1) {
-                            //     _songObject.currentSongIndex = 0;
-                            //   } else {
-                            //     ++_songObject.currentSongIndex;
-                            //     _songObject.currentSongFile = api +
-                            //         'song/file/' +
-                            //         widget.songs[_songObject.currentSongIndex].id
-                            //             .toString();
-                            //     _songObject.currentSongId =
-                            //         widget.songs[_songObject.currentSongIndex].id;
-                            //     _songObject.currentSongTitle = widget
-                            //         .songs[_songObject.currentSongIndex].title;
-                            //     _songObject.currentSongDescription = widget
-                            //         .songs[_songObject.currentSongIndex]
-                            //         .description;
-                            //   }
-                            _songObject.next();
-                            _songObject.stop();
-                            _songObject.play();
-                          });
-                        }),
-                  ),
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  PreviousSongButton(),
+                  PlayButton(),
+                  NextSongButton(),
                 ],
               ),
             ),
             SizedBox(
               height: 20,
-            ),
-            // ignore: deprecated_member_use
-            RaisedButton.icon(
-              elevation: 5,
-              color: Colors.orange,
-              icon: Icon(
-                FontAwesomeIcons.download,
-                size: 17,
-                color: Colors.white
-              ),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              label: Text(
-                'PAKUA',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              onPressed: () {
-                _songObject.downloadFile("", "");
-                // ignore: deprecated_member_use
-                _scaffoldKey.currentState!.showSnackBar(SnackBar(
-                    content: Row(
-                      children: <Widget>[
-                        Text(
-                          "Downloading... $progressString",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 13,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                    action: progressString == "100%"
-                        ? SnackBarAction(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            label: "Close",
-                          )
-                        : null));
-              },
             ),
           ],
         ),

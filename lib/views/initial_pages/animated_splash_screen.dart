@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:abulfadhwl_android/views/other_pages/home_page.dart';
+import 'package:abulfadhwl_android/home_page.dart';
 import 'package:flutter/material.dart';
 
 class AnimatedSplashScreen extends StatefulWidget {
