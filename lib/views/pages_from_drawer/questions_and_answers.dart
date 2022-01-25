@@ -113,9 +113,6 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                                                   cancelButtonText: "Hapana",
                                                   onPress: (bool isConfirm) {
                                                 if (isConfirm) {
-                                                  _dataObject.addQuestion(
-                                                    qn: _qnsController.text,
-                                                  );
                                                   SweetAlert.show(context,
                                                       subtitle:
                                                           "Kuwa na subra swali linatumwa ...",
@@ -124,18 +121,27 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                                                   new Future.delayed(
                                                       new Duration(seconds: 2),
                                                       () {
-                                                    SweetAlert.show(context,
-                                                        confirmButtonColor:
-                                                            Colors.orange,
-                                                        confirmButtonText:
-                                                            "Sawa",
-                                                        subtitle:
-                                                            "Swali limefanikiwa kutumwa",
-                                                        style: SweetAlertStyle
-                                                            .success);
-                                                    _qnsController.clear();
-                                                    _qnsController
-                                                        .clearComposing();
+                                                    _dataObject
+                                                        .addQuestion(
+                                                      qn: _qnsController.text,
+                                                    )
+                                                        .then((value) {
+                                                      if (value != "") {
+                                                        SweetAlert.show(context,
+                                                            confirmButtonColor:
+                                                                Colors.orange,
+                                                            confirmButtonText:
+                                                                "Sawa",
+                                                            subtitle:
+                                                                "Swali limefanikiwa kutumwa",
+                                                            style:
+                                                                SweetAlertStyle
+                                                                    .success);
+                                                        _qnsController.clear();
+                                                        _qnsController
+                                                            .clearComposing();
+                                                      }
+                                                    });
                                                   });
                                                 } else {
                                                   SweetAlert.show(context,
