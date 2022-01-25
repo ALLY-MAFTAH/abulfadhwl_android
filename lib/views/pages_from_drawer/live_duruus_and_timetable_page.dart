@@ -48,7 +48,7 @@ class _LiveDuruusAndTimetablePageState
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(
               parent: AlwaysScrollableScrollPhysics()),
-          child: _dataObject.streams.isNotEmpty
+          child: _dataObject.streams.isEmpty
               ? Container(
                 height: 300,
                 child: Column(
