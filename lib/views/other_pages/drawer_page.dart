@@ -63,9 +63,6 @@ class DrawerPage extends StatelessWidget {
                     ),
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) {
-                        return ContactUs();
-                      }));
-                      Navigator.push(context, MaterialPageRoute(builder: (_) {
                         return LiveDuruusAndTimetablePage();
                       }));
                     },
@@ -156,7 +153,9 @@ class DrawerPage extends StatelessWidget {
                     ),
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) {
-                        return ContactUs();
+                        return ContactUs(
+                          dataProvider: _dataProvider,
+                        );
                       }));
                     },
                   ),

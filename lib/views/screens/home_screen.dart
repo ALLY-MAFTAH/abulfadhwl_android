@@ -122,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: const EdgeInsets.all(0),
                     child: Container(
-                        height: MediaQuery.of(context).size.height * 3 / 5,
+                        height: MediaQuery.of(context).size.height,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -138,13 +138,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                     opacity: progress > 1
                                         ? (2 - progress)
                                         : progress,
-                                    child: Text(
-                                      arr[index].name,
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 25,
-                                          fontWeight: FontWeight.w500),
-                                    ),
                                   ));
                             },
                             scrollDirection: Axis.vertical,

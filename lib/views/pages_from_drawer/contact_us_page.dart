@@ -1,3 +1,6 @@
+// ignore_for_file: deprecated_member_use
+
+import 'package:abulfadhwl_android/models/link.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image/network.dart';
@@ -7,6 +10,9 @@ import 'package:abulfadhwl_android/home_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactUs extends StatefulWidget {
+  final DataProvider dataProvider;
+
+  const ContactUs({Key? key, required this.dataProvider}) : super(key: key);
   @override
   _ContactUsState createState() => _ContactUsState();
 }
@@ -22,6 +28,25 @@ class _ContactUsState extends State<ContactUs> {
 
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  List<Link> ourLinks = [];
+  List<Link> othersLinks = [];
+
+  @override
+  void initState() {
+    ourLinks = [];
+    othersLinks = [];
+
+    for (var i = 0; i < widget.dataProvider.links.length; i++) {
+      if (widget.dataProvider.links[i].type == "ours") {
+        ourLinks.add(widget.dataProvider.links[i]);
+      } else {
+        othersLinks.add(widget.dataProvider.links[i]);
+      }
+    }
+    print(ourLinks);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final _dataObject = Provider.of<DataProvider>(context);
@@ -43,294 +68,249 @@ class _ContactUsState extends State<ContactUs> {
           style: TextStyle(),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          decoration: BoxDecoration(
-              color: Colors.orange[50],
-              borderRadius: BorderRadius.circular(10)),
+      body: RefreshIndicator(
+        onRefresh: _dataObject.reloadPage,
+        child: Card(
           child: CustomScrollView(
-            slivers: <Widget>[
-              SliverList(
-                delegate: SliverChildListDelegate(<Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Text(
-                      'Ukamilifu ni wa Allah ﷻ pekee, nasi ni wadhaifu mno, wingi wa kukosea, tuliojawa na kila aina ya mapungufu. Kwa lolote katika makosa na mapungufu yaliyopatikana katika Application hii, ukiwa kama mpenda kheri na mwenye kutaka kuisukuma da\'wah hii mbele, basi usisite kutukosoa na kutuelekeza pale penye na mapungufu kwa lengo la kurekebisha.\n\nUngana nasi kupitia mitandao ya kijamii kwa link hizi:',
-                      style: TextStyle(),
-                      textAlign: TextAlign.justify,
-                    ),
-                  )
-                ]),
-              ),
-              SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                return _dataObject.links.isEmpty
-                    ? Container()
-                    : Padding(
-                        padding: const EdgeInsets.only(left: 5),
-                        child: InkWell(
-                          child: Row(
-                            children: <Widget>[
-                              Card(
-                                elevation: 8,
-                                color: Colors.orange,
-                                margin: EdgeInsets.all(3),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30)),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(2),
-                                  child: CircleAvatar(
-                                    backgroundImage: NetworkImageWithRetry(api +
-                                        'link/icon/' +
-                                        _dataObject.links[index].id.toString()),
+              physics: const BouncingScrollPhysics(
+                  parent: AlwaysScrollableScrollPhysics()),
+              slivers: <Widget>[
+                SliverList(
+                  delegate: SliverChildListDelegate(<Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Text(
+                        'Ukamilifu ni wa Allah ﷻ pekee, nasi ni wadhaifu mno, wingi wa kukosea, tuliojawa na kila aina ya mapungufu. Kwa lolote katika makosa na mapungufu yaliyopatikana katika Application hii, ukiwa kama mpenda kheri na mwenye kutaka kuisukuma da\'wah hii mbele, basi usisite kutukosoa na kutuelekeza pale penye na mapungufu kwa lengo la kurekebisha.\n\nUngana nasi kupitia mitandao ya kijamii kwa link hizi:',
+                        style: TextStyle(),
+                        textAlign: TextAlign.justify,
+                      ),
+                    )
+                  ]),
+                ),
+                SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                  return ourLinks.isEmpty
+                      ? Container()
+                      : Row(
+                          children: [
+                            Card(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width / 2,
+                                child: ElevatedButton.icon(
+                                  style: ElevatedButton.styleFrom(
+                                      primary: Colors.orange[50],
+                                      alignment: Alignment.centerLeft),
+                                  icon: Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: CircleAvatar(
+                                      backgroundImage: NetworkImageWithRetry(
+                                          api +
+                                              'link/icon/' +
+                                              ourLinks[index].id.toString()),
+                                    ),
                                   ),
+                                  label: Text(ourLinks[index].title,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 15)),
+                                  onPressed: () {
+                                    String linkUrl = ourLinks[index].url;
+                                    _launchURL(linkUrl);
+                                  },
                                 ),
+                              ),
+                            ),
+                          ],
+                        );
+                }, childCount: ourLinks.length)),
+                SliverList(
+                  delegate: SliverChildListDelegate(<Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: Text(
+                          "Vilevile unaweza kututumia ujumbe wa maandishi kupitia fomu hii:\nNB: Hii si sehemu kwa ajili ya maswali ya kielimu.",
+                          style: TextStyle()),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Card(
+                      elevation: 8,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: <Widget>[
+                              TextFormField(
+                                focusNode: _fullNameFocusNode,
+                                controller: _fullNameController,
+                                validator: (fullNameValue) {
+                                  if (fullNameValue!.isEmpty)
+                                    return "Tafadhali andika jina lako kamili";
+                                  else
+                                    return null;
+                                },
+                                decoration: InputDecoration(
+                                    labelText: 'Jina kamili',
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: 15, horizontal: 10),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    )),
                               ),
                               SizedBox(
-                                width: 3,
+                                height: 10,
                               ),
-                              Text(_dataObject.links[index].title,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15))
-                            ],
-                          ),
-                          onTap: () {
-                            String linkUrl = _dataObject.links[index].url;
-                            _launchURL(linkUrl);
-                          },
-                        ),
-                      );
-              }, childCount: _dataObject.links.length)),
-              SliverList(
-                delegate: SliverChildListDelegate(<Widget>[
-                  Form(
-                    key: _formKey,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                              "Vilevile unaweza kututumia ujumbe wa maandishi kupitia fomu hii:\nNB: Hii si sehemu kwa ajili ya maswali ya kielimu.",
-                              style: TextStyle()),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          TextFormField(
-                            focusNode: _fullNameFocusNode,
-                            controller: _fullNameController,
-                            validator: (fullNameValue) {
-                              if (fullNameValue!.isEmpty)
-                                return "Tafadhali andika jina lako kamili";
-                              else
-                                return null;
-                            },
-                            decoration: InputDecoration(
-                                labelText: 'Jina kamili',
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 10),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                )),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          TextFormField(
-                            focusNode: _emailFocusNode,
-                            controller: _emailController,
-                            validator: (emailValue) {
-                              if (emailValue!.isEmpty)
-                                return "Tafadhali ingiza barua pepe yako";
-                              else if (!RegExp(
-                                      r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
-                                  .hasMatch(emailValue)) {
-                                return 'Hii barua pepe si sahihi';
-                              } else
-                                return null;
-                            },
-                            decoration: InputDecoration(
-                                labelText: 'Barua pepe',
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 10),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                )),
-                            keyboardType: TextInputType.emailAddress,
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          TextFormField(
-                            maxLines: 5,
-                            maxLength: 500,
-                            focusNode: _messageFocusNode,
-                            controller: _messageController,
-                            validator: (messageValue) {
-                              if (messageValue!.isEmpty)
-                                return "Tafadhali ingiza ujumbe wako";
-                              else
-                                return null;
-                            },
-                            decoration: InputDecoration(
-                                labelText: 'Andika ujumbe wako hapa',
-                                contentPadding: EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 10),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                )),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              FloatingActionButton(
-                                elevation: 10,
-                                backgroundColor: Colors.orange,
-                                child: Icon(
-                                  Icons.send,
-                                  color: Colors.black,
-                                ),
-                                onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
-                                    _dataObject
-                                        .postComment(
-                                            fullName: _fullNameController.text,
-                                            email: _emailController.text,
-                                            message: _messageController.text)
-                                        .then((value) {
-                                      if (value != "") {
-                                        _scaffoldKey.currentState!
-                                            // ignore: deprecated_member_use
-                                            .showSnackBar(SnackBar(
-                                          content: Text(
-                                              "Ujumbe wako umefanikiwa kutumwa"),
-                                        ));
-                                        _fullNameController.clear();
-                                        _messageController.clear();
-                                        _emailController.clear();
-                                      }
-                                    });
-                                  }
+                              TextFormField(
+                                focusNode: _emailFocusNode,
+                                controller: _emailController,
+                                validator: (emailValue) {
+                                  if (emailValue!.isEmpty)
+                                    return "Tafadhali ingiza barua pepe yako";
+                                  else if (!RegExp(
+                                          r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+                                      .hasMatch(emailValue)) {
+                                    return 'Hii barua pepe si sahihi';
+                                  } else
+                                    return null;
                                 },
+                                decoration: InputDecoration(
+                                    labelText: 'Barua pepe',
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: 15, horizontal: 10),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    )),
+                                keyboardType: TextInputType.emailAddress,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              TextFormField(
+                                maxLines: 5,
+                                maxLength: 500,
+                                focusNode: _messageFocusNode,
+                                controller: _messageController,
+                                validator: (messageValue) {
+                                  if (messageValue!.isEmpty)
+                                    return "Tafadhali ingiza ujumbe wako";
+                                  else
+                                    return null;
+                                },
+                                decoration: InputDecoration(
+                                    labelText: 'Andika ujumbe wako hapa',
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical: 15, horizontal: 10),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    )),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  FloatingActionButton(
+                                    elevation: 10,
+                                    backgroundColor: Colors.orange,
+                                    child: Icon(
+                                      Icons.send,
+                                      color: Colors.black,
+                                    ),
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        _dataObject
+                                            .postComment(
+                                                fullName:
+                                                    _fullNameController.text,
+                                                email: _emailController.text,
+                                                message:
+                                                    _messageController.text)
+                                            .then((value) {
+                                          if (value != "") {
+                                            _scaffoldKey.currentState!
+                                                // ignore: deprecated_member_use
+                                                .showSnackBar(SnackBar(
+                                              content: Text(
+                                                  "Ujumbe wako umefanikiwa kutumwa"),
+                                            ));
+                                            _fullNameController.clear();
+                                            _messageController.clear();
+                                            _emailController.clear();
+                                          }
+                                        });
+                                      }
+                                    },
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10))),
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(5),
-                          child: Text(
-                            "Kwa faida mbalimbali za kielimu, pia unaweza kutembelea kurasa na applications zetu nyingine kupitia links hizi:",
-                            style: TextStyle(),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 5, bottom: 5),
-                          child: _dataObject.links.isEmpty
-                              ? Container()
-                              : Row(
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: TextButton(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            CircleAvatar(
-                                              backgroundImage:
-                                                  NetworkImageWithRetry(
-                                                      api + 'link/icon/1'),
-                                            ),
-                                            Text(
-                                              _dataObject.links[0].title,
-                                              style: TextStyle(fontSize: 8),
-                                              textAlign: TextAlign.center,
-                                            )
-                                          ],
-                                        ),
-                                        onPressed: () {
-                                          String linkUrl =
-                                              _dataObject.links[0].url;
-                                          _launchURL(linkUrl);
-                                        },
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: TextButton(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            CircleAvatar(
-                                              backgroundImage:
-                                                  NetworkImageWithRetry(
-                                                      api + 'link/icon/1'),
-                                            ),
-                                            Text(
-                                              _dataObject.links[0].title,
-                                              style: TextStyle(fontSize: 8),
-                                              textAlign: TextAlign.center,
-                                            )
-                                          ],
-                                        ),
-                                        onPressed: () {
-                                          String linkUrl =
-                                              _dataObject.links[0].url;
-                                          _launchURL(linkUrl);
-                                        },
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: TextButton(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            CircleAvatar(
-                                              backgroundImage:
-                                                  NetworkImageWithRetry(
-                                                      api + 'link/icon/1'),
-                                            ),
-                                            Text(
-                                              _dataObject.links[0].title,
-                                              style: TextStyle(fontSize: 8),
-                                              textAlign: TextAlign.center,
-                                            )
-                                          ],
-                                        ),
-                                        onPressed: () {
-                                          String linkUrl =
-                                              _dataObject.links[0].url;
-                                          _launchURL(linkUrl);
-                                        },
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                        ),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Text(
+                        "Kwa faida mbalimbali za kielimu, pia unaweza kutembelea kurasa na applications zetu nyingine kupitia links hizi:",
+                        style: TextStyle(),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  )
-                ]),
-              )
-            ],
-          ),
+                  ]),
+                ),
+                SliverToBoxAdapter(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 1 / 9,
+                    child: LayoutBuilder(
+                        builder: (context, constraints) => ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (BuildContext context, int i) {
+                                return othersLinks.isEmpty
+                                    ? Container()
+                                    : Container(
+                                        constraints: BoxConstraints(
+                                          minWidth: constraints.minWidth /
+                                              othersLinks.length,
+                                        ),
+                                        padding: const EdgeInsets.all(5),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                FloatingActionButton(
+                                                  child: CircleAvatar(
+                                                      radius: 27,
+                                                      backgroundImage:
+                                                          NetworkImageWithRetry(
+                                                              api +
+                                                                  'link/icon/' +
+                                                                  othersLinks[i]
+                                                                      .id
+                                                                      .toString())),
+                                                  onPressed: () {
+                                                    String linkUrl =
+                                                        othersLinks[i].url;
+                                                    _launchURL(linkUrl);
+                                                  },
+                                                ),
+                                                Text(othersLinks[i].title)
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                              },
+                              itemCount: othersLinks.length,
+                            )),
+                  ),
+                ),
+              ]),
         ),
       ),
     );
