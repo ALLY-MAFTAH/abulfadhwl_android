@@ -239,7 +239,7 @@ class _ContactUsState extends State<ContactUs> {
                                                     "Kuwa na subra ujumbe unatumwa ...",
                                                 style: SweetAlertStyle.loading);
                                             new Future.delayed(
-                                                new Duration(seconds: 2), () {
+                                                new Duration(seconds: 3), () {
                                               _dataObject
                                                   .postComment(
                                                       fullName:
@@ -257,12 +257,21 @@ class _ContactUsState extends State<ContactUs> {
                                                           Colors.orange,
                                                       confirmButtonText: "Sawa",
                                                       subtitle:
-                                                          "Ahsante! Ujumbe wako wako tumeupokea",
+                                                          "Ahsante! Ujumbe wako tumeupokea",
                                                       style: SweetAlertStyle
                                                           .success);
                                                   _fullNameController.clear();
                                                   _messageController.clear();
                                                   _emailController.clear();
+                                                } else {
+                                                  SweetAlert.show(context,
+                                                      confirmButtonColor:
+                                                          Colors.orange,
+                                                      confirmButtonText: "Sawa",
+                                                      subtitle:
+                                                          "'Afwan, Ujumbe haujafanikiwa kutumwa!",
+                                                      style: SweetAlertStyle
+                                                          .error);
                                                 }
                                               });
                                             });
@@ -271,7 +280,8 @@ class _ContactUsState extends State<ContactUs> {
                                                 confirmButtonColor:
                                                     Colors.orange,
                                                 confirmButtonText: "Sawa",
-                                                subtitle: "Ujumbe haujatumwa!",
+                                                subtitle:
+                                                    "Ujumbe umeakhirishwa kutumwa!",
                                                 style: SweetAlertStyle.error);
                                           }
                                           return false;

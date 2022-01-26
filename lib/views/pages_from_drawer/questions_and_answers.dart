@@ -119,7 +119,7 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                                                       style: SweetAlertStyle
                                                           .loading);
                                                   new Future.delayed(
-                                                      new Duration(seconds: 2),
+                                                      new Duration(seconds: 3),
                                                       () {
                                                     _dataObject
                                                         .addQuestion(
@@ -140,6 +140,17 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                                                         _qnsController.clear();
                                                         _qnsController
                                                             .clearComposing();
+                                                      } else {
+                                                        SweetAlert.show(context,
+                                                            confirmButtonColor:
+                                                                Colors.orange,
+                                                            confirmButtonText:
+                                                                "Sawa",
+                                                            subtitle:
+                                                                "'Afwan, Swali halijafanikiwa kutumwa!",
+                                                            style:
+                                                                SweetAlertStyle
+                                                                    .error);
                                                       }
                                                     });
                                                   });
