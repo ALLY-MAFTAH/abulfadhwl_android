@@ -37,7 +37,7 @@ class _ContactUsState extends State<ContactUs> {
     othersLinks = [];
 
     for (var i = 0; i < widget.dataProvider.links.length; i++) {
-      if (widget.dataProvider.links[i].type == "ours") {
+      if (widget.dataProvider.links[i].type == "Ours") {
         ourLinks.add(widget.dataProvider.links[i]);
       } else {
         othersLinks.add(widget.dataProvider.links[i]);
