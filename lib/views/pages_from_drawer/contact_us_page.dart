@@ -7,6 +7,7 @@ import 'package:flutter_image/network.dart';
 import 'package:provider/provider.dart';
 import 'package:abulfadhwl_android/constants/api.dart';
 import 'package:abulfadhwl_android/home_page.dart';
+import 'package:sweetalert/sweetalert.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactUs extends StatefulWidget {
@@ -222,25 +223,58 @@ class _ContactUsState extends State<ContactUs> {
                                     ),
                                     onPressed: () {
                                       if (_formKey.currentState!.validate()) {
-                                        _dataObject
-                                            .postComment(
-                                                fullName:
-                                                    _fullNameController.text,
-                                                email: _emailController.text,
-                                                message:
-                                                    _messageController.text)
-                                            .then((value) {
-                                          if (value != "") {
-                                            _scaffoldKey.currentState!
-                                                // ignore: deprecated_member_use
-                                                .showSnackBar(SnackBar(
-                                              content: Text(
-                                                  "Ujumbe wako umefanikiwa kutumwa"),
-                                            ));
-                                            _fullNameController.clear();
-                                            _messageController.clear();
-                                            _emailController.clear();
+                                        SweetAlert.show(context,
+                                            subtitle:
+                                                "Uko tayari kutuma ujumbe huu?",
+                                            style: SweetAlertStyle.confirm,
+                                            showCancelButton: true,
+                                            confirmButtonColor: Colors.orange,
+                                            confirmButtonText: "Ndio",
+                                            cancelButtonColor: Colors.grey,
+                                            cancelButtonText: "Hapana",
+                                            onPress: (bool isConfirm) {
+                                          if (isConfirm) {
+                                            SweetAlert.show(context,
+                                                subtitle:
+                                                    "Kuwa na subra ujumbe unatumwa ...",
+                                                style: SweetAlertStyle.loading);
+                                            new Future.delayed(
+                                                new Duration(seconds: 2), () {
+                                              _dataObject
+                                                  .postComment(
+                                                      fullName:
+                                                          _fullNameController
+                                                              .text,
+                                                      email:
+                                                          _emailController.text,
+                                                      message:
+                                                          _messageController
+                                                              .text)
+                                                  .then((value) {
+                                                if (value != "") {
+                                                  SweetAlert.show(context,
+                                                      confirmButtonColor:
+                                                          Colors.orange,
+                                                      confirmButtonText: "Sawa",
+                                                      subtitle:
+                                                          "Ahsante! Ujumbe wako wako tumeupokea",
+                                                      style: SweetAlertStyle
+                                                          .success);
+                                                  _fullNameController.clear();
+                                                  _messageController.clear();
+                                                  _emailController.clear();
+                                                }
+                                              });
+                                            });
+                                          } else {
+                                            SweetAlert.show(context,
+                                                confirmButtonColor:
+                                                    Colors.orange,
+                                                confirmButtonText: "Sawa",
+                                                subtitle: "Ujumbe haujatumwa!",
+                                                style: SweetAlertStyle.error);
                                           }
+                                          return false;
                                         });
                                       }
                                     },
