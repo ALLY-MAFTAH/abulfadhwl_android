@@ -1,9 +1,12 @@
+
+import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:abulfadhwl_android/views/components/pdf_reader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image/network.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:abulfadhwl_android/constants/api.dart';
 import 'package:abulfadhwl_android/models/book.dart';
+import 'package:provider/provider.dart';
 import 'package:share/share.dart';
 
 class BookInfoDisplay extends StatefulWidget {
@@ -23,8 +26,10 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
   bool downloading = false;
   var progressString = "";
 
+
   @override
   Widget build(BuildContext context) {
+    final _dataProvider = Provider.of<DataProvider>(context);
     return Scaffold(
       key: _scaffoldKey,
       body: SingleChildScrollView(
@@ -95,7 +100,6 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                               borderRadius: BorderRadius.circular(10)),
                           child: Text(
                             'SOMA',
-                            
                           ),
                           onPressed: () {
                             String bookUrl = api +
@@ -104,12 +108,13 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (_) {
                               return BookReader(
-                                  bookTitle: widget.bookDetails.title,
+                                  pdfTitle: widget.bookDetails.title,
+                                  pdfName: widget.bookDetails.file,
                                   pdfUrl: bookUrl);
                             }));
                           },
                         ),
-                        
+
                         // ignore: deprecated_member_use
                         RaisedButton(
                           elevation: 10,
@@ -118,12 +123,16 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                               borderRadius: BorderRadius.circular(10)),
                           child: Text(
                             'PAKUA',
-                            
                           ),
-                          onPressed: () {
-                            
-                            
-
+                          onPressed: () async {
+                            _dataProvider.download(
+                                api +
+                                    'book/file/' +
+                                    widget.bookDetails.id.toString(),
+                                widget.bookDetails.file,
+                                widget.bookDetails.title,
+                                
+                                );
                           },
                         ),
                         // ignore: deprecated_member_use
@@ -134,7 +143,6 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                               borderRadius: BorderRadius.circular(10)),
                           child: Text(
                             'SAMBAZA',
-                            
                           ),
                           onPressed: () {
                             Share.share(api +
@@ -157,7 +165,6 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                   children: <Widget>[
                     Icon(
                       FontAwesomeIcons.book,
-                      
                       size: 20,
                     ),
                     SizedBox(width: 10),
@@ -181,7 +188,6 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                   children: <Widget>[
                     Icon(
                       Icons.person,
-                      
                       size: 20,
                     ),
                     SizedBox(width: 10),
@@ -205,7 +211,6 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                   children: <Widget>[
                     Icon(
                       FontAwesomeIcons.calendarAlt,
-                      
                       size: 20,
                     ),
                     SizedBox(width: 10),
@@ -229,7 +234,6 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                   children: <Widget>[
                     Icon(
                       Icons.content_copy,
-                      
                       size: 20,
                     ),
                     SizedBox(width: 10),

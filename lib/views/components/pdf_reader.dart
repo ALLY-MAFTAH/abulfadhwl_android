@@ -1,13 +1,20 @@
 // ignore_for_file: deprecated_member_use, unnecessary_null_comparison
+import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class BookReader extends StatefulWidget {
-  final String bookTitle;
+  final String pdfTitle;
+  final String pdfName;
   final String pdfUrl;
 
-  const BookReader({Key? key, required this.bookTitle, required this.pdfUrl})
+  const BookReader(
+      {Key? key,
+      required this.pdfName,
+      required this.pdfTitle,
+      required this.pdfUrl})
       : super(key: key);
 
   @override
@@ -60,9 +67,10 @@ class _BookReaderState extends State<BookReader> {
   TextEditingController _textSearchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final _dataProvider = Provider.of<DataProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.bookTitle),
+        title: Text(widget.pdfTitle),
         actions: <Widget>[
           IconButton(
             icon: Icon(
@@ -161,6 +169,12 @@ class _BookReaderState extends State<BookReader> {
                     searchTextHighlightColor: Colors.orange)),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.download),
+        onPressed: () {
+          _dataProvider.download(widget.pdfUrl, widget.pdfName, widget.pdfTitle);
+        },
       ),
     );
   }

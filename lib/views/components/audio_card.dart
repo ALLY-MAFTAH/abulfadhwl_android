@@ -70,7 +70,6 @@ class _AudioCardState extends State<AudioCard> {
 
                   _audioHandler.addQueueItems(mediaItems);
                   _audioHandler.skipToQueueItem(widget.index);
-                  
                 },
                 child: Card(
                   color: widget.dataProvider.currentSong.id ==
@@ -156,8 +155,7 @@ class _AudioCardState extends State<AudioCard> {
                   ]),
                 ),
               );
-            })
-        );
+            }));
   }
 
   void choiceAction(String choice) {
@@ -176,6 +174,14 @@ class _AudioCardState extends State<AudioCard> {
       Share.share(api +
           'song/file/' +
           widget.songs[widget.dataProvider.currentSongIndex].id.toString());
-    } else {}
+    } else {
+      widget.dataProvider.download(
+          api +
+              'song/file/' +
+              widget.songs[widget.dataProvider.currentSongIndex].id.toString(),
+           widget.songs[widget.dataProvider.currentSongIndex].file,
+           widget.songs[widget.dataProvider.currentSongIndex].title,
+           );
+    }
   }
 }

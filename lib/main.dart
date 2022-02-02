@@ -1,15 +1,17 @@
-// ignore: unused_import
-import 'package:abulfadhwl_android/constants/api.dart';
+import 'dart:convert';
+
 import 'package:abulfadhwl_android/views/components/page_manager.dart';
 import 'package:abulfadhwl_android/services/service_locator.dart';
 import 'package:abulfadhwl_android/views/initial_pages/animated_splash_screen.dart';
-// import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
 
+const debug = true;
 
 void main() async {
   await setupServiceLocator();
@@ -30,7 +32,6 @@ class Abulfadhwl extends StatefulWidget {
 }
 
 class _AbulfadhwlState extends State<Abulfadhwl> {
-  
   final DataProvider _dataProvider = DataProvider();
 
   @override
@@ -47,16 +48,39 @@ class _AbulfadhwlState extends State<Abulfadhwl> {
     _dataProvider.getAllStreams();
     _dataProvider.getAllLinks();
     _dataProvider.getAllAnswers();
-  
 
-    // AssetsAudioPlayer.setupNotificationsOpenAction((notification) {
-    //   return true;
-    // });
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    // AndroidInitializationSettings('app_icon');
+    final MacOSInitializationSettings initializationSettingsMacOS =
+        MacOSInitializationSettings();
+    final InitializationSettings initializationSettings =
+        InitializationSettings(
+            android: initializationSettingsAndroid,
+            macOS: initializationSettingsMacOS);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: selectNotification
+        );
+    super.initState();
+
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  }
+
+ void selectNotification(String? json) async {
+    final obj = jsonDecode(json!);
+
+    if (obj['isSuccess']) {
+      OpenFile.open(obj['filePath']);
+    } else {
+      print("Eraaaaaaaaa");
+    }
   }
 
   @override
   void dispose() {
-        getIt<PageManager>().dispose();
+    getIt<PageManager>().dispose();
 
     _dataProvider.dispose();
     super.dispose();

@@ -14,6 +14,13 @@ import 'package:abulfadhwl_android/models/history.dart';
 import 'package:abulfadhwl_android/models/link.dart';
 import 'package:abulfadhwl_android/models/slide.dart';
 import 'package:abulfadhwl_android/models/stream.dart';
+import 'dart:io';
+import 'package:dio/dio.dart';
+import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:path/path.dart' as path;
 
 typedef void OnError(Exception exception);
 
@@ -26,9 +33,178 @@ class DataProvider extends ChangeNotifier {
   Song currentSong =
       Song(id: 0, albumId: 0, title: "", description: "", file: "");
 
-  @override
-  void dispose() {
-    super.dispose();
+  final Dio _dio = Dio();
+
+  String progress = "0";
+  String downloadedFile = "";
+
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  Future<void> _showGroupedNotifications() async {
+    const String groupKey = 'com.android.example.WORK_EMAIL';
+    const String groupChannelId = 'grouped channel id';
+    const String groupChannelName = 'grouped channel name';
+    const String groupChannelDescription = 'grouped channel description';
+    // example based on https://developer.android.com/training/notify-user/group.html
+    const AndroidNotificationDetails firstNotificationAndroidSpecifics =
+        AndroidNotificationDetails(groupChannelId, groupChannelName,
+            channelDescription: groupChannelDescription,
+            importance: Importance.max,
+            priority: Priority.high,
+            groupKey: groupKey);
+    const NotificationDetails firstNotificationPlatformSpecifics =
+        NotificationDetails(android: firstNotificationAndroidSpecifics);
+    await flutterLocalNotificationsPlugin.show(1, 'Alex Faarborg',
+        'You will not believe...', firstNotificationPlatformSpecifics);
+    const AndroidNotificationDetails secondNotificationAndroidSpecifics =
+        AndroidNotificationDetails(groupChannelId, groupChannelName,
+            channelDescription: groupChannelDescription,
+            importance: Importance.max,
+            priority: Priority.high,
+            groupKey: groupKey);
+    const NotificationDetails secondNotificationPlatformSpecifics =
+        NotificationDetails(android: secondNotificationAndroidSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+        2,
+        'Jeff Chang',
+        'Please join us to celebrate the...',
+        secondNotificationPlatformSpecifics);
+    const List<String> lines = <String>[
+      'Alex Faarborg  Check this out',
+      'Jeff Chang    Launch Party'
+    ];
+    const InboxStyleInformation inboxStyleInformation = InboxStyleInformation(
+        lines,
+        contentTitle: '2 messages',
+        summaryText: 'janedoe@example.com');
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(groupChannelId, groupChannelName,
+            channelDescription: groupChannelDescription,
+            styleInformation: inboxStyleInformation,
+            groupKey: groupKey,
+            setAsGroupSummary: true);
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+        3, 'Attention', 'Two messages', platformChannelSpecifics);
+  }
+
+  Future<void> _showFinalNotification(
+      Map<String, dynamic> downloadStatus) async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails('your channel id', 'your channel name',
+            channelDescription: 'your channel description',
+            importance: Importance.max,
+            priority: Priority.high,
+            color: Colors.orange,
+            ticker: 'ticker');
+    final json = jsonEncode(downloadStatus);
+    final isSuccess = downloadStatus['isSuccess'];
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+        0, // notification id
+        isSuccess ? 'Success' : 'Failure',
+        isSuccess
+            ? downloadedFile
+            : 'There was an error while downloading the file.',
+        platformChannelSpecifics,
+        payload: json);
+  }
+
+  Future<Directory?> _getDownloadDirectory() async {
+    if (Platform.isAndroid) {
+      return await DownloadsPathProvider.downloadsDirectory;
+    }
+
+    return await getApplicationDocumentsDirectory();
+  }
+
+  void _onReceiveProgress(int received, int total) async {
+    if (total != -1) {
+      notifyListeners();
+      progress = (received / total * 100).toStringAsFixed(0) + "%";
+    await  _showGroupedNotifications();
+      // await _showProgressNotification(received, total);
+
+      notifyListeners();
+      print('$progress');
+    }
+  }
+
+  Future<void> _startDownload(
+      String url, String fileName, String fileTitle, String savePath) async {
+    downloadedFile = fileTitle;
+    notifyListeners();
+    Map<String, dynamic> result = {
+      'isSuccess': false,
+      'filePath': null,
+      'error': null,
+    };
+
+    try {
+      final response = await _dio.download(url, savePath,
+          onReceiveProgress: _onReceiveProgress);
+      result['isSuccess'] = response.statusCode == 200;
+      result['filePath'] = savePath;
+      notifyListeners();
+    } catch (ex) {
+      result['error'] = ex.toString();
+    } finally {
+      // await _showFinalNotification(result);
+      notifyListeners();
+    }
+  }
+
+  Future<void> _showProgressNotification(int rec, int tot) async {
+    notifyListeners();
+
+    final AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'progress channel',
+      'progress channel',
+      channelDescription: 'progress channel description',
+      channelShowBadge: false,
+      importance: Importance.max,
+      priority: Priority.high,
+      onlyAlertOnce: true,
+      enableVibration: false,
+      showProgress: true,
+      maxProgress: tot,
+      progress: rec,
+      color: Colors.orange,
+    );
+    notifyListeners();
+    final NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.show(
+        0, downloadedFile, '$progress', platformChannelSpecifics,
+        payload: 'none');
+
+    notifyListeners();
+  }
+
+  Future<void> download(String url, String fileName, String fileTitle) async {
+    final dir = await _getDownloadDirectory();
+    final isPermissionStatusGranted = await requestPermission();
+
+    if (isPermissionStatusGranted) {
+      final savePath = path.join(dir!.path, fileName);
+      await _startDownload(url, fileName, fileTitle, savePath);
+    } else {
+      // handle the scenario when user declines the permissions
+    }
+  }
+
+  requestPermission() async {
+    Map<Permission, PermissionStatus> statuses = await [
+      Permission.storage,
+    ].request();
+
+    final info = statuses[Permission.storage].toString();
+    print(info);
+    return true;
   }
 
 //

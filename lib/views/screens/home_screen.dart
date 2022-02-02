@@ -12,7 +12,8 @@ import 'package:abulfadhwl_android/views/other_pages/drawer_page.dart';
 class MyImage {
   final String url;
   final String name;
-  const MyImage(this.url, this.name);
+  final String title;
+  const MyImage(this.url, this.name, this.title);
 }
 
 class HomeScreen extends StatefulWidget {
@@ -32,8 +33,10 @@ class _HomeScreenState extends State<HomeScreen> {
     final arr = <MyImage>[];
     for (var i = 0; i < widget.dataProvider.slides.length; i++) {
       arr.add(MyImage(
-          api + 'slide/file/' + widget.dataProvider.slides[i].id.toString(),
-          widget.dataProvider.slides[i].number.toString()));
+        api + 'slide/file/' + widget.dataProvider.slides[i].id.toString(),
+        widget.dataProvider.slides[i].file,
+        "Picha namba: "+widget.dataProvider.slides[i].number.toString(),
+      ));
     }
 
     return Scaffold(
@@ -134,10 +137,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                   textDirection: TextDirection.ltr,
                                   bottom: 15,
                                   start: 25,
-                                  child: Opacity(
-                                    opacity: progress > 1
-                                        ? (2 - progress)
-                                        : progress,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        primary: Colors.orange[50]),
+                                    child: Icon(Icons.download),
+                                    onPressed: () {
+                                      _dataObject.download(
+                                          arr[index].url, arr[index].name,
+                                          arr[index].title );
+                                      print(arr[index].url);
+                                    },
                                   ));
                             },
                             scrollDirection: Axis.vertical,

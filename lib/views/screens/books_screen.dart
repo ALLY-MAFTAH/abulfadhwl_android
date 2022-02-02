@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image/network.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class BooksScreen extends StatefulWidget {
   @override
@@ -145,8 +144,10 @@ class _BooksScreenState extends State<BooksScreen> {
                                             Navigator.push(context,
                                                 MaterialPageRoute(builder: (_) {
                                               return BookReader(
-                                                  bookTitle: _dataObject
+                                                  pdfTitle: _dataObject
                                                       .books[index].title,
+                                                  pdfName: _dataObject
+                                                      .books[index].file,
                                                   pdfUrl: api +
                                                       'book/file/' +
                                                       _dataObject
@@ -188,8 +189,10 @@ class _BooksScreenState extends State<BooksScreen> {
                                         Navigator.push(context,
                                             MaterialPageRoute(builder: (_) {
                                           return BookReader(
-                                              bookTitle: _dataObject
+                                              pdfTitle: _dataObject
                                                   .articles[index].title,
+                                              pdfName: _dataObject
+                                                  .articles[index].file,
                                               pdfUrl: articleUrl);
                                         }));
                                       },

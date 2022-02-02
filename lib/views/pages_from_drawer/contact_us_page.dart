@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, import_of_legacy_library_into_null_safe
 
 import 'package:abulfadhwl_android/models/link.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
