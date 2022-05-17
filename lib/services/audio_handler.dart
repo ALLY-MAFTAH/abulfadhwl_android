@@ -8,7 +8,8 @@ Future<AudioHandler> initAudioService() async {
       androidNotificationChannelId: 'com.mycompany.myapp.audio',
       androidNotificationChannelName: 'Abulfadhwl App',
       androidNotificationOngoing: true,
-      androidStopForegroundOnPause: true,   ),
+      androidStopForegroundOnPause: true,
+    ),
   );
 }
 
@@ -156,12 +157,13 @@ class MyAudioHandler extends BaseAudioHandler {
 
   @override
   Future<void> skipToQueueItem(int index) async {
+    await _player.stop();
     if (index < 0 || index >= queue.value.length) return;
     if (_player.shuffleModeEnabled) {
       index = _player.shuffleIndices![index];
     }
-    _player.seek(Duration.zero, index: index);
-
+    await _player.seek(Duration.zero, index: index);
+    await _player.play();
   }
 
   @override

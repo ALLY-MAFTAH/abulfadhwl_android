@@ -1,14 +1,12 @@
-import 'package:abulfadhwl_android/models/song.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:abulfadhwl_android/views/components/controls.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 class NowPlayingScreenSheet extends StatefulWidget {
-  final List<Song> songs;
   final DataProvider dataProvider;
 
   NowPlayingScreenSheet(
-      {Key? key, required this.songs, required this.dataProvider})
+      {Key? key, required this.dataProvider})
       : super(key: key);
 
   @override

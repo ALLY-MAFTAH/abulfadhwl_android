@@ -7,7 +7,6 @@ import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:abulfadhwl_android/services/playlist_repository.dart';
 import 'package:abulfadhwl_android/services/service_locator.dart';
 import 'package:audio_service/audio_service.dart';
-// import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:share/share.dart';
@@ -29,8 +28,7 @@ class AudioCard extends StatefulWidget {
 
 class _AudioCardState extends State<AudioCard> {
   final _audioHandler = getIt<AudioHandler>();
-
-  int newIndex = 0;
+  final pageManager = getIt<PageManager>();
 
   @override
   void initState() {
@@ -39,41 +37,43 @@ class _AudioCardState extends State<AudioCard> {
 
   @override
   Widget build(BuildContext context) {
-    final pageManager = getIt<PageManager>();
-
     return Padding(
         padding: const EdgeInsets.only(left: 5, top: 1.5, right: 5),
-        child: ValueListenableBuilder<ButtonState>(
+        child: ValueListenableBuilder(
             valueListenable: pageManager.playButtonNotifier,
             builder: (_, value, __) {
               return InkWell(
-                onTap: () async {
-                  widget.dataProvider.currentSong = widget.songs[widget.index];
-                  widget.dataProvider.songs = widget.songs;
-                  print(widget.dataProvider.songs);
-                  print(widget.dataProvider.songs.length);
+                onTap: () {
+                  setState(() async {
+                    widget.dataProvider.songs = widget.songs;
+                    widget.dataProvider.currentSongIndex = widget.index;
+                    widget.dataProvider.currentSong =
+                        widget.dataProvider.songs[widget.index];
+                    print(widget.dataProvider.songs);
+                    print(widget.dataProvider.songs.length);
 
-                  pageManager.remove();
-                  final songRepository = getIt<DemoPlaylist>();
-                  final playlist = await songRepository.fetchInitialPlaylist(
-                      widget.dataProvider.songs,
-                      widget.dataProvider.currentAlbumName);
-                  final mediaItems = playlist
-                      .map((song) => MediaItem(
-                            id: song['id'] ?? '',
-                            album: song['album'] ?? '',
-                            title: song['title'] ?? '',
-                            extras: {'url': song['url']},
-                            artist: "Abul Fadhwl Kassim Mafuta Kassim",
-                          ))
-                      .toList();
+                    pageManager.remove();
+                    final songRepository = getIt<DemoPlaylist>();
+                    final playlist = await songRepository.fetchInitialPlaylist(
+                        widget.dataProvider.songs,
+                        widget.dataProvider.currentAlbumName);
+                    final mediaItems = playlist
+                        .map((song) => MediaItem(
+                              id: song['id'] ?? '',
+                              album: song['album'] ?? '',
+                              title: song['title'] ?? '',
+                              extras: {'url': song['url']},
+                              artist: "Abul Fadhwl Kassim Mafuta Kassim",
+                            ))
+                        .toList();
 
-                  _audioHandler.addQueueItems(mediaItems);
-                  _audioHandler.skipToQueueItem(widget.index);
+                    await _audioHandler.addQueueItems(mediaItems);
+                    await _audioHandler.skipToQueueItem(widget.index);
+                  });
                 },
                 child: Card(
-                  color: widget.dataProvider.currentSong.id ==
-                          widget.songs[widget.index].id
+                  color: _audioHandler.mediaItem.value?.title ==
+                          widget.songs[widget.index].title
                       ? Colors.orange[50]
                       : Colors.white,
                   child: Row(children: <Widget>[
@@ -93,8 +93,8 @@ class _AudioCardState extends State<AudioCard> {
                                 style: TextStyle(
                                     fontSize: 14,
                                     fontWeight:
-                                        widget.dataProvider.currentSong.id ==
-                                                widget.songs[widget.index].id
+                                        _audioHandler.mediaItem.value?.title ==
+                                                widget.songs[widget.index].title
                                             ? FontWeight.bold
                                             : FontWeight.normal),
                               ),
@@ -107,8 +107,8 @@ class _AudioCardState extends State<AudioCard> {
                                     fontSize: 12,
                                     color: Colors.grey[600],
                                     fontWeight:
-                                        widget.dataProvider.currentSong.id ==
-                                                widget.songs[widget.index].id
+                                        _audioHandler.mediaItem.value?.title ==
+                                                widget.songs[widget.index].title
                                             ? FontWeight.bold
                                             : FontWeight.normal),
                               ),
@@ -118,8 +118,8 @@ class _AudioCardState extends State<AudioCard> {
                       ),
                     ),
                     Container(
-                      child: widget.dataProvider.currentSong.id ==
-                              widget.songs[widget.index].id
+                      child: _audioHandler.mediaItem.value?.title ==
+                              widget.songs[widget.index].title
                           ? Padding(
                               padding: EdgeInsets.only(right: 12, left: 5),
                               child: Icon(
@@ -160,28 +160,44 @@ class _AudioCardState extends State<AudioCard> {
 
   void choiceAction(String choice) {
     if (choice == MoreButtonConstants.PlayAudio) {
-      setState(() {
-        newIndex = widget.dataProvider.currentSongIndex;
+      setState(() async {
+        widget.dataProvider.currentSongIndex = widget.index;
+        widget.dataProvider.songs = widget.songs;
         widget.dataProvider.currentSong =
-            widget.songs[widget.dataProvider.currentSongIndex];
+            widget.dataProvider.songs[widget.index];
+        print(widget.dataProvider.songs);
+        print(widget.dataProvider.songs.length);
 
-        // widget.dataProvider.playingItem = widget
-        //     .dataProvider.audioPlaylist[widget.dataProvider.currentSongIndex];
-
-        // widget.onSelected(playingItem);
+        pageManager.remove();
+        final songRepository = getIt<DemoPlaylist>();
+        final playlist = await songRepository.fetchInitialPlaylist(
+            widget.dataProvider.songs, widget.dataProvider.currentAlbumName);
+        final mediaItems = playlist
+            .map((song) => MediaItem(
+                  id: song['id'] ?? '',
+                  album: song['album'] ?? '',
+                  title: song['title'] ?? '',
+                  extras: {'url': song['url']},
+                  artist: "Abul Fadhwl Kassim Mafuta Kassim",
+                ))
+            .toList();
+        await _audioHandler.addQueueItems(mediaItems);
+        await _audioHandler.skipToQueueItem(widget.index);
       });
     } else if (choice == MoreButtonConstants.ShareAudio) {
       Share.share(api +
           'song/file/' +
-          widget.songs[widget.dataProvider.currentSongIndex].id.toString());
+          widget.dataProvider.songs[widget.dataProvider.currentSongIndex].id
+              .toString());
     } else {
       widget.dataProvider.download(
-          api +
-              'song/file/' +
-              widget.songs[widget.dataProvider.currentSongIndex].id.toString(),
-           widget.songs[widget.dataProvider.currentSongIndex].file,
-           widget.songs[widget.dataProvider.currentSongIndex].title,
-           );
+        api +
+            'song/file/' +
+            widget.dataProvider.songs[widget.dataProvider.currentSongIndex].id
+                .toString(),
+        widget.dataProvider.songs[widget.dataProvider.currentSongIndex].file,
+        widget.dataProvider.songs[widget.dataProvider.currentSongIndex].title,
+      );
     }
   }
 }

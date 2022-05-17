@@ -39,7 +39,7 @@ class _AudiosScreenState extends State<AudiosScreen> {
           itemBuilder: (BuildContext context, int index) {
             return AlbumCard(
               album: category.albums[index],
-              songs: category.albums[index].songs,
+              // songs: category.albums[index].songs,
             );
           },
           itemCount: category.albums.length,

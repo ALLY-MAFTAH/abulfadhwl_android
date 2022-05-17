@@ -117,8 +117,7 @@ class _SongsListState extends State<SongsList> {
                                         SingleChildScrollView(
                                           scrollDirection: Axis.horizontal,
                                           child: Text(
-                                            widget.dataProvider.currentSong
-                                                .description,
+                                            "Sheikh Abul Fadhwl Kassim Mafuta Kassim",
                                             maxLines: 1,
                                             style: TextStyle(
                                                 fontSize: 13,
@@ -130,6 +129,7 @@ class _SongsListState extends State<SongsList> {
                                   ),
                                 ),
                                 Container(
+                                  margin: EdgeInsets.only(right: 10),
                                   child: PlayButton(),
                                 ),
                               ]),
@@ -149,7 +149,7 @@ class _SongsListState extends State<SongsList> {
     });
     _scaffoldKey.currentState!
         .showBottomSheet((_) => NowPlayingScreenSheet(
-              songs: widget.songs,
+              // songs: widget.songs,
               dataProvider: widget.dataProvider,
             ))
         .closed

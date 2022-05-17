@@ -1,3 +1,4 @@
+import 'package:abulfadhwl_android/models/song.dart';
 import 'package:abulfadhwl_android/notifiers/play_button_notifier.dart';
 import 'package:abulfadhwl_android/notifiers/progress_notifier.dart';
 import 'package:abulfadhwl_android/notifiers/repeat_button_notifier.dart';
@@ -16,7 +17,7 @@ class CurrentSongTitle extends StatelessWidget {
       valueListenable: pageManager.currentSongTitleNotifier,
       builder: (_, title, __) {
         return SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
+          scrollDirection: Axis.horizontal,
           child: Text(title,
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
         );
@@ -92,7 +93,8 @@ class AudioProgressBar extends StatelessWidget {
 }
 
 class AudioControlButtons extends StatelessWidget {
-  const AudioControlButtons({Key? key}) : super(key: key);
+  final List<Song> songs;
+  const AudioControlButtons({Key? key, required this.songs}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -174,8 +176,10 @@ class PlayButton extends StatelessWidget {
         switch (value) {
           case ButtonState.loading:
             return Padding(
-              padding: const EdgeInsets.all(17),
+              padding: const EdgeInsets.all(15),
               child: Container(
+                height: 30,
+                width: 30,
                 child: CircularProgressIndicator(),
               ),
             );

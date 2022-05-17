@@ -11,9 +11,11 @@ import 'package:abulfadhwl_android/views/other_pages/songs_list.dart';
 
 class AlbumCard extends StatefulWidget {
   final Album album;
-  final List<Song> songs;
+  // final List<Song> songs;
 
-  const AlbumCard({Key? key, required this.album, required this.songs})
+  const AlbumCard({Key? key, required this.album, 
+  // required this.songs
+  })
       : super(key: key);
 
   @override
@@ -56,7 +58,7 @@ class _AlbumCardState extends State<AlbumCard> {
                     child: Row(
                       children: <Widget>[
                         Icon(
-                          FontAwesomeIcons.fileAudio,
+                          Icons.folder
                         ),
                         Expanded(
                           child: Container(

@@ -115,8 +115,12 @@ class PageManager {
 
   void seek(Duration position) => _audioHandler.seek(position);
 
-  void previous() => _audioHandler.skipToPrevious();
-  void next() => _audioHandler.skipToNext();
+  void previous() =>
+    _audioHandler.skipToPrevious();
+   
+  void next() =>
+    _audioHandler.skipToNext();
+   
 
   void repeat() {
     repeatButtonNotifier.nextState();

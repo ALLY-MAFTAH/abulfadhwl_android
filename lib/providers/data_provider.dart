@@ -125,8 +125,8 @@ class DataProvider extends ChangeNotifier {
     if (total != -1) {
       notifyListeners();
       progress = (received / total * 100).toStringAsFixed(0) + "%";
-    await  _showGroupedNotifications();
-      // await _showProgressNotification(received, total);
+    // await  _showGroupedNotifications();
+      await _showProgressNotification(received, total);
 
       notifyListeners();
       print('$progress');
@@ -165,7 +165,7 @@ class DataProvider extends ChangeNotifier {
       'progress channel',
       'progress channel',
       channelDescription: 'progress channel description',
-      channelShowBadge: false,
+      channelShowBadge: true,
       importance: Importance.max,
       priority: Priority.high,
       onlyAlertOnce: true,
