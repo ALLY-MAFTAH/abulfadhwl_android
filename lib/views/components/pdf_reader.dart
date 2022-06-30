@@ -166,14 +166,16 @@ class _BookReaderState extends State<BookReader> {
               }
             },
                     controller: _pdfViewerController,
-                    searchTextHighlightColor: Colors.orange)),
+                    // searchTextHighlightColor: Colors.orange
+                    )),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.download),
         onPressed: () {
-          _dataProvider.download(widget.pdfUrl, widget.pdfName, widget.pdfTitle);
+          _dataProvider.download(
+              widget.pdfUrl, widget.pdfName, widget.pdfTitle);
         },
       ),
     );

@@ -1,20 +1,15 @@
 import 'package:abulfadhwl_android/models/album.dart';
-import 'package:abulfadhwl_android/models/song.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:abulfadhwl_android/services/service_locator.dart';
 import 'package:abulfadhwl_android/views/components/page_manager.dart';
-// import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:abulfadhwl_android/views/other_pages/songs_list.dart';
 
 class AlbumCard extends StatefulWidget {
   final Album album;
-  // final List<Song> songs;
 
   const AlbumCard({Key? key, required this.album, 
-  // required this.songs
   })
       : super(key: key);
 

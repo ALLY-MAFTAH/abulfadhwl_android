@@ -4,7 +4,7 @@ import 'package:abulfadhwl_android/constants/api.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:animated_image_list/AnimatedImageList.dart';
 import 'package:flutter/material.dart';
-import 'package:marquee_flutter/marquee_flutter.dart';
+import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 import 'package:abulfadhwl_android/views/pages_from_drawer/announcements_page.dart';
 import 'package:abulfadhwl_android/views/other_pages/drawer_page.dart';
@@ -80,9 +80,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fit: BoxFit.fill,
                               ),
                               Expanded(
-                                child: MarqueeWidget(
+                                child: Marquee(
                                   text: _dataObject.announcements[0].news,
-                                  textStyle:
+                                 style:
                                       TextStyle(fontWeight: FontWeight.bold),
                                 ),
                               ),
@@ -125,9 +125,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: const EdgeInsets.all(0),
                     child: Container(
+                      margin: const EdgeInsets.all(15),
                         height: MediaQuery.of(context).size.height,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
+                          color: Colors.orange[100]
                         ),
                         child: Container(
                           child: AnimatedImageList(
@@ -139,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   start: 25,
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                        primary: Colors.orange[50]),
+                                        primary: Colors.orange[100]),
                                     child: Icon(Icons.download),
                                     onPressed: () {
                                       _dataObject.download(

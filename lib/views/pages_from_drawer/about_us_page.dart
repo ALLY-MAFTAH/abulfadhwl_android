@@ -2,7 +2,7 @@
 
 import 'package:abulfadhwl_android/home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:marquee_flutter/marquee_flutter.dart';
+import 'package:marquee/marquee.dart';
 import 'package:share/share.dart';
 
 class AboutUs extends StatelessWidget {
@@ -88,9 +88,9 @@ class AboutUs extends StatelessWidget {
             ),
             Container(
               height: 25,
-              child: MarqueeWidget(
+              child: Marquee(
                 text: 'Ndugu Katika Imani Usitusahau Katika Dua Zako  ',
-                textStyle: TextStyle(),
+                style: TextStyle(),
               ),
             ),
           ],

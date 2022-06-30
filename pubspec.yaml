@@ -34,7 +34,7 @@ dependencies:
   provider: any
   shared_preferences: any
   url_launcher: any
-  marquee_flutter: ^0.1.4
+  marquee: ^2.2.3
   share: any
   flutter_image: any
   selectable_autolink_text: any
