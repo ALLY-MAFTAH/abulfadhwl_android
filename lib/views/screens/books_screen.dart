@@ -98,16 +98,17 @@ class _BooksScreenState extends State<BooksScreen> {
                                         ),
                                         InkWell(
                                             onTap: () {
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                      builder: (_) {
-                                                return BookInfoDisplay(
-                                                  bookDetails:
-                                                      _dataObject.books[index],
-                                                  tagNum: _dataObject
-                                                      .books[index].id,
-                                                );
-                                              }));
+                                              // Navigator.push(context,
+                                              //     MaterialPageRoute(
+                                              //         builder: (_) {
+                                              //   return BookInfoDisplay(
+                                              //     bookDetails:
+                                              //         _dataObject.books[index],
+                                              //     tagNum: _dataObject
+                                              //         .books[index].id,
+                                              //   );
+                                              // }));
+                                              
                                             },
                                             child: Hero(
                                               child: Container(

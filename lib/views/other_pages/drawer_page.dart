@@ -36,7 +36,7 @@ class DrawerPage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "قاسم ابن مفوتا بن قاسم",
+                    " الشيخ قاسم ابن مفوتا بن قاسم",
                     style:
                         TextStyle(fontSize: 15.0, fontWeight: FontWeight.bold),
                   ),
@@ -51,6 +51,7 @@ class DrawerPage extends StatelessWidget {
                       children: <Widget>[
                         Icon(
                           Icons.radio,
+                          color: Colors.black,
                         ),
                         SizedBox(
                           width: 10,
@@ -73,6 +74,7 @@ class DrawerPage extends StatelessWidget {
                       children: <Widget>[
                         Icon(
                           Icons.live_help,
+                          color: Colors.black,
                         ),
                         SizedBox(
                           width: 10,
@@ -95,6 +97,7 @@ class DrawerPage extends StatelessWidget {
                       children: <Widget>[
                         Icon(
                           Icons.announcement,
+                          color: Colors.black,
                         ),
                         SizedBox(
                           width: 10,
@@ -119,6 +122,7 @@ class DrawerPage extends StatelessWidget {
                       children: <Widget>[
                         Icon(
                           Icons.info,
+                          color: Colors.black,
                         ),
                         SizedBox(
                           width: 10,
@@ -141,6 +145,7 @@ class DrawerPage extends StatelessWidget {
                       children: <Widget>[
                         Icon(
                           Icons.contacts,
+                          color: Colors.black,
                         ),
                         SizedBox(
                           width: 10,
@@ -165,6 +170,7 @@ class DrawerPage extends StatelessWidget {
                       children: <Widget>[
                         Icon(
                           Icons.settings,
+                          color: Colors.black,
                         ),
                         SizedBox(
                           width: 10,

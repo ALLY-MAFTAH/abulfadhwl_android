@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
           currentIndex: _currentIndex,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.home), label: 'Mwanzo'),
+                icon: Icon(FontAwesomeIcons.house), label: 'Mwanzo'),
             BottomNavigationBarItem(
                 icon: Icon(FontAwesomeIcons.book), label: 'Vitabu na Makala'),
             BottomNavigationBarItem(

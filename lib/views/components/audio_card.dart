@@ -122,7 +122,7 @@ class _AudioCardState extends State<AudioCard> {
                           ? Padding(
                               padding: EdgeInsets.only(right: 12, left: 5),
                               child: Icon(
-                                FontAwesomeIcons.playCircle,
+                                FontAwesomeIcons.circlePlay,
                               ),
                             )
                           : PopupMenuButton<String>(

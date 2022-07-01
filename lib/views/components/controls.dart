@@ -73,8 +73,14 @@ class AddRemoveSongButtons extends StatelessWidget {
   }
 }
 
-class AudioProgressBar extends StatelessWidget {
+class AudioProgressBar extends StatefulWidget {
   const AudioProgressBar({Key? key}) : super(key: key);
+
+  @override
+  State<AudioProgressBar> createState() => _AudioProgressBarState();
+}
+
+class _AudioProgressBarState extends State<AudioProgressBar> {
   @override
   Widget build(BuildContext context) {
     final pageManager = getIt<PageManager>();

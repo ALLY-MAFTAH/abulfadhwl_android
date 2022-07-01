@@ -210,7 +210,7 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Icon(
-                      FontAwesomeIcons.calendarAlt,
+                      FontAwesomeIcons.calendarDays,
                       size: 20,
                     ),
                     SizedBox(width: 10),
