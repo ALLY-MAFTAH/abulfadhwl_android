@@ -1,4 +1,3 @@
-
 import 'package:abulfadhwl_android/models/album.dart';
 
 class SongCategory {
@@ -21,12 +20,7 @@ class SongCategory {
         id = map['id'],
         name = map['name'],
         description = map['description'],
-        albums = 
-        // map['albums'] != null
-            // ?
-             (map['albums'] as List)
-                .map((album) => Album.fromMap(album))
-                .toList()
-            // : null
-            ;
+        albums = (map['albums'] as List)
+            .map((album) => Album.fromMap(album))
+            .toList();
 }

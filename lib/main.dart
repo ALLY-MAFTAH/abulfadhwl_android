@@ -48,6 +48,7 @@ class _AbulfadhwlState extends State<Abulfadhwl> {
     _dataProvider.getAllStreams();
     _dataProvider.getAllLinks();
     _dataProvider.getAllAnswers();
+    _dataProvider.getAllSongs();
 
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
@@ -92,17 +93,14 @@ class _AbulfadhwlState extends State<Abulfadhwl> {
       providers: [
         ChangeNotifierProvider.value(
           value: _dataProvider,
-        ),
-        ChangeNotifierProvider.value(
-          value: _dataProvider,
-        ),
+        )
       ],
       child: MaterialApp(
         title: 'Abul Fadhwl App',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             textTheme: GoogleFonts.gelasioTextTheme(),
-            primarySwatch: Colors.orange),
+            primarySwatch: Colors.orange ),
         home: AnimatedSplashScreen(),
       ),
     );

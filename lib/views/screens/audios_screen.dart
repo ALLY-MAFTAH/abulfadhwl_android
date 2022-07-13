@@ -5,14 +5,14 @@ import 'package:abulfadhwl_android/views/other_pages/drawer_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../components/custom_search_delegate.dart';
+
 class AudiosScreen extends StatefulWidget {
   final List<SongCategory> songCategories;
   final DataProvider dataProvider;
 
   const AudiosScreen(
-      {Key? key,
-      required this.songCategories,
-      required this.dataProvider})
+      {Key? key, required this.songCategories, required this.dataProvider})
       : super(key: key);
 
   @override
@@ -32,7 +32,7 @@ class _AudiosScreenState extends State<AudiosScreen> {
         text: category.name,
       ));
       _screens.add(RefreshIndicator(
-              onRefresh: widget.dataProvider.reloadPage,
+        onRefresh: widget.dataProvider.reloadPage,
         child: ListView.builder(
           physics: const BouncingScrollPhysics(
               parent: AlwaysScrollableScrollPhysics()),
@@ -86,7 +86,12 @@ class _AudiosScreenState extends State<AudiosScreen> {
                 actions: <Widget>[
                   IconButton(
                     icon: Icon(Icons.search),
-                    onPressed: () {},
+                    onPressed: () {
+                      showSearch(
+                          context: context,
+                          // delegate to customize the search bar
+                          delegate: CustomSearchDelegate());
+                    },
                   )
                 ],
               ),
@@ -120,5 +125,4 @@ class _AudiosScreenState extends State<AudiosScreen> {
             ),
           );
   }
-
 }

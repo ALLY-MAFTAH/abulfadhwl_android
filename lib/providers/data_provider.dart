@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:abulfadhwl_android/models/album.dart';
 import 'package:abulfadhwl_android/models/song.dart';
 import 'package:abulfadhwl_android/models/song_category.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,7 @@ class DataProvider extends ChangeNotifier {
   int currentAlbumId = 0;
   String currentAlbumName = "";
   List<Song> songs = [];
+  List<Song> _audios = [];
   Song currentSong =
       Song(id: 0, albumId: 0, title: "", description: "", file: "");
 
@@ -125,7 +127,7 @@ class DataProvider extends ChangeNotifier {
     if (total != -1) {
       notifyListeners();
       progress = (received / total * 100).toStringAsFixed(0) + "%";
-    // await  _showGroupedNotifications();
+      // await  _showGroupedNotifications();
       await _showProgressNotification(received, total);
 
       notifyListeners();
@@ -552,19 +554,34 @@ class DataProvider extends ChangeNotifier {
     }
   }
 
+  List<Song> get audios => _audios;
+  set setAudios(List emptyaudios) => _audios = [];
+
+  Future<void> getAllSongs() async {
+    List<Song> _fetchedAudios = [];
+    try {
+      final response = await http.get(Uri.parse(api + 'songs/'));
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        data['songs'].forEach(($audio) {
+          final dataSet = Song.fromMap($audio);
+          _fetchedAudios.add(dataSet);
+        });
+
+        _audios = _fetchedAudios;
+        print(_audios);
+        print(_audios.length);
+      }
+    } catch (e) {
+      print('Mambo yamejitindinganya');
+      print(e);
+    }
+  }
+
   //
   // ************** PAGE RELOAD
   Future<void> reloadPage() async {
-    // setAnnouncements = [];
-    // setAnswers = [];
-    // setArticles = [];
-    // setBooks = [];
-    // setHistories = [];
-    // setLInks = [];
-    // setSlides = [];
-    // setStreams = [];
-    // setCategories = [];
-
     getAllAnnouncements();
     getAllAnswers();
     getAllArticles();
@@ -574,6 +591,7 @@ class DataProvider extends ChangeNotifier {
     getAllSlides();
     getAllStreams();
     getAllCategories();
+    getAllSongs();
     notifyListeners();
   }
 }

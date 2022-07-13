@@ -131,7 +131,6 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                                     widget.bookDetails.id.toString(),
                                 widget.bookDetails.file,
                                 widget.bookDetails.title,
-                                
                                 );
                           },
                         ),

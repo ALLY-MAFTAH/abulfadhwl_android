@@ -27,3 +27,4 @@ class Album {
         songs =
             (map['songs'] as List).map((song) => Song.fromMap(song)).toList();
 }
+

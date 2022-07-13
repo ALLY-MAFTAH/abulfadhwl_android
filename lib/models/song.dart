@@ -5,7 +5,6 @@ class Song {
   final String title;
   final String description;
   final String file;
-  // bool isPlaying;
 
   Song(
       {required this.id,
@@ -13,7 +12,6 @@ class Song {
       required this.title,
       required this.description,
       required this.file,
-      // isPlaying = false
       });
 
   Song.fromMap(Map<String, dynamic> map)
@@ -26,6 +24,5 @@ class Song {
         title = map['title'],
         albumId = map['album_id'],
         file = map['file'],
-        // isPlaying=false,
         description = map['description'];
 }
