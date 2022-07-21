@@ -180,6 +180,21 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                   )
                 ])),
                 SliverList(
+                    delegate: SliverChildListDelegate([
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20, bottom: 5),
+                    child: _dataObject.answers.isNotEmpty
+                        ? Text(
+                            'MASWALI YALIYOJIBIWA',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          )
+                        : Container(),
+                  )
+                ])),
+                SliverList(
                     delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {
                   int qnsNumber = 1 + index;

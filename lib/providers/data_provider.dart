@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:abulfadhwl_android/models/album.dart';
 import 'package:abulfadhwl_android/models/song.dart';
 import 'package:abulfadhwl_android/models/song_category.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +31,8 @@ class DataProvider extends ChangeNotifier {
   String currentAlbumName = "";
   List<Song> songs = [];
   List<Song> _audios = [];
-  Song currentSong =
-      Song(id: 0, albumId: 0, title: "", description: "", file: "");
+  Song currentSong = Song(
+      id: 0, albumId: 0, title: "", size: 0, duration: "", file: "");
 
   final Dio _dio = Dio();
 

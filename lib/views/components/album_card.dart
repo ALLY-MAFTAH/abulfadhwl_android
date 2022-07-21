@@ -9,9 +9,10 @@ import 'package:abulfadhwl_android/views/other_pages/songs_list.dart';
 class AlbumCard extends StatefulWidget {
   final Album album;
 
-  const AlbumCard({Key? key, required this.album, 
-  })
-      : super(key: key);
+  const AlbumCard({
+    Key? key,
+    required this.album,
+  }) : super(key: key);
 
   @override
   _AlbumCardState createState() => _AlbumCardState();
@@ -31,6 +32,10 @@ class _AlbumCardState extends State<AlbumCard> {
     return ValueListenableBuilder(
         valueListenable: pageManager.playButtonNotifier,
         builder: (_, value, __) {
+          double albumSize = 0;
+          for (var song in widget.album.songs) {
+            albumSize = albumSize + song.size;
+          }
           return InkWell(
               onTap: () {
                 setState(() {
@@ -52,9 +57,7 @@ class _AlbumCardState extends State<AlbumCard> {
                     padding: const EdgeInsets.all(5.0),
                     child: Row(
                       children: <Widget>[
-                        Icon(
-                          Icons.folder
-                        ),
+                        Icon(Icons.folder),
                         Expanded(
                           child: Container(
                             padding: EdgeInsets.all(5),
@@ -90,6 +93,19 @@ class _AlbumCardState extends State<AlbumCard> {
                                 )
                               ],
                             ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5),
+                          child: Text(
+                            albumSize.toString() + " MB",
+                            style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.grey[600],
+                                fontWeight: _dataProvider.currentSong.albumId ==
+                                        widget.album.id
+                                    ? FontWeight.bold
+                                    : FontWeight.normal),
                           ),
                         ),
                         Padding(

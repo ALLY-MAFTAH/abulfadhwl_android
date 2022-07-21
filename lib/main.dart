@@ -10,11 +10,13 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 const debug = true;
 
 void main() async {
   await setupServiceLocator();
+
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       systemNavigationBarColor: Colors.white,
@@ -33,11 +35,19 @@ class Abulfadhwl extends StatefulWidget {
 
 class _AbulfadhwlState extends State<Abulfadhwl> {
   final DataProvider _dataProvider = DataProvider();
+  PackageInfo _packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+    buildSignature: 'Unknown',
+  );
 
   @override
   void initState() {
     getIt<PageManager>().init();
     super.initState();
+    _initPackageInfo();
 
     _dataProvider.getAllCategories();
     _dataProvider.getAllBooks();
@@ -62,14 +72,20 @@ class _AbulfadhwlState extends State<Abulfadhwl> {
             android: initializationSettingsAndroid,
             macOS: initializationSettingsMacOS);
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: selectNotification
-        );
+        onSelectNotification: selectNotification);
     super.initState();
 
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   }
 
- void selectNotification(String? json) async {
+  Future<void> _initPackageInfo() async {
+    final info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
+  }
+
+  void selectNotification(String? json) async {
     final obj = jsonDecode(json!);
 
     if (obj['isSuccess']) {
@@ -96,11 +112,11 @@ class _AbulfadhwlState extends State<Abulfadhwl> {
         )
       ],
       child: MaterialApp(
-        title: 'Abul Fadhwl App',
+        title: _packageInfo.appName,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             textTheme: GoogleFonts.gelasioTextTheme(),
-            primarySwatch: Colors.orange ),
+            primarySwatch: Colors.orange),
         home: AnimatedSplashScreen(),
       ),
     );

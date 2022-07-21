@@ -6,9 +6,7 @@ import 'package:abulfadhwl_android/views/other_pages/drawer_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image/network.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class BooksScreen extends StatefulWidget {
   @override

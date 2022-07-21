@@ -108,7 +108,7 @@ class _SongsListState extends State<SongsList> {
                                 Expanded(
                                   child: Container(
                                     padding: EdgeInsets.only(
-                                        left: 10, top: 10, bottom: 10),
+                                        left: 10, top: 5, bottom: 5),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,

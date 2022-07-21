@@ -101,7 +101,7 @@ class _AudioCardState extends State<AudioCard> {
                             SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Text(
-                                widget.songs[widget.index].description,
+                                widget.songs[widget.index].size.toString()+' MB',
                                 style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.grey[600],
@@ -116,11 +116,25 @@ class _AudioCardState extends State<AudioCard> {
                         ),
                       ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Text(
+                        widget.songs[widget.index].duration,
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.black,
+                            fontWeight: _audioHandler.mediaItem.value?.title ==
+                                    widget.songs[widget.index].title
+                                ? FontWeight.bold
+                                : FontWeight.normal),
+                      ),
+                    ),
                     Container(
                       child: _audioHandler.mediaItem.value?.title ==
                               widget.songs[widget.index].title
                           ? Padding(
-                              padding: EdgeInsets.only(right: 12, left: 5),
+                              padding: EdgeInsets.only(right: 10, left: 10),
                               child: Icon(
                                 FontAwesomeIcons.circlePlay,
                               ),
