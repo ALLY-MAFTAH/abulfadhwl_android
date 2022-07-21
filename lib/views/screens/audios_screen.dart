@@ -38,11 +38,12 @@ class _AudiosScreenState extends State<AudiosScreen> {
               parent: AlwaysScrollableScrollPhysics()),
           itemBuilder: (BuildContext context, int index) {
             return AlbumCard(
-              album: category.albums[index],
+              album: category.albums[index], dataProvider: widget.dataProvider,
               // songs: category.albums[index].songs,
             );
           },
           itemCount: category.albums.length,
+          // itemCount: category.albums.length,
         ),
       ));
     });

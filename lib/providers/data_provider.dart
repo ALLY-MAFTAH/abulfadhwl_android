@@ -31,8 +31,8 @@ class DataProvider extends ChangeNotifier {
   String currentAlbumName = "";
   List<Song> songs = [];
   List<Song> _audios = [];
-  Song currentSong = Song(
-      id: 0, albumId: 0, title: "", size: 0, duration: "", file: "");
+  Song currentSong =
+      Song(id: 0, albumId: 0, title: "", size: 0, duration: "", file: "");
 
   final Dio _dio = Dio();
 
@@ -41,78 +41,6 @@ class DataProvider extends ChangeNotifier {
 
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-
-  Future<void> _showGroupedNotifications() async {
-    const String groupKey = 'com.android.example.WORK_EMAIL';
-    const String groupChannelId = 'grouped channel id';
-    const String groupChannelName = 'grouped channel name';
-    const String groupChannelDescription = 'grouped channel description';
-    // example based on https://developer.android.com/training/notify-user/group.html
-    const AndroidNotificationDetails firstNotificationAndroidSpecifics =
-        AndroidNotificationDetails(groupChannelId, groupChannelName,
-            channelDescription: groupChannelDescription,
-            importance: Importance.max,
-            priority: Priority.high,
-            groupKey: groupKey);
-    const NotificationDetails firstNotificationPlatformSpecifics =
-        NotificationDetails(android: firstNotificationAndroidSpecifics);
-    await flutterLocalNotificationsPlugin.show(1, 'Alex Faarborg',
-        'You will not believe...', firstNotificationPlatformSpecifics);
-    const AndroidNotificationDetails secondNotificationAndroidSpecifics =
-        AndroidNotificationDetails(groupChannelId, groupChannelName,
-            channelDescription: groupChannelDescription,
-            importance: Importance.max,
-            priority: Priority.high,
-            groupKey: groupKey);
-    const NotificationDetails secondNotificationPlatformSpecifics =
-        NotificationDetails(android: secondNotificationAndroidSpecifics);
-    await flutterLocalNotificationsPlugin.show(
-        2,
-        'Jeff Chang',
-        'Please join us to celebrate the...',
-        secondNotificationPlatformSpecifics);
-    const List<String> lines = <String>[
-      'Alex Faarborg  Check this out',
-      'Jeff Chang    Launch Party'
-    ];
-    const InboxStyleInformation inboxStyleInformation = InboxStyleInformation(
-        lines,
-        contentTitle: '2 messages',
-        summaryText: 'janedoe@example.com');
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(groupChannelId, groupChannelName,
-            channelDescription: groupChannelDescription,
-            styleInformation: inboxStyleInformation,
-            groupKey: groupKey,
-            setAsGroupSummary: true);
-    const NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(
-        3, 'Attention', 'Two messages', platformChannelSpecifics);
-  }
-
-  Future<void> _showFinalNotification(
-      Map<String, dynamic> downloadStatus) async {
-    const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails('your channel id', 'your channel name',
-            channelDescription: 'your channel description',
-            importance: Importance.max,
-            priority: Priority.high,
-            color: Colors.orange,
-            ticker: 'ticker');
-    final json = jsonEncode(downloadStatus);
-    final isSuccess = downloadStatus['isSuccess'];
-    const NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
-    await flutterLocalNotificationsPlugin.show(
-        0, // notification id
-        isSuccess ? 'Success' : 'Failure',
-        isSuccess
-            ? downloadedFile
-            : 'There was an error while downloading the file.',
-        platformChannelSpecifics,
-        payload: json);
-  }
 
   Future<Directory?> _getDownloadDirectory() async {
     if (Platform.isAndroid) {
@@ -126,7 +54,6 @@ class DataProvider extends ChangeNotifier {
     if (total != -1) {
       notifyListeners();
       progress = (received / total * 100).toStringAsFixed(0) + "%";
-      // await  _showGroupedNotifications();
       await _showProgressNotification(received, total);
 
       notifyListeners();
@@ -153,7 +80,32 @@ class DataProvider extends ChangeNotifier {
     } catch (ex) {
       result['error'] = ex.toString();
     } finally {
-      // await _showFinalNotification(result);
+      notifyListeners();
+    }
+  }
+
+  Future<void> _startAlbumDownload(
+    String url,
+    String fileName,
+    String fileTitle,
+    String savePath,
+  ) async {
+    downloadedFile = fileTitle;
+    notifyListeners();
+    Map<String, dynamic> result = {
+      'isSuccess': false,
+      'filePath': null,
+      'error': null,
+    };
+    try {
+      final response = await _dio.download(url, savePath,
+          onReceiveProgress: _onReceiveProgress);
+      result['isSuccess'] = response.statusCode == 200;
+      result['filePath'] = savePath;
+      notifyListeners();
+    } catch (ex) {
+      result['error'] = ex.toString();
+    } finally {
       notifyListeners();
     }
   }
@@ -194,7 +146,25 @@ class DataProvider extends ChangeNotifier {
       final savePath = path.join(dir!.path, fileName);
       await _startDownload(url, fileName, fileTitle, savePath);
     } else {
-      // handle the scenario when user declines the permissions
+      null;
+    }
+  }
+
+  Future<void> downloadAlbum(List<Song> albumSongs) async {
+    final dir = await _getDownloadDirectory();
+    final isPermissionStatusGranted = await requestPermission();
+
+    if (isPermissionStatusGranted) {
+      for (var albumSong in albumSongs) {
+        final savePath = path.join(
+          dir!.path,
+          albumSong.file,
+        );
+        await _startAlbumDownload(api + 'song/file/' + albumSong.id.toString(),
+            albumSong.file, albumSong.title, savePath);
+      }
+    } else {
+      null;
     }
   }
 
@@ -245,14 +215,11 @@ class DataProvider extends ChangeNotifier {
     String status = "";
 
     final Question question = Question(qn: qn);
-    // question.qn = qn;
 
     Map<String, dynamic> data = Question.toMap(question);
     final jsonData = json.encode(data);
 
     try {
-      //  final response = await http.get(Uri.parse(api + 'articles/'));
-
       http.Response response = await http.post(Uri.parse(api + 'question'),
           body: jsonData, headers: {'Content-Type': 'application/json'});
 

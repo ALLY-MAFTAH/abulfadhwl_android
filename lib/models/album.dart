@@ -3,7 +3,7 @@ import 'package:abulfadhwl_android/models/song.dart';
 class Album {
   final int id;
   final String name;
-  final String description;
+  final String? description;
   final int categoryId;
   final List<Song> songs;
 
@@ -18,7 +18,6 @@ class Album {
   Album.fromMap(Map<String, dynamic> map)
       : assert(map['id'] != null),
         assert(map['name'] != null),
-        assert(map['description'] != null),
         assert(map['category_id'] != null),
         id = map['id'],
         name = map['name'],

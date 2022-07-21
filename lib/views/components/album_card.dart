@@ -8,10 +8,12 @@ import 'package:abulfadhwl_android/views/other_pages/songs_list.dart';
 
 class AlbumCard extends StatefulWidget {
   final Album album;
+  final DataProvider dataProvider;
 
   const AlbumCard({
     Key? key,
     required this.album,
+    required this.dataProvider,
   }) : super(key: key);
 
   @override
@@ -80,7 +82,7 @@ class _AlbumCardState extends State<AlbumCard> {
                                 SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Text(
-                                    widget.album.description,
+                                    widget.album.description??"",
                                     style: TextStyle(
                                         fontSize: 13,
                                         color: Colors.grey[600],
@@ -98,7 +100,7 @@ class _AlbumCardState extends State<AlbumCard> {
                         Padding(
                           padding: const EdgeInsets.only(left: 5),
                           child: Text(
-                            albumSize.toString() + " MB",
+                            albumSize.toStringAsFixed(1) + " MB",
                             style: TextStyle(
                                 fontSize: 13,
                                 color: Colors.grey[600],
@@ -112,7 +114,9 @@ class _AlbumCardState extends State<AlbumCard> {
                           padding: const EdgeInsets.only(left: 5),
                           child: CircleAvatar(
                               child: IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    widget.dataProvider.downloadAlbum(widget.album.songs);
+                                  },
                                   icon: Icon(
                                     Icons.download,
                                     color: Colors.orange,
@@ -125,4 +129,5 @@ class _AlbumCardState extends State<AlbumCard> {
               );
         });
   }
+
 }
