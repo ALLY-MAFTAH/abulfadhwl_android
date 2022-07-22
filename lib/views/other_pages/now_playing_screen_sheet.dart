@@ -2,11 +2,13 @@ import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:abulfadhwl_android/views/components/controls.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
+
+import '../../constants/api.dart';
+
 class NowPlayingScreenSheet extends StatefulWidget {
   final DataProvider dataProvider;
 
-  NowPlayingScreenSheet(
-      {Key? key, required this.dataProvider})
+  NowPlayingScreenSheet({Key? key, required this.dataProvider})
       : super(key: key);
 
   @override
@@ -51,7 +53,8 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                       children: <Widget>[
                         CurrentSongTitle(),
                         Text(
-                          widget.dataProvider.currentSong.size.toString()+' MB',
+                          widget.dataProvider.currentSong.size.toString() +
+                              ' MB',
                           maxLines: 1,
                           style: TextStyle(
                               fontSize: 12, fontStyle: FontStyle.italic),
@@ -136,7 +139,16 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                               IconButton(
                                 icon: Icon(Icons.download,
                                     color: Colors.orange, size: 30),
-                                onPressed: () {},
+                                onPressed: () {
+                                  widget.dataProvider.download(
+                                    api +
+                                        'song/file/' +
+                                        widget.dataProvider.currentSong.id
+                                            .toString(),
+                                    widget.dataProvider.currentSong.file,
+                                    widget.dataProvider.currentSong.title,
+                                  );
+                                },
                               ),
                             ],
                           ),

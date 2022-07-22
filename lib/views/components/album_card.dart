@@ -82,7 +82,7 @@ class _AlbumCardState extends State<AlbumCard> {
                                 SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Text(
-                                    widget.album.description??"",
+                                    widget.album.description ?? "",
                                     style: TextStyle(
                                         fontSize: 13,
                                         color: Colors.grey[600],
@@ -115,7 +115,33 @@ class _AlbumCardState extends State<AlbumCard> {
                           child: CircleAvatar(
                               child: IconButton(
                                   onPressed: () {
-                                    widget.dataProvider.downloadAlbum(widget.album.songs);
+                                    // void _logout(BuildContext context) {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext ctx) {
+                                          return AlertDialog(
+                                            title: Text('Tafadhali Hakiki'),
+                                            content: Text(
+                                                "Unataka Kupakua Sauti Zote Kwenye " +
+                                                    widget.album.name +
+                                                    "?"),
+                                            actions: [
+                                              TextButton(
+                                                  onPressed: () {
+                                                    widget.dataProvider
+                                                        .downloadAlbum(
+                                                            widget.album.songs);
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text('Ndio')),
+                                              TextButton(
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                  child: const Text('Hapana'))
+                                            ],
+                                          );
+                                        });
                                   },
                                   icon: Icon(
                                     Icons.download,
@@ -129,5 +155,4 @@ class _AlbumCardState extends State<AlbumCard> {
               );
         });
   }
-
 }
