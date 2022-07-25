@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../components/custom_search_delegate.dart';
+import '../components/draggable_fab.dart';
+import '../pages_from_drawer/about_us_page.dart';
 
 class AudiosScreen extends StatefulWidget {
   final List<SongCategory> songCategories;
@@ -21,6 +23,7 @@ class AudiosScreen extends StatefulWidget {
 
 class _AudiosScreenState extends State<AudiosScreen> {
   List<Widget> _screens = [];
+  final GlobalKey _parentKey = GlobalKey();
 
   List<Tab> _tabs = [];
 
@@ -75,55 +78,88 @@ class _AudiosScreenState extends State<AudiosScreen> {
               ),
             ),
           )
-        : DefaultTabController(
-            length: widget.songCategories.length,
-            child: Scaffold(
-              appBar: AppBar(
-                iconTheme: new IconThemeData(),
-                title: Text(
-                  'Sauti',
-                  style: TextStyle(),
-                ),
-                actions: <Widget>[
-                  IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: () {
-                      showSearch(
-                          context: context,
-                          // delegate to customize the search bar
-                          delegate: CustomSearchDelegate());
-                    },
-                  )
-                ],
-              ),
-              drawer: DrawerPage(),
-              body: Column(
-                children: [
-                  Card(
-                    elevation: 10,
-                    color: Colors.orange[50],
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10))),
-                    child: TabBar(
-                        indicator: BoxDecoration(
-                            color: Colors.orange,
+        : Stack(
+            children: [
+              DefaultTabController(
+                length: widget.songCategories.length,
+                child: Scaffold(
+                  appBar: AppBar(
+                    iconTheme: new IconThemeData(),
+                    title: Text(
+                      'Sauti',
+                      style: TextStyle(),
+                    ),
+                    actions: <Widget>[
+                      IconButton(
+                        icon: Icon(Icons.search),
+                        onPressed: () {
+                          showSearch(
+                              context: context,
+                              // delegate to customize the search bar
+                              delegate: CustomSearchDelegate());
+                        },
+                      )
+                    ],
+                  ),
+                  drawer: DrawerPage(),
+                  body: Column(
+                    children: [
+                      Card(
+                        elevation: 10,
+                        color: Colors.orange[50],
+                        shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(10),
                                 bottomRight: Radius.circular(10))),
-                        unselectedLabelStyle:
-                            GoogleFonts.gelasio(fontWeight: FontWeight.normal),
-                        labelStyle: GoogleFonts.gelasio(
-                          fontWeight: FontWeight.bold,
-                        ),
-                        isScrollable: true,
-                        tabs: _tabs),
+                        child: TabBar(
+                            indicator: BoxDecoration(
+                                color: Colors.orange,
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(10),
+                                    bottomRight: Radius.circular(10))),
+                            unselectedLabelStyle: GoogleFonts.gelasio(
+                                fontWeight: FontWeight.normal),
+                            labelStyle: GoogleFonts.gelasio(
+                              fontWeight: FontWeight.bold,
+                            ),
+                            isScrollable: true,
+                            tabs: _tabs),
+                      ),
+                      Expanded(child: TabBarView(children: _screens)),
+                    ],
                   ),
-                  Expanded(child: TabBarView(children: _screens)),
-                ],
+                ),
               ),
-            ),
+              DraggableFloatingActionButton(
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    decoration: ShapeDecoration(
+                      shape: CircleBorder(),
+                      color: Colors.orange[700],
+                    ),
+                    child: Image(
+                      image: AssetImage('assets/images/ALLY W  004.png'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  initialOffset: Offset(100, 100),
+                  minOffset: const Offset(8, 20),
+                  maxOffset: Offset(100, 100),
+                  // initialOffset: Offset(
+                  //     MediaQuery.of(context).size.width * 8 / 11,
+                  //     MediaQuery.of(context).size.height * 7 / 12),
+                  // minOffset: const Offset(8, 20),
+                  // maxOffset: Offset(
+                  //     MediaQuery.of(context).size.width * 9.5 / 11,
+                  //     MediaQuery.of(context).size.height * 10.3 / 12),
+                  parentKey: _parentKey,
+                  onPressed: () {
+                    print('Khayraaant');
+                    // Navigator.pushReplacement(
+                    //     context, MaterialPageRoute(builder: (_) => AboutUs()));
+                  })
+            ],
           );
   }
 }

@@ -168,14 +168,16 @@ class _ContactUsState extends State<ContactUs> {
                                 focusNode: _emailFocusNode,
                                 controller: _emailController,
                                 validator: (emailValue) {
-                                  if (emailValue!.isEmpty)
-                                    return "Tafadhali ingiza barua pepe yako";
-                                  else if (!RegExp(
-                                          r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
-                                      .hasMatch(emailValue)) {
-                                    return 'Hii barua pepe si sahihi';
-                                  } else
-                                    return null;
+                                  if (emailValue!.isNotEmpty)
+                                  // return "Tafadhali ingiza barua pepe yako";
+                                  {
+                                    if (!RegExp(
+                                            r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
+                                        .hasMatch(emailValue)) {
+                                      return 'Hii barua pepe si sahihi';
+                                    } else
+                                      return null;
+                                  }
                                 },
                                 decoration: InputDecoration(
                                     labelText: 'Barua pepe',

@@ -33,7 +33,6 @@ class AboutUs extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: Card(
                 elevation: 9,
-                color: Colors.orange[50],
                 child: Column(
                   children: <Widget>[
                     Padding(
@@ -44,7 +43,7 @@ class AboutUs extends StatelessWidget {
                         )),
                     Container(
                       decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: Colors.orange[50],
                           borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(10),
                               bottomRight: Radius.circular(10))),
