@@ -56,8 +56,7 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                           widget.dataProvider.currentSong.size.toString() +
                               ' MB',
                           maxLines: 1,
-                          style: TextStyle(
-                              fontSize: 12, fontStyle: FontStyle.italic),
+                          style: TextStyle(fontSize: 12),
                         )
                       ],
                     ),
@@ -138,7 +137,8 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                               RepeatButton(),
                               IconButton(
                                 icon: Icon(Icons.download,
-                                    color: Colors.orange, size: 30),
+                                    color: Colors.orange,),
+                                     iconSize: 30,
                                 onPressed: () {
                                   widget.dataProvider.download(
                                     api +
@@ -164,12 +164,12 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 40, right: 40),
+              padding: const EdgeInsets.only(left: 40,top:40, right: 40),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   PreviousSongButton(),
-                  PlayButton(),
+                  LargePlayButton(),
                   NextSongButton(),
                 ],
               ),

@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../components/custom_search_delegate.dart';
-import '../components/draggable_fab.dart';
-import '../pages_from_drawer/about_us_page.dart';
 
 class AudiosScreen extends StatefulWidget {
   final List<SongCategory> songCategories;
@@ -23,7 +21,6 @@ class AudiosScreen extends StatefulWidget {
 
 class _AudiosScreenState extends State<AudiosScreen> {
   List<Widget> _screens = [];
-  final GlobalKey _parentKey = GlobalKey();
 
   List<Tab> _tabs = [];
 
@@ -78,8 +75,7 @@ class _AudiosScreenState extends State<AudiosScreen> {
               ),
             ),
           )
-        : Stack(
-            children: [
+        :
               DefaultTabController(
                 length: widget.songCategories.length,
                 child: Scaffold(
@@ -117,9 +113,9 @@ class _AudiosScreenState extends State<AudiosScreen> {
                                 borderRadius: BorderRadius.only(
                                     bottomLeft: Radius.circular(10),
                                     bottomRight: Radius.circular(10))),
-                            unselectedLabelStyle: GoogleFonts.gelasio(
+                            unselectedLabelStyle: GoogleFonts.ubuntu (
                                 fontWeight: FontWeight.normal),
-                            labelStyle: GoogleFonts.gelasio(
+                            labelStyle: GoogleFonts.ubuntu (
                               fontWeight: FontWeight.bold,
                             ),
                             isScrollable: true,
@@ -129,23 +125,7 @@ class _AudiosScreenState extends State<AudiosScreen> {
                     ],
                   ),
                 ),
-              ),
-              DraggableFloatingActionButton(
-                  child: Container(
-                    width: 50,
-                    height: 50,
-                    decoration: ShapeDecoration(
-                      shape: CircleBorder(),
-                      color: Colors.orange[700],
-                    ),
-                    child: Image(
-                      image: AssetImage('assets/images/ALLY W  004.png'),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  initialOffset: Offset(100, 100),
-                  minOffset: const Offset(8, 20),
-                  maxOffset: Offset(100, 100),
+              )
                   // initialOffset: Offset(
                   //     MediaQuery.of(context).size.width * 8 / 11,
                   //     MediaQuery.of(context).size.height * 7 / 12),
@@ -153,13 +133,6 @@ class _AudiosScreenState extends State<AudiosScreen> {
                   // maxOffset: Offset(
                   //     MediaQuery.of(context).size.width * 9.5 / 11,
                   //     MediaQuery.of(context).size.height * 10.3 / 12),
-                  parentKey: _parentKey,
-                  onPressed: () {
-                    print('Khayraaant');
-                    // Navigator.pushReplacement(
-                    //     context, MaterialPageRoute(builder: (_) => AboutUs()));
-                  })
-            ],
-          );
+                 ;
   }
 }

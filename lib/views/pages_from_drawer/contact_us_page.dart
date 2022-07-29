@@ -105,6 +105,7 @@ class _ContactUsState extends State<ContactUs> {
                                   icon: Padding(
                                     padding: const EdgeInsets.all(5),
                                     child: CircleAvatar(
+                                      backgroundColor: Colors.white,
                                       backgroundImage: NetworkImageWithRetry(
                                           api +
                                               'link/icon/' +
@@ -178,6 +179,7 @@ class _ContactUsState extends State<ContactUs> {
                                     } else
                                       return null;
                                   }
+                                  return null;
                                 },
                                 decoration: InputDecoration(
                                     labelText: 'Barua pepe',

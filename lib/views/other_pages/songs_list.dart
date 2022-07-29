@@ -119,9 +119,7 @@ class _SongsListState extends State<SongsList> {
                                           child: Text(
                                             "Sheikh Abul Fadhwl Kassim Mafuta Kassim",
                                             maxLines: 1,
-                                            style: TextStyle(
-                                                fontSize: 13,
-                                                fontStyle: FontStyle.italic),
+                                            style: TextStyle(fontSize: 13),
                                           ),
                                         )
                                       ],
@@ -136,7 +134,7 @@ class _SongsListState extends State<SongsList> {
                         ),
                       );
                     } else
-                      return Container(); 
+                      return Container();
                   })
         ],
       ),

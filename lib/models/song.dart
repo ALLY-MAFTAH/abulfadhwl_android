@@ -2,7 +2,7 @@ class Song {
   final int id;
   final int albumId;
   final String title;
-  final double size;
+  final num size;
   final String duration;
   final String file;
 

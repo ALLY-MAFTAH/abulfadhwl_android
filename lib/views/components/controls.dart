@@ -133,18 +133,24 @@ class RepeatButton extends StatelessWidget {
             icon = Icon(
               Icons.repeat,
               color: Colors.grey,
-              size: 30,
             );
             break;
           case RepeatState.repeatSong:
-            icon = Icon(Icons.repeat_one, color: Colors.orange, size: 30);
+            icon = Icon(
+              Icons.repeat_one,
+              color: Colors.orange,
+            );
             break;
           case RepeatState.repeatPlaylist:
-            icon = Icon(Icons.repeat, color: Colors.orange, size: 30);
+            icon = Icon(
+              Icons.repeat,
+              color: Colors.orange,
+            );
             break;
         }
         return IconButton(
           icon: icon,
+          iconSize: 30,
           onPressed: pageManager.repeat,
         );
       },
@@ -164,6 +170,8 @@ class PreviousSongButton extends StatelessWidget {
           icon: Icon(
             Icons.skip_previous,
           ),
+          iconSize: 50,
+          color: Colors.orange,
           onPressed: (isFirst) ? null : pageManager.previous,
         );
       },
@@ -209,6 +217,48 @@ class PlayButton extends StatelessWidget {
   }
 }
 
+class LargePlayButton extends StatelessWidget {
+  const LargePlayButton({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    final pageManager = getIt<PageManager>();
+    return ValueListenableBuilder<ButtonState>(
+      valueListenable: pageManager.playButtonNotifier,
+      builder: (_, value, __) {
+        switch (value) {
+          case ButtonState.loading:
+            return Padding(
+              padding: const EdgeInsets.all(15),
+              child: Container(
+                height: 30,
+                width: 30,
+                child: CircularProgressIndicator(),
+              ),
+            );
+          case ButtonState.paused:
+            return IconButton(
+              icon: Icon(
+                FontAwesomeIcons.play,
+              ),
+              iconSize: 50,
+              color: Colors.orange,
+              onPressed: pageManager.play,
+            );
+          case ButtonState.playing:
+            return IconButton(
+              icon: Icon(
+                FontAwesomeIcons.pause,
+              ),
+              iconSize: 50,
+              color: Colors.orange,
+              onPressed: pageManager.pause,
+            );
+        }
+      },
+    );
+  }
+}
+
 class NextSongButton extends StatelessWidget {
   const NextSongButton({Key? key}) : super(key: key);
   @override
@@ -218,7 +268,11 @@ class NextSongButton extends StatelessWidget {
       valueListenable: pageManager.isLastSongNotifier,
       builder: (_, isLast, __) {
         return IconButton(
-          icon: Icon(Icons.skip_next),
+          icon: Icon(
+            Icons.skip_next,
+          ),
+          iconSize: 50,
+          color: Colors.orange,
           onPressed: (isLast) ? null : pageManager.next,
         );
       },

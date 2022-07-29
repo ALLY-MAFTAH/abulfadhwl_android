@@ -115,8 +115,8 @@ class _AbulfadhwlState extends State<Abulfadhwl> {
         title: _packageInfo.appName,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            textTheme: GoogleFonts.gelasioTextTheme(),
-            primarySwatch: Colors.orange),
+            textTheme: GoogleFonts.ubuntuTextTheme()
+           , primarySwatch: Colors.orange),
         home: AnimatedSplashScreen(),
       ),
     );

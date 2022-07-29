@@ -39,8 +39,8 @@ class _AudioCardState extends State<AudioCard> {
     return Padding(
         padding: const EdgeInsets.only(left: 5, top: 1.5, right: 5),
         child: ValueListenableBuilder(
-            valueListenable: pageManager.playButtonNotifier,
-            builder: (_, value, __) {
+            valueListenable: pageManager.currentSongTitleNotifier,
+            builder: (_, title, __) {
               return InkWell(
                 onTap: () {
                   setState(() async {
@@ -101,7 +101,8 @@ class _AudioCardState extends State<AudioCard> {
                             SingleChildScrollView(
                               scrollDirection: Axis.horizontal,
                               child: Text(
-                                widget.songs[widget.index].size.toString()+' MB',
+                                widget.songs[widget.index].size.toString() +
+                                    ' MB',
                                 style: TextStyle(
                                     fontSize: 12,
                                     color: Colors.grey[600],

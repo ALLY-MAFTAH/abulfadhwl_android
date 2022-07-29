@@ -44,8 +44,8 @@ class _BooksScreenState extends State<BooksScreen> {
                         bottomLeft: Radius.circular(10),
                         bottomRight: Radius.circular(10))),
                 unselectedLabelStyle:
-                    GoogleFonts.gelasio(fontWeight: FontWeight.normal),
-                labelStyle: GoogleFonts.gelasio(
+                    GoogleFonts.ubuntu(fontWeight: FontWeight.normal),
+                labelStyle: GoogleFonts.ubuntu(
                   fontWeight: FontWeight.bold,
                 ),
                 tabs: <Widget>[
