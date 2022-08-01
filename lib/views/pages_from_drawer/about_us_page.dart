@@ -3,7 +3,7 @@
 import 'package:abulfadhwl_android/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 class AboutUs extends StatelessWidget {
   @override

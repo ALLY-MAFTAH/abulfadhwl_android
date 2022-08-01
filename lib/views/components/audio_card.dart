@@ -8,7 +8,7 @@ import 'package:abulfadhwl_android/services/service_locator.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 class AudioCard extends StatefulWidget {
   final int index;

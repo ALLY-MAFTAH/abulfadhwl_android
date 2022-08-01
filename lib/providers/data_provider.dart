@@ -546,6 +546,11 @@ class DataProvider extends ChangeNotifier {
     }
   }
 
+// var request = await HttpClient().getUrl(Uri.parse('https://shop.esys.eu/media/image/6f/8f/af/amlog_transport-berwachung.jpg'));
+// var response = await request.close();
+// Uint8List bytes = await consolidateHttpClientResponseBytes(response);
+// await Share.file('ESYS AMLOG', 'amlog.jpg', bytes, 'image/jpg');
+
   //
   // ************** PAGE RELOAD
   Future<void> reloadPage() async {

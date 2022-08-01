@@ -1,7 +1,7 @@
 import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:abulfadhwl_android/views/components/controls.dart';
 import 'package:flutter/material.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../constants/api.dart';
 
@@ -66,9 +66,9 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                   color: Colors.orange,
                   icon: Icon(Icons.share),
                   onPressed: () {
-                    Share.share(
-                      widget.dataProvider.currentSong.file,
-                    );
+                    Share.share(api +
+                        'song/file/' +
+                        widget.dataProvider.currentSong.id.toString());
                   },
                 ),
               ]),
@@ -136,9 +136,11 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                             children: [
                               RepeatButton(),
                               IconButton(
-                                icon: Icon(Icons.download,
-                                    color: Colors.orange,),
-                                     iconSize: 30,
+                                icon: Icon(
+                                  Icons.download,
+                                  color: Colors.orange,
+                                ),
+                                iconSize: 30,
                                 onPressed: () {
                                   widget.dataProvider.download(
                                     api +
@@ -164,7 +166,7 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 40,top:40, right: 40),
+              padding: const EdgeInsets.only(left: 40, top: 40, right: 40),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

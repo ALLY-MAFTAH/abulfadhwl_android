@@ -7,7 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:abulfadhwl_android/constants/api.dart';
 import 'package:abulfadhwl_android/models/book.dart';
 import 'package:provider/provider.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 class BookInfoDisplay extends StatefulWidget {
   final Book bookDetails;

@@ -35,7 +35,7 @@ dependencies:
   shared_preferences: any
   url_launcher: any
   marquee: ^2.2.3
-  share: any
+  share_plus: ^4.0.10
   flutter_image: any
   selectable_autolink_text: any
   http: any

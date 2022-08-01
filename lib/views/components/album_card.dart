@@ -59,7 +59,28 @@ class _AlbumCardState extends State<AlbumCard> {
                     padding: const EdgeInsets.all(5.0),
                     child: Row(
                       children: <Widget>[
-                        Icon(Icons.folder),
+                        Stack(
+                          alignment: AlignmentDirectional.center,
+                          children: [
+                            Icon(
+                              Icons.folder,
+                              size: 60,
+                              color: Colors.orange[200],
+                            ),
+                            Text(
+                              widget.album.songs.length.toString() + "\nAudios",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.grey[600],
+                                  fontWeight:
+                                      _dataProvider.currentSong.albumId ==
+                                              widget.album.id
+                                          ? FontWeight.bold
+                                          : FontWeight.normal),
+                            ),
+                          ],
+                        ),
                         Expanded(
                           child: Container(
                             padding: EdgeInsets.all(5),
@@ -115,7 +136,6 @@ class _AlbumCardState extends State<AlbumCard> {
                           child: CircleAvatar(
                               child: IconButton(
                                   onPressed: () {
-                                    // void _logout(BuildContext context) {
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext ctx) {
@@ -150,9 +170,7 @@ class _AlbumCardState extends State<AlbumCard> {
                         )
                       ],
                     ),
-                  ))
-              // }),
-              );
+                  )));
         });
   }
 }

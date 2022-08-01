@@ -1,7 +1,6 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image/network.dart';
-// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:abulfadhwl_android/constants/api.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
@@ -50,13 +49,13 @@ class _LiveDuruusAndTimetablePageState
               parent: AlwaysScrollableScrollPhysics()),
           child: _dataObject.streams.isEmpty
               ? Container(
-                height: 300,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(child: CircularProgressIndicator()),
-                  ],
-                ))
+                  height: 300,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(child: CircularProgressIndicator()),
+                    ],
+                  ))
               : Column(
                   children: <Widget>[
                     SizedBox(
@@ -72,12 +71,17 @@ class _LiveDuruusAndTimetablePageState
                                 Text(
                                   _dataObject.streams[0].title,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 17,
+                                  ),
                                 ),
                                 Text(
                                   _dataObject.streams[0].description,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(),
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                  ),
                                 ),
                                 SizedBox(
                                   height: 20,
@@ -156,16 +160,6 @@ class _LiveDuruusAndTimetablePageState
                     Card(
                       child: Column(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Text(
-                              "RATIBA YA DARSA ZA  'AAM",
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
                           Container(
                             margin: const EdgeInsets.all(10),
                             child: Image(

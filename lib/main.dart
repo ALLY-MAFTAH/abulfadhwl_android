@@ -64,7 +64,6 @@ class _AbulfadhwlState extends State<Abulfadhwl> {
         FlutterLocalNotificationsPlugin();
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
-    // AndroidInitializationSettings('app_icon');
     final MacOSInitializationSettings initializationSettingsMacOS =
         MacOSInitializationSettings();
     final InitializationSettings initializationSettings =
