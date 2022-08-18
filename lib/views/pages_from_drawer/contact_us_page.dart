@@ -89,12 +89,19 @@ class _ContactUsState extends State<ContactUs> {
                         )
                       ]),
                     ),
-                    SliverList(
+                   ourLinks.isEmpty
+                          ? SliverToBoxAdapter(
+                              // height: 50,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Center(child: CircularProgressIndicator()),
+                                ],
+                              ))
+                          : SliverList(
                         delegate: SliverChildBuilderDelegate(
                             (BuildContext context, int index) {
-                      return ourLinks.isEmpty
-                          ? Container()
-                          : Row(
+                      return  Row(
                               children: [
                                 Card(
                                   child: Container(
@@ -329,12 +336,18 @@ class _ContactUsState extends State<ContactUs> {
                     ),
                     SliverToBoxAdapter(
                       child: othersLinks.isEmpty
-                          ? Container()
+                          ? Container(
+                              height: 50,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Center(child: CircularProgressIndicator()),
+                                ],
+                              ))
                           : Container(
                               padding: const EdgeInsets.all(10),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.center ,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   for (var i = 0;
                                       i < othersLinks.length;
@@ -353,7 +366,8 @@ class _ContactUsState extends State<ContactUs> {
                                                             .id
                                                             .toString())),
                                             onPressed: () {
-                                              String linkUrl = othersLinks[i].url;
+                                              String linkUrl =
+                                                  othersLinks[i].url;
                                               _launchURL(linkUrl);
                                             },
                                           ),
@@ -374,10 +388,10 @@ class _ContactUsState extends State<ContactUs> {
 
   _launchURL(linkUrl) async {
     // const url = linkUrl;
-    if (await canLaunch(linkUrl)) {
+    // if (await canLaunch(linkUrl)) {
       await launch(linkUrl);
-    } else {
-      throw 'Could not launch $linkUrl';
-    }
+    // } else {
+    //   throw 'Could not launch $linkUrl';
+    // }
   }
 }

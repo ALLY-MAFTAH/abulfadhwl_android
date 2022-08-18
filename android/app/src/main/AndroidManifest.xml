@@ -5,7 +5,7 @@
 	<uses-permission android:name="ANDROID.PERMISSION.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<application android:usesCleartextTraffic="true" android:requestLegacyExternalStorage="true" android:label="Abulfadhwl App" android:name="${applicationName}" android:icon="@mipmap/ic_launcher">
-		<activity android:showWhenLocked="true" android:turnScreenOn="true" android:name="com.ryanheise.audioservice.AudioServiceActivity" android:exported="true" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
+		<activity android:showWhenLocked="true" android:turnScreenOn="true" android:exported="true" android:name="com.ryanheise.audioservice.AudioServiceActivity" android:launchMode="singleTop" android:theme="@style/LaunchTheme" android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode" android:hardwareAccelerated="true" android:windowSoftInputMode="adjustResize">
 			<meta-data android:name="io.flutter.embedding.android.NormalTheme" android:resource="@style/NormalTheme" />
 			<meta-data android:name="assets.audio.player.notification.icon" android:resource="@drawable/ic_launcher" />
 			<intent-filter>
@@ -28,5 +28,28 @@
 				<action android:name="android.intent.action.MEDIA_BUTTON" />
 			</intent-filter>
 		</receiver>
+	<!-- Provide required visibility configuration for API level 30 and above -->
 	</application>
+	<queries>
+		<!-- If your app checks for SMS support -->
+		<intent>
+			<action android:name="android.intent.action.VIEW" />
+			<data android:scheme="mailto" />
+		</intent>
+		<!-- If your app checks for call support -->
+		<intent>
+			<action android:name="android.intent.action.VIEW" />
+			<data android:scheme="tel" />
+		</intent>
+		<intent>
+			<action android:name="android.intent.action.VIEW" />
+			<category android:name="android.intent.category.BROWSABLE" />
+			<data android:scheme="https" />
+		</intent>
+		<intent>
+			<action android:name="android.intent.action.VIEW" />
+			<category android:name="android.intent.category.BROWSABLE" />
+			<data android:scheme="http" />
+		</intent>
+	</queries>
 </manifest>

@@ -5,7 +5,6 @@ import 'package:abulfadhwl_android/views/pages_from_drawer/announcements_page.da
 import 'package:abulfadhwl_android/views/pages_from_drawer/contact_us_page.dart';
 import 'package:abulfadhwl_android/views/pages_from_drawer/live_duruus_and_timetable_page.dart';
 import 'package:abulfadhwl_android/views/pages_from_drawer/questions_and_answers.dart';
-import 'package:abulfadhwl_android/views/pages_from_drawer/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -63,7 +62,7 @@ class DrawerPage extends StatelessWidget {
                       ],
                     ),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) {
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
                         return LiveDuruusAndTimetablePage();
                       }));
                     },
@@ -86,7 +85,7 @@ class DrawerPage extends StatelessWidget {
                       ],
                     ),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) {
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
                         return QuestionsAndAnswers();
                       }));
                     },
@@ -109,7 +108,7 @@ class DrawerPage extends StatelessWidget {
                       ],
                     ),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) {
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
                         return Announcements(
                           announcementDetails: _dataProvider.announcements,
                         );
@@ -134,7 +133,7 @@ class DrawerPage extends StatelessWidget {
                       ],
                     ),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) {
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
                         return AboutUs();
                       }));
                     },
@@ -157,7 +156,7 @@ class DrawerPage extends StatelessWidget {
                       ],
                     ),
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) {
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
                         return ContactUs(
                           dataProvider: _dataProvider,
                         );
@@ -165,29 +164,29 @@ class DrawerPage extends StatelessWidget {
                     },
                   ),
                   Divider(),
-                  ListTile(
-                    title: Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.settings,
-                          color: Colors.black,
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          "Mipangilio",
-                          style: TextStyle(),
-                        ),
-                      ],
-                    ),
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (_) {
-                        return Settings();
-                      }));
-                    },
-                  ),
-                  Divider(),
+                  // ListTile(
+                  //   title: Row(
+                  //     children: <Widget>[
+                  //       Icon(
+                  //         Icons.settings,
+                  //         color: Colors.black,
+                  //       ),
+                  //       SizedBox(
+                  //         width: 10,
+                  //       ),
+                  //       Text(
+                  //         "Mipangilio",
+                  //         style: TextStyle(),
+                  //       ),
+                  //     ],
+                  //   ),
+                  //   onTap: () {
+                  //     Navigator.push(context, MaterialPageRoute(builder: (_) {
+                  //       return Settings();
+                  //     }));
+                  //   },
+                  // ),
+                  // Divider(),
                 ],
               ),
             ),

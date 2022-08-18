@@ -50,13 +50,14 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                     padding: EdgeInsets.only(left: 5, top: 5, bottom: 5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         CurrentSongTitle(),
                         Text(
                           widget.dataProvider.currentSong.size.toString() +
                               ' MB',
                           maxLines: 1,
-                          style: TextStyle(fontSize: 12),
+                          style: TextStyle(fontSize: 13),
                         )
                       ],
                     ),

@@ -112,6 +112,8 @@ class _SongsListState extends State<SongsList> {
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: <Widget>[
                                         CurrentSongTitle(),
                                         SingleChildScrollView(

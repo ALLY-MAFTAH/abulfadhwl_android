@@ -29,33 +29,57 @@ class _HomeState extends State<Home> {
       ),
       HistoryScreen()
     ];
+    Future<bool> showExitPopup() async {
+      return await showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text('Exit App'),
+              content: Text('Do you want to exit this App?'),
+              actions: [
+                ElevatedButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: Text('No'),
+                ),
+                ElevatedButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: Text('Yes'),
+                ),
+              ],
+            ),
+          ) ??
+          false;
+    }
 
-    return Scaffold(
-      body: _screens[_currentIndex],
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black,
-              blurRadius: 10,
-              offset: Offset(2.0, 2.0), // shadow direction: bottom right
-            )
-          ],
-        ),
-        child: BottomNavigationBar(
-          selectedItemColor: Colors.orange,
-          unselectedItemColor: Colors.grey[600],
-          onTap: tappedTab,
-          currentIndex: _currentIndex,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.house), label: 'Mwanzo'),
-            BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.book), label: 'Vitabu na Makala'),
-            BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.music), label: 'Sauti'),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Historia')
-          ],
+    return WillPopScope(
+      onWillPop: showExitPopup,
+      child: Scaffold(
+        body: _screens[_currentIndex],
+        bottomNavigationBar: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black,
+                blurRadius: 10,
+                offset: Offset(2.0, 2.0), // shadow direction: bottom right
+              )
+            ],
+          ),
+          child: BottomNavigationBar(
+            selectedItemColor: Colors.orange,
+            unselectedItemColor: Colors.grey[600],
+            onTap: tappedTab,
+            currentIndex: _currentIndex,
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                  icon: Icon(FontAwesomeIcons.house), label: 'Mwanzo'),
+              BottomNavigationBarItem(
+                  icon: Icon(FontAwesomeIcons.book), label: 'Vitabu na Makala'),
+              BottomNavigationBarItem(
+                  icon: Icon(FontAwesomeIcons.music), label: 'Sauti'),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.person), label: 'Historia')
+            ],
+          ),
         ),
       ),
     );

@@ -53,30 +53,33 @@ class _AudiosScreenState extends State<AudiosScreen> {
   @override
   Widget build(BuildContext context) {
     return widget.songCategories.isEmpty
-        ? Scaffold(
-            appBar: AppBar(
-                iconTheme: new IconThemeData(),
-                title: Text(
-                  'Sauti',
-                  style: TextStyle(),
-                )),
-            drawer: DrawerPage(),
-            body: RefreshIndicator(
-              onRefresh: widget.dataProvider.reloadPage,
-              child: ListView(
-                physics: const BouncingScrollPhysics(
-                    parent: AlwaysScrollableScrollPhysics()),
-                children: [
-                  Align(
-                    alignment: Alignment.center,
-                    child: Center(child: Container()),
+            ? Scaffold(
+                appBar: AppBar(
+                    iconTheme: new IconThemeData(),
+                    title: Text(
+                      'Sauti',
+                      style: TextStyle(),
+                    )),
+                drawer: DrawerPage(),
+                body: RefreshIndicator(
+                  onRefresh: widget.dataProvider.reloadPage,
+                  child: ListView(
+                    physics: const BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()),
+                    children: [
+                       Container(
+                  height: 300,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(child: CircularProgressIndicator()),
+                    ],
+                  ))
+                    ],
                   ),
-                ],
-              ),
-            ),
-          )
-        :
-              DefaultTabController(
+                ),
+              )
+            : DefaultTabController(
                 length: widget.songCategories.length,
                 child: Scaffold(
                   appBar: AppBar(
@@ -113,9 +116,9 @@ class _AudiosScreenState extends State<AudiosScreen> {
                                 borderRadius: BorderRadius.only(
                                     bottomLeft: Radius.circular(10),
                                     bottomRight: Radius.circular(10))),
-                            unselectedLabelStyle: GoogleFonts.ubuntu (
+                            unselectedLabelStyle: GoogleFonts.ubuntu(
                                 fontWeight: FontWeight.normal),
-                            labelStyle: GoogleFonts.ubuntu (
+                            labelStyle: GoogleFonts.ubuntu(
                               fontWeight: FontWeight.bold,
                             ),
                             isScrollable: true,
@@ -126,13 +129,13 @@ class _AudiosScreenState extends State<AudiosScreen> {
                   ),
                 ),
               )
-                  // initialOffset: Offset(
-                  //     MediaQuery.of(context).size.width * 8 / 11,
-                  //     MediaQuery.of(context).size.height * 7 / 12),
-                  // minOffset: const Offset(8, 20),
-                  // maxOffset: Offset(
-                  //     MediaQuery.of(context).size.width * 9.5 / 11,
-                  //     MediaQuery.of(context).size.height * 10.3 / 12),
-                 ;
+        // initialOffset: Offset(
+        //     MediaQuery.of(context).size.width * 8 / 11,
+        //     MediaQuery.of(context).size.height * 7 / 12),
+        // minOffset: const Offset(8, 20),
+        // maxOffset: Offset(
+        //     MediaQuery.of(context).size.width * 9.5 / 11,
+        //     MediaQuery.of(context).size.height * 10.3 / 12),
+        ;
   }
 }

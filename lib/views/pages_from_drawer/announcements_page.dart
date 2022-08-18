@@ -27,7 +27,16 @@ class Announcements extends StatelessWidget {
             style: TextStyle(),
           ),
         ),
-        body: ListView.builder(
+        body: announcementDetails.isEmpty
+              ? Container(
+                  height: 300,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(child: CircularProgressIndicator()),
+                    ],
+                  ))
+              : ListView.builder(
           itemBuilder: (BuildContext context, int index) {
             return Card(
               color: Colors.orange[50],

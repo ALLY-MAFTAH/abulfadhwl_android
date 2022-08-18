@@ -74,7 +74,7 @@ class _BooksScreenState extends State<BooksScreen> {
                             : Padding(
                                 padding: const EdgeInsets.only(
                                   left: 5,
-                                  top: 5,
+                                  top: 10,
                                   right: 5,
                                 ),
                                 child: Card(
@@ -92,44 +92,33 @@ class _BooksScreenState extends State<BooksScreen> {
                                           style: TextStyle(
                                             fontSize: 17,
                                             fontWeight: FontWeight.bold,
-                                            fontStyle: FontStyle.italic,
                                           ),
                                           textAlign: TextAlign.center,
                                         ),
                                         InkWell(
-                                            onTap: () {
-                                              Navigator.push(context,
-                                                  MaterialPageRoute(
-                                                      builder: (_) {
-                                                return BookInfoDisplay(
-                                                  bookDetails:
-                                                      _dataObject.books[index],
-                                                  tagNum: _dataObject
-                                                      .books[index].id,
-                                                );
-                                              }));
-                                            },
-                                            child: Hero(
-                                              child: Container(
-                                                height: 350,
-                                                decoration: BoxDecoration(
-                                                    color: Colors.orange[200],
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5),
-                                                    image: DecorationImage(
-                                                      image: NetworkImageWithRetry(
-                                                          api +
-                                                              'book/cover/' +
-                                                              _dataObject
-                                                                  .books[index]
-                                                                  .id
-                                                                  .toString()),
-                                                      fit: BoxFit.cover,
-                                                    )),
-                                              ),
-                                              tag: _dataObject.books[index].id,
+                                          onTap: () {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(builder: (_) {
+                                              return BookInfoDisplay(
+                                                bookDetails:
+                                                    _dataObject.books[index],
+                                                tagNum:
+                                                    _dataObject.books[index].id,
+                                              );
+                                            }));
+                                          },
+                                          child: Hero(
+                                            child: Card(
+                                                child: Image(
+                                              image: NetworkImageWithRetry(api +
+                                                  'book/cover/' +
+                                                  _dataObject.books[index].id
+                                                      .toString()),
+                                              fit: BoxFit.cover,
                                             )),
+                                            tag: _dataObject.books[index].id,
+                                          ),
+                                        ),
                                         // ignore: deprecated_member_use
                                         RaisedButton(
                                           elevation: 10,

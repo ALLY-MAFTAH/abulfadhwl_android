@@ -16,72 +16,96 @@ class HistoryScreen extends StatelessWidget {
         ),
       ),
       drawer: DrawerPage(),
-      body: Padding(
-        padding: const EdgeInsets.all(5),
-        child: Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
-          child: RefreshIndicator(
-            onRefresh: _dataObject.reloadPage,
-            child: ListView.builder(
-              physics: const BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
-              itemBuilder: (BuildContext context, int index) {
-                return _dataObject.histories.isEmpty
-                    ? Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : Card(
-                        elevation: 8,
-                        child: ExpansionTile(
-                          title: SizedBox(
-                            height: 70,
-                            child: Text(
-                              _dataObject.histories[index].section.toString() +
-                                  ". " +
-                                  _dataObject.histories[index].heading,
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FontStyle.normal),
-                            ),
-                          ),
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    // borderRadius: BorderRadius.circular(5),
-                                    border: Border(
-                                      top: BorderSide(
-                                          width: 3,
-                                          color: Color.fromARGB(255, 237, 229, 220)),
-                                      right: BorderSide(
-                                          width: 3,
-                                          color: Color.fromARGB(255, 237, 229, 220)),
-                                      left: BorderSide(
-                                          width: 3,
-                                          color: Color.fromARGB(255, 237, 229, 220)),
-                                      bottom: BorderSide(
-                                          width: 3,
-                                          color: Color.fromARGB(255, 237, 229, 220)),
-                                    )),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: SelectableText(
-                                    _dataObject.histories[index].content,
-                                    style: TextStyle(),
-                                    textAlign: TextAlign.justify,
+      body: RefreshIndicator(
+        onRefresh: _dataObject.reloadPage,
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(
+              parent: AlwaysScrollableScrollPhysics()),
+          child: _dataObject.histories.isEmpty
+              ? Container(
+                  height: 300,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(child: CircularProgressIndicator()),
+                    ],
+                  ))
+              : Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Container(
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(5)),
+                    child: RefreshIndicator(
+                      onRefresh: _dataObject.reloadPage,
+                      child: ListView.builder(
+                        physics: const BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics()),
+                        itemBuilder: (BuildContext context, int index) {
+                          return _dataObject.histories.isEmpty
+                              ? Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : Card(
+                                  elevation: 8,
+                                  child: ExpansionTile(
+                                    title: SizedBox(
+                                      height: 70,
+                                      child: Text(
+                                        _dataObject.histories[index].section
+                                                .toString() +
+                                            ". " +
+                                            _dataObject
+                                                .histories[index].heading,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontStyle: FontStyle.normal),
+                                      ),
+                                    ),
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              // borderRadius: BorderRadius.circular(5),
+                                              border: Border(
+                                                top: BorderSide(
+                                                    width: 3,
+                                                    color: Color.fromARGB(
+                                                        255, 237, 229, 220)),
+                                                right: BorderSide(
+                                                    width: 3,
+                                                    color: Color.fromARGB(
+                                                        255, 237, 229, 220)),
+                                                left: BorderSide(
+                                                    width: 3,
+                                                    color: Color.fromARGB(
+                                                        255, 237, 229, 220)),
+                                                bottom: BorderSide(
+                                                    width: 3,
+                                                    color: Color.fromARGB(
+                                                        255, 237, 229, 220)),
+                                              )),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: SelectableText(
+                                              _dataObject
+                                                  .histories[index].content,
+                                              style: TextStyle(),
+                                              textAlign: TextAlign.justify,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-              },
-              itemCount: _dataObject.histories.length,
-            ),
-          ),
+                                );
+                        },
+                        itemCount: _dataObject.histories.length,
+                      ),
+                    ),
+                  ),
+                ),
         ),
       ),
     );
