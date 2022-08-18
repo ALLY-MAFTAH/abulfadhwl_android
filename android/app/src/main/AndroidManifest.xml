@@ -1,4 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="com.example.abulfadhwl_android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="com.maftah.abulfadhwl_app">
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	<uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 	<uses-permission android:name="android.permission.INTERNET" />
@@ -11,6 +11,10 @@
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="FLUTTER_NOTIFICATION_CLICK" />
+				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
 		<!--
@@ -28,7 +32,7 @@
 				<action android:name="android.intent.action.MEDIA_BUTTON" />
 			</intent-filter>
 		</receiver>
-	<!-- Provide required visibility configuration for API level 30 and above -->
+		<!-- Provide required visibility configuration for API level 30 and above -->
 	</application>
 	<queries>
 		<!-- If your app checks for SMS support -->

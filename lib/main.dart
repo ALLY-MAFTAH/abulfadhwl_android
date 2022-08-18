@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:abulfadhwl_android/views/components/page_manager.dart';
 import 'package:abulfadhwl_android/services/service_locator.dart';
 import 'package:abulfadhwl_android/views/initial_pages/animated_splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:flutter/services.dart';
@@ -15,6 +17,9 @@ import 'package:package_info_plus/package_info_plus.dart';
 const debug = true;
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   await setupServiceLocator();
 
   SystemChrome.setSystemUIOverlayStyle(
@@ -72,9 +77,12 @@ class _AbulfadhwlState extends State<Abulfadhwl> {
             macOS: initializationSettingsMacOS);
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: selectNotification);
-    super.initState();
 
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+    FirebaseMessaging.instance.subscribeToTopic('all');
+    FirebaseMessaging.instance.getToken().then((token) => print(token));
+
+    super.initState();
   }
 
   Future<void> _initPackageInfo() async {
@@ -114,8 +122,8 @@ class _AbulfadhwlState extends State<Abulfadhwl> {
         title: _packageInfo.appName,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            textTheme: GoogleFonts.ubuntuTextTheme()
-           , primarySwatch: Colors.orange),
+            textTheme: GoogleFonts.ubuntuTextTheme(),
+            primarySwatch: Colors.orange),
         home: AnimatedSplashScreen(),
       ),
     );

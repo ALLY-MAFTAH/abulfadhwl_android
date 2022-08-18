@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "555782064674",
+    "project_id": "abulfadhwl-app",
+    "storage_bucket": "abulfadhwl-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:555782064674:android:e447a0cdb9ca5e386a587b",
+        "android_client_info": {
+          "package_name": "com.maftah.abulfadhwl_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "555782064674-9cohqdejdmphuum6m0jscegh0aeguhg9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQpQkYU0seFPU4ZhpWgLfy23Oa6Wt__bs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "555782064674-9cohqdejdmphuum6m0jscegh0aeguhg9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

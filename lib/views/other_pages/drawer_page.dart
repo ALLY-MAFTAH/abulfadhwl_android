@@ -8,6 +8,8 @@ import 'package:abulfadhwl_android/views/pages_from_drawer/questions_and_answers
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../pages_from_drawer/settings_page.dart';
+
 class DrawerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -164,29 +166,29 @@ class DrawerPage extends StatelessWidget {
                     },
                   ),
                   Divider(),
-                  // ListTile(
-                  //   title: Row(
-                  //     children: <Widget>[
-                  //       Icon(
-                  //         Icons.settings,
-                  //         color: Colors.black,
-                  //       ),
-                  //       SizedBox(
-                  //         width: 10,
-                  //       ),
-                  //       Text(
-                  //         "Mipangilio",
-                  //         style: TextStyle(),
-                  //       ),
-                  //     ],
-                  //   ),
-                  //   onTap: () {
-                  //     Navigator.push(context, MaterialPageRoute(builder: (_) {
-                  //       return Settings();
-                  //     }));
-                  //   },
-                  // ),
-                  // Divider(),
+                  ListTile(
+                    title: Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.settings,
+                          color: Colors.black,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          "Mipangilio",
+                          style: TextStyle(),
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) {
+                        return Settings();
+                      }));
+                    },
+                  ),
+                  Divider(),
                 ],
               ),
             ),

@@ -1,77 +1,49 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
 class Settings extends StatefulWidget {
-  const Settings({Key? key}) : super(key: key);
+  Settings({Key? key}) : super(key: key);
 
   @override
-  _SettingsState createState() => _SettingsState();
+  State<Settings> createState() => _SettingsState();
 }
 
 class _SettingsState extends State<Settings> {
+
+  // _registerOnFirebase() {
+  //   FirebaseMessaging.instance.subscribeToTopic('all');
+  //   FirebaseMessaging.instance.getToken().then((token) => print(token));
+  // }
+
+  // void getMessage() {
+  //   _firebaseMessaging.configure(
+  //       onMessage: (Map<String, dynamic> message) async {},
+  //       onResume: (Map<String, dynamic> message) async {},
+  //       onLaunch: (Map<String, dynamic> message) async {});
+  // }
+
+  String? mtoken = " ";
+
+  void getToken() async {
+    print('The Token is: ' + mtoken.toString());
+    await FirebaseMessaging.instance.getToken().then((token) {
+      setState(() {
+        mtoken = token;
+      });
+    });
+    print('The Token is: ' + mtoken.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // This is handled by the search bar itself.
-      resizeToAvoidBottomInset: false,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          // buildMap(),
-          // buildBottomNavigationBar(),
-          buildFloatingSearchBar(),
-        ],
+      body: Center(
+        child: ElevatedButton(
+            onPressed: () {
+              getToken();
+            },
+            child: Text('Print Token')),
       ),
-    );
-  }
-
-  Widget buildFloatingSearchBar() {
-    final isPortrait =
-        MediaQuery.of(context).orientation == Orientation.portrait;
-
-    return FloatingSearchBar(
-      hint: 'Search...',
-      scrollPadding: const EdgeInsets.only(top: 16, bottom: 56),
-      transitionDuration: const Duration(milliseconds: 800),
-      transitionCurve: Curves.easeInOut,
-      physics: const BouncingScrollPhysics(),
-      axisAlignment: isPortrait ? 0.0 : -1.0,
-      openAxisAlignment: 0.0,
-      width: isPortrait ? 600 : 500,
-      debounceDelay: const Duration(milliseconds: 500),
-      onQueryChanged: (query) {
-        // Call your model, bloc, controller here.
-      },
-      // Specify a custom transition to be used for
-      // animating between opened and closed stated.
-      transition: CircularFloatingSearchBarTransition(),
-      actions: [
-        FloatingSearchBarAction(
-          showIfOpened: false,
-          child: CircularButton(
-            icon: const Icon(Icons.place),
-            onPressed: () {},
-          ),
-        ),
-        FloatingSearchBarAction.searchToClear(
-          showIfClosed: false,
-        ),
-      ],
-      builder: (context, transition) {
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Material(
-            color: Colors.white,
-            elevation: 4.0,
-            // child: Column(
-            //   mainAxisSize: MainAxisSize.min,
-            //   children: Colors.accents.map((color) {
-            //     return Container(height: 112, color: color);
-            //   }).toList(),
-            // ),
-          ),
-        );
-      },
     );
   }
 }
