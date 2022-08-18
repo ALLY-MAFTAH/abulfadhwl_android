@@ -62,7 +62,7 @@ class DrawerPage extends StatelessWidget {
                       ],
                     ),
                     onTap: () {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) {
                         return LiveDuruusAndTimetablePage();
                       }));
                     },
@@ -85,7 +85,7 @@ class DrawerPage extends StatelessWidget {
                       ],
                     ),
                     onTap: () {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) {
                         return QuestionsAndAnswers();
                       }));
                     },
@@ -108,7 +108,7 @@ class DrawerPage extends StatelessWidget {
                       ],
                     ),
                     onTap: () {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) {
                         return Announcements(
                           announcementDetails: _dataProvider.announcements,
                         );
@@ -133,7 +133,7 @@ class DrawerPage extends StatelessWidget {
                       ],
                     ),
                     onTap: () {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) {
                         return AboutUs();
                       }));
                     },
@@ -156,7 +156,7 @@ class DrawerPage extends StatelessWidget {
                       ],
                     ),
                     onTap: () {
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) {
                         return ContactUs(
                           dataProvider: _dataProvider,
                         );
