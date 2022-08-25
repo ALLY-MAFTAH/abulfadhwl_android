@@ -31,6 +31,8 @@ class DataProvider extends ChangeNotifier {
   String currentAlbumName = "";
   List<Song> songs = [];
   List<Song> _audios = [];
+  int searchedAudio = 0;
+
   Song currentSong =
       Song(id: 0, albumId: 0, title: "", size: 0, duration: "", file: "");
 
@@ -38,7 +40,6 @@ class DataProvider extends ChangeNotifier {
 
   String progress = "0";
   String downloadedFile = "";
-
 
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -178,7 +179,6 @@ class DataProvider extends ChangeNotifier {
     print(info);
     return true;
   }
-  
 
 //
 //

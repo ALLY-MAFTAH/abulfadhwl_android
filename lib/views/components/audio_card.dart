@@ -44,6 +44,7 @@ class _AudioCardState extends State<AudioCard> {
               return InkWell(
                 onTap: () {
                   setState(() async {
+                    widget.dataProvider.searchedAudio = 0;
                     widget.dataProvider.songs = widget.songs;
                     widget.dataProvider.currentSongIndex = widget.index;
                     widget.dataProvider.currentSong =
@@ -95,7 +96,11 @@ class _AudioCardState extends State<AudioCard> {
                                         _audioHandler.mediaItem.value?.title ==
                                                 widget.songs[widget.index].title
                                             ? FontWeight.bold
-                                            : FontWeight.normal),
+                                            : FontWeight.normal,
+                                    color: widget.songs[widget.index].id ==
+                                            widget.dataProvider.searchedAudio
+                                        ? Colors.orange
+                                        : Colors.black),
                               ),
                             ),
                             SingleChildScrollView(
@@ -105,7 +110,10 @@ class _AudioCardState extends State<AudioCard> {
                                     ' MB',
                                 style: TextStyle(
                                     fontSize: 12,
-                                    color: Colors.grey[600],
+                                    color: widget.songs[widget.index].id ==
+                                            widget.dataProvider.searchedAudio
+                                        ? Colors.orange
+                                        : Colors.grey[600],
                                     fontWeight:
                                         _audioHandler.mediaItem.value?.title ==
                                                 widget.songs[widget.index].title
@@ -124,7 +132,10 @@ class _AudioCardState extends State<AudioCard> {
                         textAlign: TextAlign.end,
                         style: TextStyle(
                             fontSize: 12,
-                            color: Colors.black,
+                            color: widget.songs[widget.index].id ==
+                                    widget.dataProvider.searchedAudio
+                                ? Colors.orange
+                                : Colors.black,
                             fontWeight: _audioHandler.mediaItem.value?.title ==
                                     widget.songs[widget.index].title
                                 ? FontWeight.bold
@@ -175,6 +186,7 @@ class _AudioCardState extends State<AudioCard> {
   void choiceAction(String choice) {
     if (choice == MoreButtonConstants.PlayAudio) {
       setState(() async {
+        widget.dataProvider.searchedAudio = 0;
         widget.dataProvider.currentSongIndex = widget.index;
         widget.dataProvider.songs = widget.songs;
         widget.dataProvider.currentSong =

@@ -7,9 +7,6 @@ import '../../providers/data_provider.dart';
 import '../other_pages/songs_list.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
-// first overwrite to
-// clear the search text
-
   initState() {}
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -88,6 +85,7 @@ class CustomSearchDelegate extends SearchDelegate {
                     for (var aud in _dataProvider.audios) {
                       if (aud.albumId == result.albumId) {
                         selectedAlbumAudios.add(aud);
+                        // int _searchedAudio = result.albumId;
                       }
                     }
                     List<Album> allAlbums = [];
@@ -101,6 +99,7 @@ class CustomSearchDelegate extends SearchDelegate {
                         _dataProvider.currentAlbumName = album.name;
                       }
                     }
+                    _dataProvider.searchedAudio = result.id;
                     return SongsList(
                       songs: selectedAlbumAudios,
                       dataProvider: _dataProvider,

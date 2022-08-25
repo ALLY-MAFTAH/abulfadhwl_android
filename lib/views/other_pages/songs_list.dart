@@ -6,6 +6,7 @@ import 'package:abulfadhwl_android/views/components/page_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:abulfadhwl_android/models/song.dart';
 import 'package:abulfadhwl_android/views/other_pages/now_playing_screen_sheet.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 typedef BottomSheetCallback = void Function();
 
@@ -24,12 +25,21 @@ class SongsList extends StatefulWidget {
 }
 
 class _SongsListState extends State<SongsList> {
+  final ItemScrollController _scrollController = ItemScrollController();
+  int _scrollTo = 0;
+  List<int> songIds = [];
+
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   late BottomSheetCallback? _showMyBottomSheetCallBack;
   @override
   void initState() {
     _showMyBottomSheetCallBack = _showBottomSheet;
-
+    if (widget.dataProvider.searchedAudio != 0) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _scrollController.scrollTo(
+            index: _scrollTo, duration: Duration(seconds: 1));
+      });
+    }
     super.initState();
   }
 
@@ -62,15 +72,21 @@ class _SongsListState extends State<SongsList> {
                   )
                 : Padding(
                     padding: const EdgeInsets.only(top: 5),
-                    child: ListView.builder(
-                      itemBuilder: (BuildContext context, int index) {
+                    child: ScrollablePositionedList.builder(
+                      itemScrollController: _scrollController,
+                      itemCount: widget.songs.length,
+                      itemBuilder: (context, index) {
+                        for (var element in widget.songs) {
+                          songIds.add(element.id);
+                        }
+                        _scrollTo =
+                            songIds.indexOf(widget.dataProvider.searchedAudio);
                         return AudioCard(
                           dataProvider: widget.dataProvider,
                           songs: widget.songs,
                           index: index,
                         );
                       },
-                      itemCount: widget.songs.length,
                     )),
           ),
           widget.songs.isEmpty

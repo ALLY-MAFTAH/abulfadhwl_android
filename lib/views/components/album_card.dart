@@ -5,7 +5,7 @@ import 'package:abulfadhwl_android/views/components/page_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:abulfadhwl_android/views/other_pages/songs_list.dart';
-import 'package:vector_math/vector_math.dart' as math;
+// import 'package:vector_math/vector_math.dart' as math;
 
 class AlbumCard extends StatefulWidget {
   final Album album;
@@ -102,14 +102,15 @@ class _AlbumCardState extends State<AlbumCard> {
               onTap: () {
                 setState(() {
                   _dataProvider.currentAlbumName = widget.album.name;
+                  widget.dataProvider.searchedAudio = 0;
                 });
                 Navigator.push(context, MaterialPageRoute(builder: (_) {
+
                   return SongsList(
                     songs: widget.album.songs,
                     dataProvider: _dataProvider,
                   );
                 }));
-                print(widget.album.songs);
               },
               child: Card(
                   color: _dataProvider.currentSong.albumId == widget.album.id
