@@ -38,8 +38,9 @@ class _AudiosScreenState extends State<AudiosScreen> {
               parent: AlwaysScrollableScrollPhysics()),
           itemBuilder: (BuildContext context, int index) {
             return AlbumCard(
-              album: category.albums[index], dataProvider: widget.dataProvider,
-              // songs: category.albums[index].songs,
+              album: category.albums[index],
+              dataProvider: widget.dataProvider,
+              i: index + 1,
             );
           },
           itemCount: category.albums.length,
@@ -67,14 +68,14 @@ class _AudiosScreenState extends State<AudiosScreen> {
                     physics: const BouncingScrollPhysics(
                         parent: AlwaysScrollableScrollPhysics()),
                     children: [
-                       Container(
-                  height: 300,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Center(child: CircularProgressIndicator()),
-                    ],
-                  ))
+                      Container(
+                          height: 300,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(child: CircularProgressIndicator()),
+                            ],
+                          ))
                     ],
                   ),
                 ),

@@ -5,13 +5,16 @@ import 'package:abulfadhwl_android/views/components/page_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:abulfadhwl_android/views/other_pages/songs_list.dart';
+import 'package:vector_math/vector_math.dart' as math;
 
 class AlbumCard extends StatefulWidget {
   final Album album;
   final DataProvider dataProvider;
+  final int i;
 
   const AlbumCard({
     Key? key,
+    required this.i,
     required this.album,
     required this.dataProvider,
   }) : super(key: key);
@@ -25,6 +28,63 @@ class _AlbumCardState extends State<AlbumCard> {
   void initState() {
     super.initState();
   }
+
+  Widget _dialog(BuildContext context) {
+    return AlertDialog(
+      title: Text('Tafadhali Hakiki'),
+      content:
+          Text("Unataka Kupakua Sauti Zote Kwenye " + widget.album.name + "?"),
+      actions: [
+        TextButton(
+            onPressed: () {
+              widget.dataProvider.downloadAlbum(widget.album.songs);
+              Navigator.of(context).pop();
+            },
+            child: const Text('Ndio')),
+        TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('Hapana'))
+      ],
+    );
+  }
+
+  void _scaleDialog() {
+    showGeneralDialog(
+      context: context,
+      pageBuilder: (ctx, a1, a2) {
+        return Container();
+      },
+      transitionBuilder: (ctx, a1, a2, child) {
+        var curve = Curves.easeInOut.transform(a1.value);
+        return Transform.scale(
+          scale: curve,
+          child: _dialog(ctx),
+        );
+      },
+      transitionDuration: const Duration(milliseconds: 600),
+    );
+  }
+  // void _rotateDialog() {
+  //   showGeneralDialog(
+  //     context: context,
+  //     pageBuilder: (ctx, a1, a2) {
+  //       return Container(
+  //         decoration: BoxDecoration(
+  //           borderRadius: BorderRadius.circular(60)
+  //         ),
+  //       );
+  //     },
+  //     transitionBuilder: (ctx, a1, a2, child) {
+  //       return Transform.rotate(
+  //         angle: math.radians(a1.value * 360),
+  //         child: _dialog(ctx),
+  //       );
+  //     },
+  //     transitionDuration: const Duration(milliseconds: 1500),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +150,9 @@ class _AlbumCardState extends State<AlbumCard> {
                                 SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Text(
-                                    widget.album.name,
+                                    widget.i.toString() +
+                                        '. ' +
+                                        widget.album.name,
                                     style: TextStyle(
                                         fontSize: 15,
                                         fontWeight:
@@ -136,32 +198,8 @@ class _AlbumCardState extends State<AlbumCard> {
                           child: CircleAvatar(
                               child: IconButton(
                                   onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext ctx) {
-                                          return AlertDialog(
-                                            title: Text('Tafadhali Hakiki'),
-                                            content: Text(
-                                                "Unataka Kupakua Sauti Zote Kwenye " +
-                                                    widget.album.name +
-                                                    "?"),
-                                            actions: [
-                                              TextButton(
-                                                  onPressed: () {
-                                                    widget.dataProvider
-                                                        .downloadAlbum(
-                                                            widget.album.songs);
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: const Text('Ndio')),
-                                              TextButton(
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                  },
-                                                  child: const Text('Hapana'))
-                                            ],
-                                          );
-                                        });
+                                    // _rotateDialog();
+                                    _scaleDialog();
                                   },
                                   icon: Icon(
                                     Icons.download,
