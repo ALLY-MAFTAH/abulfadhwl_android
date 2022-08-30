@@ -75,7 +75,7 @@ class _SongsListState extends State<SongsList> {
                     child: ScrollablePositionedList.builder(
                       itemScrollController: _scrollController,
                       itemCount: widget.songs.length,
-                      itemBuilder: (context, index) {
+                      itemBuilder: (context, i) {
                         for (var element in widget.songs) {
                           songIds.add(element.id);
                         }
@@ -84,7 +84,7 @@ class _SongsListState extends State<SongsList> {
                         return AudioCard(
                           dataProvider: widget.dataProvider,
                           songs: widget.songs,
-                          index: index,
+                          index: i,
                         );
                       },
                     )),
@@ -135,7 +135,7 @@ class _SongsListState extends State<SongsList> {
                                         SingleChildScrollView(
                                           scrollDirection: Axis.horizontal,
                                           child: Text(
-                                            "Sheikh Abul Fadhwl Kassim Mafuta Kassim",
+                                            "Sheikh Abul Fadhwl Qassim Mafuta Qassim",
                                             maxLines: 1,
                                             style: TextStyle(fontSize: 13),
                                           ),

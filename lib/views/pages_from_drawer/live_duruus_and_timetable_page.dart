@@ -184,7 +184,7 @@ class _LiveDuruusAndTimetablePageState
             url,
             metas: Metas(
               title: title,
-              artist: "Sheikh Abul Fadhwl Kassim Mafuta Kassim",
+              artist: "Sheikh Abul Fadhwl Qassim Mafuta Qassim",
               album: album,
               image: MetasImage.asset("assets/icons/app_icon.png"),
             ),

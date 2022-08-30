@@ -88,6 +88,8 @@ class AboutUs extends StatelessWidget {
             Container(
               height: 25,
               child: Marquee(
+                pauseAfterRound: Duration(seconds: 2),
+                blankSpace: 50,
                 text: 'Ndugu Katika Imani Usitusahau Katika Dua Zako  ',
                 style: TextStyle(),
               ),

@@ -124,6 +124,7 @@ class _AbulfadhwlState extends State<Abulfadhwl> {
         theme: ThemeData(
             textTheme: GoogleFonts.ubuntuTextTheme(),
             primarySwatch: Colors.orange),
+        // home: DraggableFloatingActionButtonDemo(),
         home: AnimatedSplashScreen(),
       ),
     );

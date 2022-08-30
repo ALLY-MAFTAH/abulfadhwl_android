@@ -8,6 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
 
 class Home extends StatefulWidget {
+  // final GlobalKey parentKey = GlobalKey();
+
   @override
   _HomeState createState() => _HomeState();
 }

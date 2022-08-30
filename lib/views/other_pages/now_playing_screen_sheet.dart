@@ -1,6 +1,7 @@
 import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:abulfadhwl_android/views/components/controls.dart';
 import 'package:flutter/material.dart';
+import 'package:marquee/marquee.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../constants/api.dart';
@@ -101,7 +102,7 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                               height: 5,
                             ),
                             Text(
-                              "شيخ أبو الفضل قاسم بن مفوتا بن قاسم بن عثمان",
+                              "الشيخ أبو الفضل قاسم بن مفوتا بن قاسم بن عثمان",
                               style: TextStyle(fontWeight: FontWeight.w800),
                             ),
                             Text(

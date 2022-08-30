@@ -7,6 +7,7 @@ import 'package:abulfadhwl_android/services/service_locator.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:marquee/marquee.dart';
 
 class CurrentSongTitle extends StatelessWidget {
   const CurrentSongTitle({Key? key}) : super(key: key);
@@ -16,9 +17,11 @@ class CurrentSongTitle extends StatelessWidget {
     return ValueListenableBuilder<String>(
       valueListenable: pageManager.currentSongTitleNotifier,
       builder: (_, title, __) {
-        return SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Text(title,
+        return Expanded(
+          child: Marquee(
+              text: title,
+              pauseAfterRound: Duration(seconds: 2),
+              blankSpace: 200,
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
         );
       },

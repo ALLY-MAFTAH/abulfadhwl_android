@@ -60,6 +60,7 @@ dependencies:
   fluttertoast: ^8.0.9
   firebase_core: any
   firebase_messaging: any
+  flutter_slidable: ^2.0.0
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -2,14 +2,13 @@
 
 class MoreButtonConstants {
 
-  static const String PlayAudio = 'Sikiliza';
-  static const String ShareAudio = 'Sambaza';
-  static const String DownloadAudio = 'Pakua';
+
+  static const String Details = 'Maelezo';
+  static const String DownloadAudios = 'Pakua Zote';
 
   static const List<String> choices = <String>[
-    PlayAudio,
-    ShareAudio,
-    DownloadAudio
+    Details,
+    DownloadAudios
   ];
 
 }
