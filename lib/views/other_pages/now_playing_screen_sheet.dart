@@ -1,7 +1,6 @@
 import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:abulfadhwl_android/views/components/controls.dart';
 import 'package:flutter/material.dart';
-import 'package:marquee/marquee.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../constants/api.dart';

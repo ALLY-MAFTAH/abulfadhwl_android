@@ -45,7 +45,7 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 120),
                       child: Card(
-                        elevation: 10,
+                        elevation: 6,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15)),
                         child: Hero(
@@ -94,12 +94,10 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                       children: <Widget>[
                         // ignore: deprecated_member_use
                         RaisedButton(
-                          elevation: 10,
+                          elevation: 6,
                           color: Colors.orange,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
                           child: Text(
-                            'SOMA',
+                            'SOMA',style: TextStyle(color:Colors.white)
                           ),
                           onPressed: () {
                             String bookUrl = api +
@@ -117,12 +115,10 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
 
                         // ignore: deprecated_member_use
                         RaisedButton(
-                          elevation: 10,
+                          elevation: 6,
                           color: Colors.orange,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
                           child: Text(
-                            'PAKUA',
+                            'PAKUA',style: TextStyle(color:Colors.white)
                           ),
                           onPressed: () async {
                             _dataProvider.download(
@@ -136,12 +132,10 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                         ),
                         // ignore: deprecated_member_use
                         RaisedButton(
-                          elevation: 10,
+                          elevation: 6,
                           color: Colors.orange,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
                           child: Text(
-                            'SAMBAZA',
+                            'SAMBAZA',style: TextStyle(color:Colors.white)
                           ),
                           onPressed: () {
                             Share.share(api +

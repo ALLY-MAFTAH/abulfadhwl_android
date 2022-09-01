@@ -8,6 +8,8 @@ import 'package:flutter_image/network.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
+import '../components/folded_card.dart';
+
 class BooksScreen extends StatefulWidget {
   @override
   _BooksScreenState createState() => _BooksScreenState();
@@ -31,7 +33,7 @@ class _BooksScreenState extends State<BooksScreen> {
         body: Column(
           children: [
             Card(
-              elevation: 10,
+              elevation: 6,
               color: Colors.orange[50],
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
@@ -78,7 +80,7 @@ class _BooksScreenState extends State<BooksScreen> {
                                   right: 5,
                                 ),
                                 child: Card(
-                                  elevation: 10,
+                                  elevation: 6,
                                   color: Colors.orange[50],
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(5),
@@ -121,13 +123,12 @@ class _BooksScreenState extends State<BooksScreen> {
                                         ),
                                         // ignore: deprecated_member_use
                                         RaisedButton(
-                                          elevation: 10,
+                                          elevation: 6,
                                           color: Colors.orange,
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
                                           child: Text(
                                             'SOMA',
+                                            style:
+                                                TextStyle(color: Colors.white),
                                           ),
                                           onPressed: () {
                                             print('object');
@@ -158,59 +159,11 @@ class _BooksScreenState extends State<BooksScreen> {
                       ? Center(
                           child: CircularProgressIndicator(),
                         )
-                      : CustomScrollView(
-                          physics: BouncingScrollPhysics(),
-                          slivers: <Widget>[
-                            SliverGrid(
-                              delegate: SliverChildBuilderDelegate(
-                                  (BuildContext context, int index) {
-                                return Padding(
-                                  padding: index.isEven
-                                      ? const EdgeInsets.only(
-                                          left: 5, top: 5, right: 0)
-                                      : const EdgeInsets.only(
-                                          left: 5, top: 5, right: 5),
-                                  child: InkWell(
-                                      onTap: () {
-                                        String articleUrl = api +
-                                            'article/file/' +
-                                            _dataObject.articles[index].id
-                                                .toString();
-                                        Navigator.push(context,
-                                            MaterialPageRoute(builder: (_) {
-                                          return BookReader(
-                                              pdfTitle: _dataObject
-                                                  .articles[index].title,
-                                              pdfName: _dataObject
-                                                  .articles[index].file,
-                                              pdfUrl: articleUrl);
-                                        }));
-                                      },
-                                      child: Card(
-                                        elevation: 9,
-                                        margin: EdgeInsets.all(3),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              image: DecorationImage(
-                                                  image: NetworkImageWithRetry(
-                                                      api +
-                                                          'article/cover/' +
-                                                          _dataObject
-                                                              .articles[index]
-                                                              .id
-                                                              .toString()),
-                                                  fit: BoxFit.cover),
-                                              borderRadius:
-                                                  BorderRadius.circular(5)),
-                                        ),
-                                      )),
-                                );
-                              }, childCount: _dataObject.articles.length),
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2, childAspectRatio: 0.7),
-                            ),
-                          ],
+                      : ListView.builder(
+                          itemBuilder: (BuildContext context, int index) {
+                            return FoldedCard(index: index);
+                          },
+                          itemCount: _dataObject.articles.length,
                         )
                 ],
               ),

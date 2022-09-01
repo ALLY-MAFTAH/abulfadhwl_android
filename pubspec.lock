@@ -303,6 +303,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "8.0.9"
+  folding_cell:
+    dependency: "direct main"
+    description:
+      name: folding_cell
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   font_awesome_flutter:
     dependency: "direct main"
     description:
