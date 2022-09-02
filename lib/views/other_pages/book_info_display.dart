@@ -1,4 +1,3 @@
-
 import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:abulfadhwl_android/views/components/pdf_reader.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +24,6 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   bool downloading = false;
   var progressString = "";
-
 
   @override
   Widget build(BuildContext context) {
@@ -96,9 +94,8 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                         RaisedButton(
                           elevation: 6,
                           color: Colors.orange,
-                          child: Text(
-                            'SOMA',style: TextStyle(color:Colors.white)
-                          ),
+                          child: Text('SOMA',
+                              style: TextStyle(color: Colors.white)),
                           onPressed: () {
                             String bookUrl = api +
                                 'book/file/' +
@@ -117,26 +114,24 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                         RaisedButton(
                           elevation: 6,
                           color: Colors.orange,
-                          child: Text(
-                            'PAKUA',style: TextStyle(color:Colors.white)
-                          ),
+                          child: Text('PAKUA',
+                              style: TextStyle(color: Colors.white)),
                           onPressed: () async {
                             _dataProvider.download(
-                                api +
-                                    'book/file/' +
-                                    widget.bookDetails.id.toString(),
-                                widget.bookDetails.file,
-                                widget.bookDetails.title,
-                                );
+                              api +
+                                  'book/file/' +
+                                  widget.bookDetails.id.toString(),
+                              widget.bookDetails.file,
+                              widget.bookDetails.title,
+                            );
                           },
                         ),
                         // ignore: deprecated_member_use
                         RaisedButton(
                           elevation: 6,
                           color: Colors.orange,
-                          child: Text(
-                            'SAMBAZA',style: TextStyle(color:Colors.white)
-                          ),
+                          child: Text('SAMBAZA',
+                              style: TextStyle(color: Colors.white)),
                           onPressed: () {
                             Share.share(api +
                                 'book/file/' +

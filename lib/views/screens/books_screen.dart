@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image/network.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter/scheduler.dart' show timeDilation;
 import '../components/folded_card.dart';
 
 class BooksScreen extends StatefulWidget {
@@ -18,6 +18,7 @@ class BooksScreen extends StatefulWidget {
 class _BooksScreenState extends State<BooksScreen> {
   @override
   Widget build(BuildContext context) {
+   timeDilation = 1.0;
     final _dataObject = Provider.of<DataProvider>(context);
 
     return DefaultTabController(
