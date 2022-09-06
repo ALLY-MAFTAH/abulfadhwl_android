@@ -492,6 +492,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  page_flip_builder:
+    dependency: "direct main"
+    description:
+      name: page_flip_builder
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.3"
   path:
     dependency: transitive
     description:

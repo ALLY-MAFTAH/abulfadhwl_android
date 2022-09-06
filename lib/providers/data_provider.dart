@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:abulfadhwl_android/models/album.dart';
 import 'package:abulfadhwl_android/models/song.dart';
 import 'package:abulfadhwl_android/models/song_category.dart';
 import 'package:flutter/material.dart';
@@ -27,8 +28,8 @@ typedef void OnError(Exception exception);
 class DataProvider extends ChangeNotifier {
   List<SongCategory> _categories = [];
   int currentSongIndex = 0;
-  int currentAlbumId = 0;
-  String currentAlbumName = "";
+  Album currentAlbum = Album(id: 0, name: "", description: "", categoryId: 0, songs: []);
+  // String currentAlbumName = "";
   List<Song> songs = [];
   List<Song> _audios = [];
   int searchedAudio = 0;

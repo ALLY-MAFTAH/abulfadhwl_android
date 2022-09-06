@@ -2,11 +2,14 @@ import 'package:abulfadhwl_android/models/song_category.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:abulfadhwl_android/views/components/album_card.dart';
 import 'package:abulfadhwl_android/views/other_pages/drawer_page.dart';
+import 'package:abulfadhwl_android/views/other_pages/songs_list.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../services/service_locator.dart';
 import '../components/custom_search_delegate.dart';
 import '../components/draggable_fab.dart';
+import '../components/page_manager.dart';
 
 class AudiosScreen extends StatefulWidget {
   final List<SongCategory> songCategories;
@@ -23,8 +26,8 @@ class AudiosScreen extends StatefulWidget {
 }
 
 class _AudiosScreenState extends State<AudiosScreen> {
+  final pageManager = getIt<PageManager>();
   List<Widget> _screens = [];
-
   List<Tab> _tabs = [];
 
   @override
@@ -132,30 +135,45 @@ class _AudiosScreenState extends State<AudiosScreen> {
                       ],
                     ),
                   )),
-              DraggableFloatingActionButton(
-                  child: Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        // border: Border.all(color: Colors.black),
-                        shape: BoxShape.circle,
-                        color: Colors.orange,
-                      ),
-                      child: Icon(
-                        Icons.play_arrow_rounded,
-                        size: 60,
-                      )),
-                  initialOffset: Offset(MediaQuery.of(context).size.width - 70,
-                      MediaQuery.of(context).size.height - 130),
-                  minOffset: const Offset(11, 65),
-                  maxOffset: Offset(MediaQuery.of(context).size.width - 70,
-                      MediaQuery.of(context).size.height - 130),
-                  parentKey: widget.parentKey,
-                  onFabPressed: () {
-                    print("Pressed");
+              ValueListenableBuilder(
+                  valueListenable: pageManager.currentSongTitleNotifier,
+                  builder: (_, title, __) {
+                    return title == ""
+                        ? Container()
+                        : DraggableFloatingActionButton(
+                            child: Container(
+                                width: 60,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.orange,
+                                ),
+                                child: Icon(
+                                  Icons.play_arrow_rounded,
+                                  size: 60,
+                                )),
+                            initialOffset: Offset(
+                                MediaQuery.of(context).size.width - 70,
+                                MediaQuery.of(context).size.height - 130),
+                            minOffset: const Offset(11, 65),
+                            maxOffset: Offset(
+                                MediaQuery.of(context).size.width - 70,
+                                MediaQuery.of(context).size.height - 130),
+                            parentKey: widget.parentKey,
+                            onFabPressed: () {
+                              print("Pressed");
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => SongsList(
+                                            indicator: "Aisha",
+                                            dataProvider: widget.dataProvider,
+                                            songs: widget.dataProvider.songs,
+                                            categoryId: widget.dataProvider
+                                                .currentAlbum.categoryId,
+                                          )));
+                            });
                   })
-              //   Navigator.push(context,
-              //       MaterialPageRoute(builder: (_) => HistoryScreen()));
             ],
           );
   }

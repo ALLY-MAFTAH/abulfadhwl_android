@@ -13,11 +13,15 @@ typedef BottomSheetCallback = void Function();
 class SongsList extends StatefulWidget {
   final List<Song> songs;
   final DataProvider dataProvider;
+  final String indicator;
+  final int categoryId;
 
   const SongsList({
     Key? key,
     required this.songs,
     required this.dataProvider,
+    required this.indicator,
+    required this.categoryId,
   }) : super(key: key);
 
   @override
@@ -28,16 +32,31 @@ class _SongsListState extends State<SongsList> {
   final ItemScrollController _scrollController = ItemScrollController();
   int _scrollTo = 0;
   List<int> songIds = [];
+  String categoryName = "";
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   late BottomSheetCallback? _showMyBottomSheetCallBack;
+
   @override
   void initState() {
+    for (var category in widget.dataProvider.categories) {
+      if (category.id == widget.categoryId) {
+        categoryName = category.name;
+      }
+    }
     _showMyBottomSheetCallBack = _showBottomSheet;
     if (widget.dataProvider.searchedAudio != 0) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _scrollController.scrollTo(
             index: _scrollTo, duration: Duration(seconds: 1));
+      });
+    }
+
+    if (widget.indicator == "Aisha") {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _scrollController.scrollTo(
+            index: widget.dataProvider.currentSongIndex,
+            duration: Duration(seconds: 1));
       });
     }
     super.initState();
@@ -58,9 +77,23 @@ class _SongsListState extends State<SongsList> {
             Navigator.pop(context);
           },
         ),
-        title: Text(
-          widget.dataProvider.currentAlbumName,
-          style: TextStyle(),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Text(
+                widget.dataProvider.currentAlbum.name,
+              ),
+            ),
+            Text(
+              categoryName,
+              style: TextStyle(
+              fontSize: 15,
+              color: Color.fromARGB(255, 78, 76, 76)
+              ),
+            ),
+          ],
         ),
       ),
       body: Column(

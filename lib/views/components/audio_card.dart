@@ -31,7 +31,7 @@ class _AudioCardState extends State<AudioCard> {
 
   @override
   void initState() {
-    print("Index ya sasa ni: " + widget.index.toString());
+
     super.initState();
   }
 
@@ -55,7 +55,7 @@ class _AudioCardState extends State<AudioCard> {
                     final songRepository = getIt<DemoPlaylist>();
                     final playlist = await songRepository.fetchInitialPlaylist(
                         widget.dataProvider.songs,
-                        widget.dataProvider.currentAlbumName);
+                        widget.dataProvider.currentAlbum.name);
                     final mediaItems = playlist
                         .map((song) => MediaItem(
                               id: song['id'] ?? '',
@@ -211,7 +211,7 @@ class _AudioCardState extends State<AudioCard> {
       pageManager.remove();
       final songRepository = getIt<DemoPlaylist>();
       final playlist = await songRepository.fetchInitialPlaylist(
-          widget.dataProvider.songs, widget.dataProvider.currentAlbumName);
+          widget.dataProvider.songs, widget.dataProvider.currentAlbum.name);
       final mediaItems = playlist
           .map((song) => MediaItem(
                 id: song['id'] ?? '',
@@ -228,14 +228,14 @@ class _AudioCardState extends State<AudioCard> {
 
   _downloadAudio() {
     widget.dataProvider.searchedAudio = 0;
-    // widget.dataProvider.songs = widget.songs;
+    widget.dataProvider.songs = widget.songs;
     widget.dataProvider.download(
       api +
           'song/file/' +
-          widget.dataProvider.songs[widget.dataProvider.currentSongIndex].id
+          widget.dataProvider.songs[widget.index].id
               .toString(),
-      widget.dataProvider.songs[widget.dataProvider.currentSongIndex].file,
-      widget.dataProvider.songs[widget.dataProvider.currentSongIndex].title,
+      widget.dataProvider.songs[widget.index].file,
+      widget.dataProvider.songs[widget.index].title,
     );
   }
 

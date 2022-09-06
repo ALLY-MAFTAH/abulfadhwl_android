@@ -126,12 +126,14 @@ class _AlbumCardState extends State<AlbumCard> {
           return InkWell(
               onTap: () {
                 setState(() {
-                  _dataProvider.currentAlbumName = widget.album.name;
+                  _dataProvider.currentAlbum = widget.album;
                   widget.dataProvider.searchedAudio = 0;
                 });
                 Navigator.push(context, MaterialPageRoute(builder: (_) {
                   return SongsList(
+                    indicator: "",
                     songs: widget.album.songs,
+                    categoryId: widget.album.categoryId,
                     dataProvider: _dataProvider,
                   );
                 }));

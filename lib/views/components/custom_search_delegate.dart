@@ -79,13 +79,13 @@ class CustomSearchDelegate extends SearchDelegate {
                     backgroundColor: MaterialStateColor.resolveWith(
                         (states) => Color.fromARGB(255, 243, 239, 233))),
                 onPressed: () {
+                  int categoryId = 0;
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (_) {
                     List<Song> selectedAlbumAudios = [];
                     for (var aud in _dataProvider.audios) {
                       if (aud.albumId == result.albumId) {
                         selectedAlbumAudios.add(aud);
-                        // int _searchedAudio = result.albumId;
                       }
                     }
                     List<Album> allAlbums = [];
@@ -96,13 +96,16 @@ class CustomSearchDelegate extends SearchDelegate {
                     }
                     for (var album in allAlbums) {
                       if (album.id == result.albumId) {
-                        _dataProvider.currentAlbumName = album.name;
+                        _dataProvider.currentAlbum = album;
+                        categoryId = _dataProvider.currentAlbum.categoryId;
                       }
                     }
                     _dataProvider.searchedAudio = result.id;
                     return SongsList(
+                      indicator: "",
                       songs: selectedAlbumAudios,
                       dataProvider: _dataProvider,
+                      categoryId: categoryId,
                     );
                   }));
                 },

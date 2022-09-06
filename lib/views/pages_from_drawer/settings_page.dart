@@ -1,64 +1,127 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:page_flip_builder/page_flip_builder.dart';
 
 
-class Settings extends StatefulWidget {
-  const Settings({Key? key}) : super(key: key);
-
-  @override
-  State<Settings> createState() => _SettingsState();
-}
-
-class _SettingsState extends State<Settings> {
+class Settings extends StatelessWidget {
+  final pageFlipKey = GlobalKey<PageFlipBuilderState>();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Row(
-           crossAxisAlignment: CrossAxisAlignment.start,
-           children: <Widget>[
-             SizedBox(
-               height: 8.0,
-               width: 5.0,
-               child: CustomPaint(
-                 painter: TrianglePainter(),
-               ),
-             ),
-             Container(
-               decoration: BoxDecoration(
-                   color: Colors.red,
-                   borderRadius: BorderRadius.only(
-                       topRight: Radius.circular(6.0),
-                       bottomLeft: Radius.circular(6.0))),
-               width: 120.0,
-               height: 30.0,
-               child: Center(
-                 child: Text(
-                   'Customer Replay',
-                  style: TextStyle(color: Colors.white),
-                 ),
-               ),
-             ),
-           ],
+    return MaterialApp(
+      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      home: Container(
+        color: Colors.black,
+        child: PageFlipBuilder(
+          key: pageFlipKey,
+          frontBuilder: (_) => LightHomePage(
+            onFlip: () => pageFlipKey.currentState?.flip(),
           ),
+          backBuilder: (_) => DarkHomePage(
+            onFlip: () => pageFlipKey.currentState?.flip(),
+          ),
+          maxTilt: 0.003,
+          maxScale: 0.2,
+          onFlipComplete: (isFrontSide) => print('front: $isFrontSide'),
+        ),
       ),
     );
   }
 }
-class TrianglePainter extends CustomPainter {
+
+class LightHomePage extends StatelessWidget {
+  const LightHomePage({Key? key, this.onFlip}) : super(key: key);
+  final VoidCallback? onFlip;
   @override
-  void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
-      ..color = Colors.grey
-      ..strokeWidth = 2.0;
-    Path path = Path();
-    path.moveTo(0.0, size.height);
-    path.lineTo(size.width, 0.0);
-    path.lineTo(size.width, size.height);
-    canvas.drawPath(path, paint);
+  Widget build(BuildContext context) {
+    return Theme(
+      data: ThemeData(
+          brightness: Brightness.light,
+          textTheme: TextTheme(
+            headline3: Theme.of(context)
+                .textTheme
+                .headline3!
+                .copyWith(color: Colors.black87, fontWeight: FontWeight.w600),
+          )),
+      child: Scaffold(
+        body: Container(
+          padding: const EdgeInsets.all(24.0),
+          decoration: kIsWeb
+              ? BoxDecoration(
+                  border: Border.all(color: Colors.red, width: 5),
+                )
+              : null,
+          child: Column(
+            children: [
+              const Spacer(),
+              const Spacer(),
+              BottomFlipIconButton(onFlip: onFlip),
+            ],
+          ),
+        ),
+      ),
+    );
   }
+}
+
+class DarkHomePage extends StatelessWidget {
+  const DarkHomePage({Key? key, this.onFlip}) : super(key: key);
+  final VoidCallback? onFlip;
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
+  Widget build(BuildContext context) {
+    return Theme(
+      data: ThemeData(
+          brightness: Brightness.dark,
+          textTheme: TextTheme(
+            headline3: Theme.of(context)
+                .textTheme
+                .headline3!
+                .copyWith(color: Colors.white, fontWeight: FontWeight.w600),
+          )),
+      child: Scaffold(
+        body: Container(
+          padding: const EdgeInsets.all(24.0),
+          decoration: kIsWeb
+              ? BoxDecoration(
+                  border: Border.all(color: Colors.red, width: 5),
+                )
+              : null,
+          child: Column(
+            children: [
+              const Spacer(),
+            
+              const Spacer(),
+              BottomFlipIconButton(onFlip: onFlip),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class OptionsDrawer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Drawer();
+  }
+}
+
+
+class BottomFlipIconButton extends StatelessWidget {
+  const BottomFlipIconButton({Key? key, this.onFlip}) : super(key: key);
+  final VoidCallback? onFlip;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        IconButton(
+          onPressed: onFlip,
+          icon: const Icon(Icons.flip),
+        )
+      ],
+    );
   }
 }
