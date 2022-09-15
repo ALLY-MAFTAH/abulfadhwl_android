@@ -25,35 +25,48 @@ class AudiosScreen extends StatefulWidget {
   _AudiosScreenState createState() => _AudiosScreenState();
 }
 
-class _AudiosScreenState extends State<AudiosScreen> {
+class _AudiosScreenState extends State<AudiosScreen>
+    with TickerProviderStateMixin {
   final pageManager = getIt<PageManager>();
   List<Widget> _screens = [];
   List<Tab> _tabs = [];
+  late TabController _tabController;
 
   @override
   void initState() {
-    widget.songCategories.forEach((category) {
-      _tabs.add(Tab(
-        text: category.name,
-      ));
-      _screens.add(RefreshIndicator(
-        onRefresh: widget.dataProvider.reloadPage,
-        child: ListView.builder(
-          physics: const BouncingScrollPhysics(
-              parent: AlwaysScrollableScrollPhysics()),
-          itemBuilder: (BuildContext context, int index) {
-            return AlbumCard(
-              album: category.albums[index],
-              dataProvider: widget.dataProvider,
-              i: index + 1,
-            );
-          },
-          itemCount: category.albums.length,
-          // itemCount: category.albums.length,
-        ),
-      ));
+    setState(() {
+      widget.songCategories.forEach((category) {
+        _tabs.add(Tab(
+          text: category.name,
+        ));
+        _screens.add(RefreshIndicator(
+          onRefresh: widget.dataProvider.reloadPage,
+          child: ListView.builder(
+            physics: const BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics()),
+            itemBuilder: (BuildContext context, int index) {
+              return AlbumCard(
+                album: category.albums[index],
+                dataProvider: widget.dataProvider,
+                i: index + 1,
+              );
+            },
+            itemCount: category.albums.length,
+          ),
+        ));
+      });
     });
+    _tabController = TabController(
+      vsync: this,
+      length: _tabs.length,
+    );
+
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -61,11 +74,12 @@ class _AudiosScreenState extends State<AudiosScreen> {
     return widget.songCategories.isEmpty
         ? Scaffold(
             appBar: AppBar(
-                iconTheme: new IconThemeData(),
-                title: Text(
-                  'Sauti',
-                  style: TextStyle(),
-                )),
+              iconTheme: new IconThemeData(),
+              title: Text(
+                'Sauti',
+                style: TextStyle(),
+              ),
+            ),
             drawer: DrawerPage(),
             body: RefreshIndicator(
               onRefresh: widget.dataProvider.reloadPage,
@@ -88,53 +102,57 @@ class _AudiosScreenState extends State<AudiosScreen> {
         : Stack(
             children: [
               DefaultTabController(
+                  initialIndex: _tabController.index,
                   length: widget.songCategories.length,
                   child: Scaffold(
-                    appBar: AppBar(
-                      iconTheme: new IconThemeData(),
-                      title: Text(
-                        'Sauti',
-                        style: TextStyle(),
-                      ),
-                      actions: <Widget>[
-                        IconButton(
-                          icon: Icon(Icons.search),
-                          onPressed: () {
-                            showSearch(
-                                context: context,
-                                delegate: CustomSearchDelegate());
-                          },
-                        )
-                      ],
-                    ),
-                    drawer: DrawerPage(),
-                    body: Column(
-                      children: [
-                        Card(
-                          elevation: 10,
-                          color: Colors.orange[50],
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(10),
-                                  bottomRight: Radius.circular(10))),
-                          child: TabBar(
-                              indicator: BoxDecoration(
-                                  color: Colors.orange,
-                                  borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(10),
-                                      bottomRight: Radius.circular(10))),
-                              unselectedLabelStyle: GoogleFonts.ubuntu(
-                                  fontWeight: FontWeight.normal),
-                              labelStyle: GoogleFonts.ubuntu(
-                                fontWeight: FontWeight.bold,
-                              ),
-                              isScrollable: true,
-                              tabs: _tabs),
+                      appBar: AppBar(
+                        iconTheme: new IconThemeData(),
+                        title: Text(
+                          'Sauti',
+                          style: TextStyle(),
                         ),
-                        Expanded(child: TabBarView(children: _screens)),
-                      ],
-                    ),
-                  )),
+                        actions: <Widget>[
+                          IconButton(
+                            icon: Icon(Icons.search),
+                            onPressed: () {
+                              showSearch(
+                                  context: context,
+                                  delegate: CustomSearchDelegate());
+                            },
+                          ),
+                        ],
+                      ),
+                      drawer: DrawerPage(),
+                      body: Column(
+                        children: [
+                          Card(
+                            elevation: 10,
+                            color: Colors.orange[50],
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(10),
+                                    bottomRight: Radius.circular(10))),
+                            child: TabBar(
+                                controller: _tabController,
+                                isScrollable: true,
+                                indicator: BoxDecoration(
+                                    color: Colors.orange,
+                                    borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(10),
+                                        bottomRight: Radius.circular(10))),
+                                unselectedLabelStyle: GoogleFonts.ubuntu(
+                                    fontWeight: FontWeight.normal),
+                                labelStyle: GoogleFonts.ubuntu(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                tabs: _tabs),
+                          ),
+                          Expanded(
+                              child: TabBarView(
+                                  controller: _tabController,
+                                  children: _screens))
+                        ],
+                      ))),
               ValueListenableBuilder(
                   valueListenable: pageManager.currentSongTitleNotifier,
                   builder: (_, title, __) {

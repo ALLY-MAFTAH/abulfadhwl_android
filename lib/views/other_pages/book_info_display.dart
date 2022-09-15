@@ -8,22 +8,13 @@ import 'package:abulfadhwl_android/models/book.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
-class BookInfoDisplay extends StatefulWidget {
+class BookInfoDisplay extends StatelessWidget {
   final Book bookDetails;
   final int tagNum;
-
-  const BookInfoDisplay(
-      {Key? key, required this.bookDetails, required this.tagNum})
-      : super(key: key);
-
-  @override
-  _BookInfoDisplayState createState() => _BookInfoDisplayState();
-}
-
-class _BookInfoDisplayState extends State<BookInfoDisplay> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  bool downloading = false;
-  var progressString = "";
+  final bool downloading = false;
+  BookInfoDisplay({Key? key, required this.bookDetails, required this.tagNum})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,39 +29,36 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
               Container(
                 height: 300,
                 child: Stack(children: <Widget>[
-                  InkWell(
-                    onTap: () {},
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 120),
-                      child: Card(
-                        elevation: 6,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Hero(
-                            child: Container(
-                              height: 300,
-                              decoration: BoxDecoration(
-                                  color: Colors.orange[50],
-                                  borderRadius: BorderRadius.circular(15),
-                                  image: DecorationImage(
-                                      image: NetworkImageWithRetry(api +
-                                          'book/cover/' +
-                                          widget.bookDetails.id.toString()),
-                                      fit: BoxFit.cover)),
-                            ),
-                            tag: widget.tagNum,
-                            flightShuttleBuilder: (BuildContext flightContext,
-                                Animation<double> animation,
-                                HeroFlightDirection flightDirection,
-                                BuildContext toHeroContext,
-                                BuildContext fromHeroContext) {
-                              final Widget toHero = toHeroContext.widget;
-                              return RotationTransition(
-                                turns: animation,
-                                child: toHero,
-                              );
-                            }),
-                      ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 120),
+                    child: Card(
+                      elevation: 6,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Hero(
+                          child: Container(
+                            height: 300,
+                            decoration: BoxDecoration(
+                                color: Colors.orange[50],
+                                borderRadius: BorderRadius.circular(15),
+                                image: DecorationImage(
+                                    image: NetworkImageWithRetry(api +
+                                        'book/cover/' +
+                                        bookDetails.id.toString()),
+                                    fit: BoxFit.cover)),
+                          ),
+                          tag: tagNum,
+                          flightShuttleBuilder: (BuildContext flightContext,
+                              Animation<double> animation,
+                              HeroFlightDirection flightDirection,
+                              BuildContext toHeroContext,
+                              BuildContext fromHeroContext) {
+                            final Widget toHero = toHeroContext.widget;
+                            return RotationTransition(
+                              turns: animation,
+                              child: toHero,
+                            );
+                          }),
                     ),
                   ),
                   Align(
@@ -97,14 +85,13 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                           child: Text('SOMA',
                               style: TextStyle(color: Colors.white)),
                           onPressed: () {
-                            String bookUrl = api +
-                                'book/file/' +
-                                widget.bookDetails.id.toString();
+                            String bookUrl =
+                                api + 'book/file/' + bookDetails.id.toString();
                             Navigator.push(context,
                                 MaterialPageRoute(builder: (_) {
                               return BookReader(
-                                  pdfTitle: widget.bookDetails.title,
-                                  pdfName: widget.bookDetails.file,
+                                  pdfTitle: bookDetails.title,
+                                  pdfName: bookDetails.file,
                                   pdfUrl: bookUrl);
                             }));
                           },
@@ -118,11 +105,9 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                               style: TextStyle(color: Colors.white)),
                           onPressed: () async {
                             _dataProvider.download(
-                              api +
-                                  'book/file/' +
-                                  widget.bookDetails.id.toString(),
-                              widget.bookDetails.file,
-                              widget.bookDetails.title,
+                              api + 'book/file/' + bookDetails.id.toString(),
+                              bookDetails.file,
+                              bookDetails.title,
                             );
                           },
                         ),
@@ -133,9 +118,8 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
                           child: Text('SAMBAZA',
                               style: TextStyle(color: Colors.white)),
                           onPressed: () {
-                            Share.share(api +
-                                'book/file/' +
-                                widget.bookDetails.id.toString());
+                            Share.share(
+                                api + 'book/file/' + bookDetails.id.toString());
                           },
                         ),
                       ],
@@ -146,129 +130,56 @@ class _BookInfoDisplayState extends State<BookInfoDisplay> {
               SizedBox(
                 height: 15,
               ),
-              Container(
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Icon(
-                      FontAwesomeIcons.book,
-                      size: 20,
-                    ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('Jina la Kitabu:',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text(widget.bookDetails.title, style: TextStyle())
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              BookDetails(myKey: "Jina la Kitabu:", myValue: bookDetails.title),
               Divider(),
-              Container(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Icon(
-                      Icons.person,
-                      size: 20,
-                    ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('Jina la Mtunzi:',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text(widget.bookDetails.author, style: TextStyle())
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              BookDetails(
+                  myKey: "Jina la Mtunzi:", myValue: bookDetails.author),
               Divider(),
-              Container(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Icon(
-                      FontAwesomeIcons.calendarDays,
-                      size: 20,
-                    ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('Mwaka wa Chapisho:',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text(widget.bookDetails.pubYear, style: TextStyle())
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              BookDetails(
+                  myKey: "Mwaka wa Chapisho:", myValue: bookDetails.pubYear),
               Divider(),
-              Container(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Icon(
-                      Icons.content_copy,
-                      size: 20,
-                    ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('Nambari ya Chapa:',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text(widget.bookDetails.edition.toString(),
-                              style: TextStyle())
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              BookDetails(
+                  myKey: "Nambari ya Chapa:",
+                  myValue: bookDetails.edition.toString()),
               Divider(),
-              Container(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Icon(
-                      Icons.info,
-                      size: 20,
-                    ),
-                    SizedBox(width: 10),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('Maelezo Kuhusu Kitabu:',
-                              style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text(
-                            widget.bookDetails.description,
-                            style: TextStyle(),
-                            textAlign: TextAlign.justify,
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              BookDetails(
+                  myKey: "Maelezo Kuhusu Kitabu:",
+                  myValue: bookDetails.description),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class BookDetails extends StatelessWidget {
+  final String myKey;
+  final String myValue;
+  BookDetails({Key? key, required this.myKey, required this.myValue})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Icon(
+            FontAwesomeIcons.calendarDays,
+            size: 20,
+          ),
+          SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(myKey, style: TextStyle(fontWeight: FontWeight.bold)),
+                Text(myValue, textAlign: TextAlign.justify)
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

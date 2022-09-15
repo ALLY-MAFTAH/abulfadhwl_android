@@ -81,6 +81,32 @@ class _AbulfadhwlState extends State<Abulfadhwl> {
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     FirebaseMessaging.instance.subscribeToTopic('all');
     FirebaseMessaging.instance.getToken().then((token) => print(token));
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+
+      // If `onMessage` is triggered with a notification, construct our own
+      // local notification to show to users using the created channel.
+      if (notification != null && android != null) {
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails(
+                'Abulfadhwl Notification Channel',
+                'Abulfadhwl Notification Channel',
+                channelDescription:
+                    'Abulfadhwl Notification Channel Description',
+                channelShowBadge: true,
+                importance: Importance.max,
+                priority: Priority.high,
+                onlyAlertOnce: true,
+                enableVibration: true,
+              ),
+            ));
+      }
+    });
 
     super.initState();
   }
