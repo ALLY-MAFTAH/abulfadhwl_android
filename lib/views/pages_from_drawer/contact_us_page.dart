@@ -20,11 +20,11 @@ class ContactUs extends StatefulWidget {
 
 class _ContactUsState extends State<ContactUs> {
   TextEditingController _fullNameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
   TextEditingController _messageController = TextEditingController();
 
   FocusNode _fullNameFocusNode = FocusNode();
-  FocusNode _emailFocusNode = FocusNode();
+  FocusNode _phoneFocusNode = FocusNode();
   FocusNode _messageFocusNode = FocusNode();
 
   final _formKey = GlobalKey<FormState>();
@@ -178,30 +178,30 @@ class _ContactUsState extends State<ContactUs> {
                                     height: 10,
                                   ),
                                   TextFormField(
-                                    focusNode: _emailFocusNode,
-                                    controller: _emailController,
-                                    validator: (emailValue) {
-                                      if (emailValue!.isNotEmpty)
+                                    focusNode: _phoneFocusNode,
+                                    controller: _phoneController,
+                                    validator: (phoneValue) {
+                                      if (phoneValue!.isNotEmpty)
                                       // return "Tafadhali ingiza barua pepe yako";
                                       {
                                         if (!RegExp(
                                                 r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
-                                            .hasMatch(emailValue)) {
-                                          return 'Hii barua pepe si sahihi';
+                                            .hasMatch(phoneValue)) {
+                                          return 'Hii namba ya simu si sahihi';
                                         } else
                                           return null;
                                       }
                                       return null;
                                     },
                                     decoration: InputDecoration(
-                                        labelText: 'Barua pepe',
+                                        labelText: 'Namba ya Simu',
                                         contentPadding: EdgeInsets.symmetric(
                                             vertical: 15, horizontal: 10),
                                         border: OutlineInputBorder(
                                           borderRadius:
                                               BorderRadius.circular(10),
                                         )),
-                                    keyboardType: TextInputType.emailAddress,
+                                    keyboardType: TextInputType.phone,
                                   ),
                                   SizedBox(
                                     height: 10,
@@ -267,8 +267,8 @@ class _ContactUsState extends State<ContactUs> {
                                                           fullName:
                                                               _fullNameController
                                                                   .text,
-                                                          email:
-                                                              _emailController
+                                                          phone:
+                                                              _phoneController
                                                                   .text,
                                                           message:
                                                               _messageController
@@ -288,7 +288,7 @@ class _ContactUsState extends State<ContactUs> {
                                                           .clear();
                                                       _messageController
                                                           .clear();
-                                                      _emailController.clear();
+                                                      _phoneController.clear();
                                                     } else {
                                                       SweetAlert.show(context,
                                                           confirmButtonColor:

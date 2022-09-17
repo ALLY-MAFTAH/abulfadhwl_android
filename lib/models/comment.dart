@@ -1,21 +1,21 @@
 class Comment {
   // int id;
   String fullName;
-  String email;
+  String phone;
   String message;
 
   Comment(
       {
         // required this.id,
       required this.fullName,
-      required this.email,
+      required this.phone,
       required this.message});
 
   factory Comment.fromMap(Map<String, dynamic> map) {
     return Comment(
         // id: map['id'],
         fullName: map['full_name'],
-        email: map['email'],
+        phone: map['phone'],
         message: map['message']);
   }
 
@@ -23,7 +23,7 @@ class Comment {
     final Map<String, dynamic> data = <String, dynamic>{
       // 'id': comment.id,
       'full_name': comment.fullName,
-      'email': comment.email,
+      'phone': comment.phone,
       'message': comment.message
     };
 

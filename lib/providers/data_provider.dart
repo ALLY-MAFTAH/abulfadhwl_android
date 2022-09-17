@@ -118,9 +118,9 @@ class DataProvider extends ChangeNotifier {
 
     final AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
-      'progress channel',
-      'progress channel',
-      channelDescription: 'progress channel description',
+      'download_notification_channel_id',
+      'Download Notification',
+      channelDescription: 'Download Notification Description',
       channelShowBadge: true,
       importance: Importance.max,
       priority: Priority.high,
@@ -465,11 +465,11 @@ class DataProvider extends ChangeNotifier {
 
   // ********** COMMENTS DATA ***********
   Future<String> postComment(
-      {@required fullName, @required email, @required message}) async {
+      {@required fullName, @required phone, @required message}) async {
     String status = "";
 
     final Comment comment =
-        Comment(email: email, fullName: fullName, message: message);
+        Comment(phone: phone, fullName: fullName, message: message);
 
     Map<String, dynamic> data = Comment.toMap(comment);
     final jsonData = json.encode(data);

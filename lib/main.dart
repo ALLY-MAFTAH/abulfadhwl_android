@@ -81,6 +81,20 @@ class _AbulfadhwlState extends State<Abulfadhwl> {
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     FirebaseMessaging.instance.subscribeToTopic('all');
     FirebaseMessaging.instance.getToken().then((token) => print(token));
+
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+  'high_importance_channel', // id
+  'High Importance Notifications', // title
+  importance: Importance.max,
+);
+     FlutterLocalNotificationsPlugin flutterLocNotiPlug =
+        FlutterLocalNotificationsPlugin();
+
+    flutterLocNotiPlug
+        .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
@@ -94,15 +108,15 @@ class _AbulfadhwlState extends State<Abulfadhwl> {
             notification.body,
             NotificationDetails(
               android: AndroidNotificationDetails(
-                'Abulfadhwl Notification Channel',
-                'Abulfadhwl Notification Channel',
-                channelDescription:
-                    'Abulfadhwl Notification Channel Description',
+                'foreground_notification_channel_id',
+                'Foreground Notifications',
+                channelDescription: 'Foreground Notifications Description',
                 channelShowBadge: true,
                 importance: Importance.max,
                 priority: Priority.high,
                 onlyAlertOnce: true,
                 enableVibration: true,
+                enableLights: true,
               ),
             ));
       }
@@ -150,7 +164,6 @@ class _AbulfadhwlState extends State<Abulfadhwl> {
         theme: ThemeData(
             textTheme: GoogleFonts.ubuntuTextTheme(),
             primarySwatch: Colors.orange),
-        // home: DraggableFloatingActionButtonDemo(),
         home: AnimatedSplashScreen(),
       ),
     );
