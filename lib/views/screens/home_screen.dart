@@ -28,6 +28,13 @@ class _HomeScreenState extends State<HomeScreen> {
   bool downloading = false;
   var progressString = "";
   @override
+  void initState() {
+    // WidgetsBinding.instance.addPostFrameCallback(((_) {
+      widget.dataProvider.reloadPage;
+    // }));
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     final _dataObject = Provider.of<DataProvider>(context);
     final arr = <MyImage>[];

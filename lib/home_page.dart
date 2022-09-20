@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
 
 class Home extends StatefulWidget {
-  // final GlobalKey parentKey = GlobalKey();
+  final DataProvider dataProvider = DataProvider();
 
   @override
   _HomeState createState() => _HomeState();
@@ -16,6 +16,12 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _currentIndex = 0;
+
+  @override
+  void initState() {
+    
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +79,7 @@ class _HomeState extends State<Home> {
             currentIndex: _currentIndex,
             items: <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                  icon: Icon(FontAwesomeIcons.house), label: 'Mwanzo'),
+                  icon: Icon(FontAwesomeIcons.home), label: 'Mwanzo'),
               BottomNavigationBarItem(
                   icon: Icon(FontAwesomeIcons.book), label: 'Vitabu na Makala'),
               BottomNavigationBarItem(

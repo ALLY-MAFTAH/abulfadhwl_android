@@ -5,6 +5,7 @@ import 'package:flutter_image/network.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:abulfadhwl_android/constants/api.dart';
 import 'package:abulfadhwl_android/models/book.dart';
+
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -130,19 +131,29 @@ class BookInfoDisplay extends StatelessWidget {
               SizedBox(
                 height: 15,
               ),
-              BookDetails(myKey: "Jina la Kitabu:", myValue: bookDetails.title),
+              BookDetails(
+                icon: FontAwesomeIcons.book,
+                myKey: "Jina la Kitabu:",
+                myValue: bookDetails.title,
+              ),
               Divider(),
               BookDetails(
-                  myKey: "Jina la Mtunzi:", myValue: bookDetails.author),
+                  icon: FontAwesomeIcons.pen,
+                  myKey: "Jina la Mtunzi:",
+                  myValue: bookDetails.author),
               Divider(),
               BookDetails(
-                  myKey: "Mwaka wa Chapisho:", myValue: bookDetails.pubYear),
+                  icon: FontAwesomeIcons.calendar,
+                  myKey: "Mwaka wa Chapisho:",
+                  myValue: bookDetails.pubYear),
               Divider(),
               BookDetails(
+                  icon: FontAwesomeIcons.edit,
                   myKey: "Nambari ya Chapa:",
                   myValue: bookDetails.edition.toString()),
               Divider(),
               BookDetails(
+                  icon: FontAwesomeIcons.infoCircle,
                   myKey: "Maelezo Kuhusu Kitabu:",
                   myValue: bookDetails.description),
             ],
@@ -156,7 +167,12 @@ class BookInfoDisplay extends StatelessWidget {
 class BookDetails extends StatelessWidget {
   final String myKey;
   final String myValue;
-  BookDetails({Key? key, required this.myKey, required this.myValue})
+  final IconData icon;
+  BookDetails(
+      {Key? key,
+      required this.myKey,
+      required this.myValue,
+      required this.icon})
       : super(key: key);
 
   @override
@@ -166,7 +182,7 @@ class BookDetails extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Icon(
-            FontAwesomeIcons.calendarDays,
+            icon,
             size: 20,
           ),
           SizedBox(width: 10),

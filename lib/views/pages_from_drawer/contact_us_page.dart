@@ -34,6 +34,7 @@ class _ContactUsState extends State<ContactUs> {
 
   @override
   void initState() {
+  
     ourLinks = [];
     othersLinks = [];
 
@@ -89,19 +90,19 @@ class _ContactUsState extends State<ContactUs> {
                         )
                       ]),
                     ),
-                   ourLinks.isEmpty
-                          ? SliverToBoxAdapter(
-                              // height: 50,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Center(child: CircularProgressIndicator()),
-                                ],
-                              ))
-                          : SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                            (BuildContext context, int index) {
-                      return  Row(
+                    ourLinks.isEmpty
+                        ? SliverToBoxAdapter(
+                            // height: 50,
+                            child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Center(child: CircularProgressIndicator()),
+                            ],
+                          ))
+                        : SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                                (BuildContext context, int index) {
+                            return Row(
                               children: [
                                 Card(
                                   child: Container(
@@ -136,7 +137,7 @@ class _ContactUsState extends State<ContactUs> {
                                 ),
                               ],
                             );
-                    }, childCount: ourLinks.length)),
+                          }, childCount: ourLinks.length)),
                     SliverList(
                       delegate: SliverChildListDelegate(<Widget>[
                         Padding(
@@ -181,17 +182,17 @@ class _ContactUsState extends State<ContactUs> {
                                     focusNode: _phoneFocusNode,
                                     controller: _phoneController,
                                     validator: (phoneValue) {
-                                      if (phoneValue!.isNotEmpty)
-                                      // return "Tafadhali ingiza barua pepe yako";
-                                      {
-                                        if (!RegExp(
-                                                r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
-                                            .hasMatch(phoneValue)) {
+                                      if (phoneValue!.isEmpty) {
+                                        return "Tafadhali ingiza namba yako ya simu";
+                                      } else {
+                                        String pattern =
+                                            r'(^(?:[+0]255)?[0-9]{10,12}$)';
+                                        RegExp regExp = new RegExp(pattern);
+                                        if (!regExp.hasMatch(phoneValue)) {
                                           return 'Hii namba ya simu si sahihi';
                                         } else
-                                          return null;
+                                        return null;
                                       }
-                                      return null;
                                     },
                                     decoration: InputDecoration(
                                         labelText: 'Namba ya Simu',
@@ -389,7 +390,7 @@ class _ContactUsState extends State<ContactUs> {
   _launchURL(linkUrl) async {
     // const url = linkUrl;
     // if (await canLaunch(linkUrl)) {
-      await launch(linkUrl);
+    await launch(linkUrl);
     // } else {
     //   throw 'Could not launch $linkUrl';
     // }

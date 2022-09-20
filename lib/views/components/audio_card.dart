@@ -189,7 +189,7 @@ class _AudioCardState extends State<AudioCard> {
                                     padding:
                                         EdgeInsets.only(right: 10, left: 10),
                                     child: Icon(
-                                      FontAwesomeIcons.circlePlay,
+                                      FontAwesomeIcons.playCircle,
                                       color: Colors.orange
                                     ),
                                   )

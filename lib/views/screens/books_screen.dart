@@ -1,6 +1,5 @@
 import 'package:abulfadhwl_android/constants/api.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
-import 'package:abulfadhwl_android/views/components/pdf_reader.dart';
 import 'package:abulfadhwl_android/views/other_pages/book_info_display.dart';
 import 'package:abulfadhwl_android/views/other_pages/drawer_page.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,7 @@ class BooksScreen extends StatefulWidget {
 class _BooksScreenState extends State<BooksScreen> {
   @override
   Widget build(BuildContext context) {
-   timeDilation = 1.0;
+    timeDilation = 1.0;
     final _dataObject = Provider.of<DataProvider>(context);
 
     return DefaultTabController(
@@ -76,79 +75,88 @@ class _BooksScreenState extends State<BooksScreen> {
                               )
                             : Padding(
                                 padding: const EdgeInsets.only(
-                                  left: 5,
+                                  left: 10,
                                   top: 10,
-                                  right: 5,
+                                  right: 10,
                                 ),
                                 child: Card(
                                   elevation: 6,
                                   color: Colors.orange[50],
                                   shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(5),
+                                    borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(40),
+                                        bottomLeft: Radius.circular(40)),
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(5),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Text(
-                                          _dataObject.books[index].title,
-                                          style: TextStyle(
-                                            fontSize: 17,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                        InkWell(
-                                          onTap: () {
-                                            Navigator.push(context,
-                                                MaterialPageRoute(builder: (_) {
-                                              return BookInfoDisplay(
-                                                bookDetails:
-                                                    _dataObject.books[index],
-                                                tagNum:
-                                                    _dataObject.books[index].id,
-                                              );
-                                            }));
-                                          },
-                                          child: Hero(
-                                            child: Card(
-                                                child: Image(
-                                              image: NetworkImageWithRetry(api +
-                                                  'book/cover/' +
-                                                  _dataObject.books[index].id
-                                                      .toString()),
-                                              fit: BoxFit.cover,
-                                            )),
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.push(context,
+                                            MaterialPageRoute(builder: (_) {
+                                          return BookInfoDisplay(
+                                            bookDetails:
+                                                _dataObject.books[index],
+                                            tagNum: _dataObject.books[index].id,
+                                          );
+                                        }));
+                                      },
+                                      child: Column(
+                                        children: [
+                                          Hero(
+                                            child: _dataObject.books.isEmpty
+                                                ? Container(
+                                                  child: Icon(Icons.image),
+                                                )
+                                                : Container(
+                                                    height: 200,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.only(
+                                                          topRight:
+                                                              Radius.circular(
+                                                                  40),
+                                                        ),
+                                                        image: DecorationImage(
+                                                            image: NetworkImageWithRetry(api +
+                                                                'book/cover/' +
+                                                                _dataObject
+                                                                    .books[
+                                                                        index]
+                                                                    .id
+                                                                    .toString()),
+                                                            fit: BoxFit.fill)),
+                                                  ),
                                             tag: _dataObject.books[index].id,
                                           ),
-                                        ),
-                                        // ignore: deprecated_member_use
-                                        RaisedButton(
-                                          elevation: 6,
-                                          color: Colors.orange,
-                                          child: Text(
-                                            'SOMA',
-                                            style:
-                                                TextStyle(color: Colors.white),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 8.0),
+                                            child: Text(
+                                              "Jina la Kitabu",
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Colors.grey,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
                                           ),
-                                          onPressed: () {
-                                            print('object');
-                                            Navigator.push(context,
-                                                MaterialPageRoute(builder: (_) {
-                                              return BookReader(
-                                                  pdfTitle: _dataObject
-                                                      .books[index].title,
-                                                  pdfName: _dataObject
-                                                      .books[index].file,
-                                                  pdfUrl: api +
-                                                      'book/file/' +
-                                                      _dataObject
-                                                          .books[index].id
-                                                          .toString());
-                                            }));
-                                          },
-                                        ),
-                                      ],
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              _dataObject.books[index].title,
+                                              style: TextStyle(
+                                                // fontSize: 17,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ));

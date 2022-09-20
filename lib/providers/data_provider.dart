@@ -28,7 +28,8 @@ typedef void OnError(Exception exception);
 class DataProvider extends ChangeNotifier {
   List<SongCategory> _categories = [];
   int currentSongIndex = 0;
-  Album currentAlbum = Album(id: 0, name: "", description: "", categoryId: 0, songs: []);
+  Album currentAlbum =
+      Album(id: 0, name: "", description: "", categoryId: 0, songs: []);
   // String currentAlbumName = "";
   List<Song> songs = [];
   List<Song> _audios = [];
@@ -475,7 +476,6 @@ class DataProvider extends ChangeNotifier {
     final jsonData = json.encode(data);
 
     try {
-      // http.Response response = await http.post(api + 'comment',
       http.Response response = await http.post(Uri.parse(api + 'comment'),
           body: jsonData, headers: {'Content-Type': 'application/json'});
 
@@ -547,11 +547,6 @@ class DataProvider extends ChangeNotifier {
       print(e);
     }
   }
-
-// var request = await HttpClient().getUrl(Uri.parse('https://shop.esys.eu/media/image/6f/8f/af/amlog_transport-berwachung.jpg'));
-// var response = await request.close();
-// Uint8List bytes = await consolidateHttpClientResponseBytes(response);
-// await Share.file('ESYS AMLOG', 'amlog.jpg', bytes, 'image/jpg');
 
   //
   // ************** PAGE RELOAD
