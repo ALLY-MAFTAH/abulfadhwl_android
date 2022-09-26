@@ -130,9 +130,9 @@ class _BookReaderState extends State<BookReader> {
                   child: TextFormField(
                     focusNode: _textSearchFocusNode,
                     controller: _textSearchController,
-                    validator: (questionValue) {
-                      if (questionValue!.isEmpty)
-                        return "Tafadhali andika swali lako";
+                    validator: (searchValue) {
+                      if (searchValue!.isEmpty)
+                        return "Tafadhali andika unachokitafuta";
                       else
                         return null;
                     },
@@ -154,20 +154,19 @@ class _BookReaderState extends State<BookReader> {
               : Container(),
           Expanded(
             child: Container(
-                child: SfPdfViewer.network(widget.pdfUrl,
-                    onTextSelectionChanged:
-                        (PdfTextSelectionChangedDetails details) {
-              if (details.selectedText == null) {
-                _overlayEntry!.remove();
-                _overlayEntry = null;
-              } else if (details.selectedText != null &&
-                  _overlayEntry == null) {
-                _showContextMenu(context, details);
-              }
-            },
-                    controller: _pdfViewerController,
-                    // searchTextHighlightColor: Colors.orange
-                    )),
+                child: SfPdfViewer.network(
+              widget.pdfUrl,
+              onTextSelectionChanged: (PdfTextSelectionChangedDetails details) {
+                if (details.selectedText == null) {
+                  _overlayEntry!.remove();
+                  _overlayEntry = null;
+                } else if (details.selectedText != null &&
+                    _overlayEntry == null) {
+                  _showContextMenu(context, details);
+                }
+              },
+              controller: _pdfViewerController,
+            )),
           ),
         ],
       ),

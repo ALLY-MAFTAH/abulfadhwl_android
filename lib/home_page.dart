@@ -1,3 +1,4 @@
+import 'package:abulfadhwl_android/providers/get_and_post_provider.dart';
 import 'package:abulfadhwl_android/views/screens/audios_screen.dart';
 import 'package:abulfadhwl_android/views/screens/books_screen.dart';
 import 'package:abulfadhwl_android/views/screens/history_screen.dart';
@@ -5,10 +6,9 @@ import 'package:abulfadhwl_android/views/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:abulfadhwl_android/providers/data_provider.dart';
 
 class Home extends StatefulWidget {
-  final DataProvider dataProvider = DataProvider();
+  final GetAndPostProvider getAndPostProvider = GetAndPostProvider();
 
   @override
   _HomeState createState() => _HomeState();
@@ -19,21 +19,18 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final _dataProvider = Provider.of<DataProvider>(context);
+        final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
+
     final List<Widget> _screens = [
-      HomeScreen(
-        dataProvider: _dataProvider,
-      ),
+      HomeScreen(),
       BooksScreen(),
       AudiosScreen(
-        dataProvider: _dataProvider,
-        songCategories: _dataProvider.categories,
+        songCategories: _getAndPostProvider.categories,
       ),
       HistoryScreen()
     ];

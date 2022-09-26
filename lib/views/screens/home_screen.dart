@@ -2,12 +2,13 @@
 
 import 'package:abulfadhwl_android/constants/api.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
+import 'package:abulfadhwl_android/providers/get_and_post_provider.dart';
 import 'package:animated_image_list/AnimatedImageList.dart';
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
-import 'package:provider/provider.dart';
 import 'package:abulfadhwl_android/views/pages_from_drawer/announcements_page.dart';
 import 'package:abulfadhwl_android/views/other_pages/drawer_page.dart';
+import 'package:provider/provider.dart';
 
 class MyImage {
   final String url;
@@ -17,9 +18,10 @@ class MyImage {
 }
 
 class HomeScreen extends StatefulWidget {
-  final DataProvider dataProvider;
+  final DataProvider dataProvider = DataProvider();
+  // final GetAndPostProvider getAndPostProvider = GetAndPostProvider();
 
-  const HomeScreen({Key? key, required this.dataProvider}) : super(key: key);
+  HomeScreen({Key? key}) : super(key: key);
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -29,20 +31,19 @@ class _HomeScreenState extends State<HomeScreen> {
   var progressString = "";
   @override
   void initState() {
-    // WidgetsBinding.instance.addPostFrameCallback(((_) {
-      widget.dataProvider.reloadPage;
-    // }));
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    final _dataObject = Provider.of<DataProvider>(context);
+        final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
+
     final arr = <MyImage>[];
-    for (var i = 0; i < widget.dataProvider.slides.length; i++) {
+    for (var i = 0; i < _getAndPostProvider.slides.length; i++) {
       arr.add(MyImage(
-        api + 'slide/file/' + widget.dataProvider.slides[i].id.toString(),
-        widget.dataProvider.slides[i].file,
-        "Picha namba: " + widget.dataProvider.slides[i].number.toString(),
+        api + 'slide/file/' + _getAndPostProvider.slides[i].id.toString(),
+        _getAndPostProvider.slides[i].file,
+        "Picha namba: " + _getAndPostProvider.slides[i].number.toString(),
       ));
     }
 
@@ -56,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       drawer: DrawerPage(),
       body: RefreshIndicator(
-        onRefresh: _dataObject.reloadPage,
+        onRefresh: _getAndPostProvider.reloadPage,
         child: CustomScrollView(
           physics: const BouncingScrollPhysics(
               parent: AlwaysScrollableScrollPhysics()),
@@ -64,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
             SliverList(
                 delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
-              return _dataObject.announcements.isEmpty
+              return _getAndPostProvider.announcements.isEmpty
                   ? Container()
                   : Container(
                       height: 25,
@@ -74,7 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (_) {
                             return Announcements(
-                              announcementDetails: _dataObject.announcements,
+                              announcementDetails:
+                                  _getAndPostProvider.announcements,
                             );
                           }));
                         },
@@ -90,7 +92,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Marquee(
                                 pauseAfterRound: Duration(seconds: 2),
                                 blankSpace: 50,
-                                text: _dataObject.announcements[0].news,
+                                text: 
+                                    _getAndPostProvider.announcements[0].news,
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -153,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       primary: Colors.orange[100]),
                                   child: Icon(Icons.download),
                                   onPressed: () {
-                                    _dataObject.download(arr[index].url,
+                                    widget.dataProvider.download(arr[index].url,
                                         arr[index].name, arr[index].title);
                                     print(arr[index].url);
                                   },

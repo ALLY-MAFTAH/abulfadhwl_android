@@ -6,22 +6,28 @@ import 'package:abulfadhwl_android/views/components/page_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:abulfadhwl_android/models/song.dart';
 import 'package:abulfadhwl_android/views/other_pages/now_playing_screen_sheet.dart';
+import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+
+import '../../providers/get_and_post_provider.dart';
 
 typedef BottomSheetCallback = void Function();
 
 class SongsList extends StatefulWidget {
-  final List<Song> songs;
+  final GetAndPostProvider getAndPostProvider;
   final DataProvider dataProvider;
+  final List<Song> songs;
+
   final String indicator;
   final int categoryId;
 
-  const SongsList({
+  SongsList({
     Key? key,
     required this.songs,
-    required this.dataProvider,
     required this.indicator,
     required this.categoryId,
+    required this.dataProvider,
+    required this.getAndPostProvider,
   }) : super(key: key);
 
   @override
@@ -39,7 +45,7 @@ class _SongsListState extends State<SongsList> {
 
   @override
   void initState() {
-    for (var category in widget.dataProvider.categories) {
+    for (var category in widget.getAndPostProvider.categories) {
       if (category.id == widget.categoryId) {
         categoryName = category.name;
       }
@@ -64,8 +70,8 @@ class _SongsListState extends State<SongsList> {
 
   @override
   Widget build(BuildContext context) {
+    final _dataProvider = Provider.of<DataProvider>(context);
     final pageManager = getIt<PageManager>();
-
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -83,15 +89,13 @@ class _SongsListState extends State<SongsList> {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Text(
-                widget.dataProvider.currentAlbum.name,
+                _dataProvider.currentAlbum.name,
               ),
             ),
             Text(
               categoryName,
               style: TextStyle(
-              fontSize: 15,
-              color: Color.fromARGB(255, 78, 76, 76)
-              ),
+                  fontSize: 15, color: Color.fromARGB(255, 78, 76, 76)),
             ),
           ],
         ),
@@ -115,9 +119,9 @@ class _SongsListState extends State<SongsList> {
                         _scrollTo =
                             songIds.indexOf(widget.dataProvider.searchedAudio);
                         return AudioCard(
-                          dataProvider: widget.dataProvider,
-                          songs: widget.songs,
                           index: i,
+                          songs: widget.songs,
+                          dataProvider: _dataProvider,
                         );
                       },
                     )),
@@ -196,13 +200,9 @@ class _SongsListState extends State<SongsList> {
     setState(() {
       _showMyBottomSheetCallBack = null;
     });
-    _scaffoldKey.currentState!
-        .showBottomSheet((_) => NowPlayingScreenSheet(
-              // songs: widget.songs,
-              dataProvider: widget.dataProvider,
-            ))
-        .closed
-        .whenComplete(() {
+    _scaffoldKey.currentState!.showBottomSheet((_) => NowPlayingScreenSheet(
+        // songs: widget.songs,
+        )).closed.whenComplete(() {
       if (mounted) {
         setState(() {
           _showMyBottomSheetCallBack = _showBottomSheet;

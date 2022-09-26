@@ -1,4 +1,5 @@
 
+import 'package:abulfadhwl_android/providers/get_and_post_provider.dart';
 import 'package:abulfadhwl_android/views/components/pdf_reader.dart';
 import 'package:flutter/material.dart';
 import 'package:folding_cell/folding_cell/widget.dart';
@@ -16,7 +17,7 @@ class FoldedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _dataProvider = Provider.of<DataProvider>(context);
+    final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
     return Padding(
       padding: const EdgeInsets.only(left: 8, top: 15, right: 8),
       child: Stack(
@@ -81,7 +82,7 @@ class FoldedCard extends StatelessWidget {
                             radius: 15,
                             backgroundColor: Colors.white,
                             child: Text(
-                              _dataProvider.articles[index].number.toString(),
+                              _getAndPostProvider.articles[index].number.toString(),
                               style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.black,
@@ -100,7 +101,7 @@ class FoldedCard extends StatelessWidget {
   }
 
   Widget _buildFrontWidget(context) {
-    final _dataProvider = Provider.of<DataProvider>(context);
+    final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
     return InkWell(
       onTap: () => _foldingCellKey.currentState?.toggleFold(),
       child: Container(
@@ -126,7 +127,7 @@ class FoldedCard extends StatelessWidget {
                     ),
                     Expanded(
                       child: Text(
-                        _dataProvider.articles[index].title,
+                        _getAndPostProvider.articles[index].title,
                         style: TextStyle(fontSize: 16),
                         textAlign: TextAlign.justify,
                       ),
@@ -142,7 +143,9 @@ class FoldedCard extends StatelessWidget {
   }
 
   Widget _buildInnerWidget(context) {
-    final _dataProvider = Provider.of<DataProvider>(context);
+    final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
+        final _dataProvider = Provider.of<DataProvider>(context);
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -159,7 +162,7 @@ class FoldedCard extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 30, left: 8, right: 8),
                   child: Column(
                     children: [
-                      Text(_dataProvider.articles[index].description,
+                      Text(_getAndPostProvider.articles[index].description,
                           textAlign: TextAlign.justify),
                     ],
                   ),
@@ -181,7 +184,7 @@ class FoldedCard extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 120, right: 10),
                     child: Text(
-                      " • Imetolewa: " + _dataProvider.articles[index].pubYear,
+                      " • Imetolewa: " + _getAndPostProvider.articles[index].pubYear,
                       style: TextStyle(color: Colors.grey),
                     ),
                   ),
@@ -191,7 +194,7 @@ class FoldedCard extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 60, left: 8, right: 8),
                     child: Text(
-                      _dataProvider.articles[index].title,
+                      _getAndPostProvider.articles[index].title,
                       style: TextStyle(fontSize: 16),
                       textAlign: TextAlign.center,
                     ),
@@ -218,7 +221,7 @@ class FoldedCard extends StatelessWidget {
                   child: IconButton(
                     onPressed: () => Share.share(api +
                         'article/file/' +
-                        _dataProvider.articles[index].id.toString()),
+                        _getAndPostProvider.articles[index].id.toString()),
                     icon: Icon(
                       Icons.share,
                       size: 33,
@@ -233,9 +236,9 @@ class FoldedCard extends StatelessWidget {
                     onPressed: () => _dataProvider.download(
                         api +
                             'article/file/' +
-                            _dataProvider.articles[index].id.toString(),
-                        _dataProvider.articles[index].file,
-                        _dataProvider.articles[index].title),
+                            _getAndPostProvider.articles[index].id.toString(),
+                        _getAndPostProvider.articles[index].file,
+                        _getAndPostProvider.articles[index].title),
                     icon: Icon(
                       Icons.download,
                       size: 35,
@@ -250,11 +253,11 @@ class FoldedCard extends StatelessWidget {
                     onPressed: () {
                       String articleUrl = api +
                           'article/file/' +
-                          _dataProvider.articles[index].id.toString();
+                          _getAndPostProvider.articles[index].id.toString();
                       Navigator.push(context, MaterialPageRoute(builder: (_) {
                         return BookReader(
-                            pdfTitle: _dataProvider.articles[index].title,
-                            pdfName: _dataProvider.articles[index].file,
+                            pdfTitle: _getAndPostProvider.articles[index].title,
+                            pdfName: _getAndPostProvider.articles[index].file,
                             pdfUrl: articleUrl);
                       }));
                       _foldingCellKey.currentState?.toggleFold();

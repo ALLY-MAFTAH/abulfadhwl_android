@@ -2,24 +2,24 @@ import 'package:abulfadhwl_android/models/song_category.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:abulfadhwl_android/views/components/album_card.dart';
 import 'package:abulfadhwl_android/views/other_pages/drawer_page.dart';
-import 'package:abulfadhwl_android/views/other_pages/songs_list.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/get_and_post_provider.dart';
 import '../../services/service_locator.dart';
 import '../components/custom_search_delegate.dart';
 import '../components/draggable_fab.dart';
 import '../components/page_manager.dart';
+import '../other_pages/songs_list.dart';
 
 class AudiosScreen extends StatefulWidget {
   final List<SongCategory> songCategories;
-  final DataProvider dataProvider;
+  final GetAndPostProvider getAndPostProvider = GetAndPostProvider();
 
   final GlobalKey parentKey = GlobalKey();
 
-  AudiosScreen(
-      {Key? key, required this.songCategories, required this.dataProvider})
-      : super(key: key);
+  AudiosScreen({Key? key, required this.songCategories}) : super(key: key);
 
   @override
   _AudiosScreenState createState() => _AudiosScreenState();
@@ -40,14 +40,13 @@ class _AudiosScreenState extends State<AudiosScreen>
           text: category.name,
         ));
         _screens.add(RefreshIndicator(
-          onRefresh: widget.dataProvider.reloadPage,
+          onRefresh: widget.getAndPostProvider.reloadPage,
           child: ListView.builder(
             physics: const BouncingScrollPhysics(
                 parent: AlwaysScrollableScrollPhysics()),
             itemBuilder: (BuildContext context, int index) {
               return AlbumCard(
                 album: category.albums[index],
-                dataProvider: widget.dataProvider,
                 i: index + 1,
               );
             },
@@ -71,6 +70,9 @@ class _AudiosScreenState extends State<AudiosScreen>
 
   @override
   Widget build(BuildContext context) {
+    final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
+    final _dataProvider = Provider.of<DataProvider>(context);
+
     return widget.songCategories.isEmpty
         ? Scaffold(
             appBar: AppBar(
@@ -82,7 +84,7 @@ class _AudiosScreenState extends State<AudiosScreen>
             ),
             drawer: DrawerPage(),
             body: RefreshIndicator(
-              onRefresh: widget.dataProvider.reloadPage,
+              onRefresh: _getAndPostProvider.reloadPage,
               child: ListView(
                 physics: const BouncingScrollPhysics(
                     parent: AlwaysScrollableScrollPhysics()),
@@ -171,24 +173,25 @@ class _AudiosScreenState extends State<AudiosScreen>
                                   size: 60,
                                 )),
                             initialOffset: Offset(
-                                MediaQuery.of(context).size.width - 70,
-                                MediaQuery.of(context).size.height - 130),
+                                MediaQuery.of(context).size.width - 170,
+                                MediaQuery.of(context).size.height - 530),
                             minOffset: const Offset(11, 65),
                             maxOffset: Offset(
                                 MediaQuery.of(context).size.width - 70,
                                 MediaQuery.of(context).size.height - 130),
                             parentKey: widget.parentKey,
                             onFabPressed: () {
-                              print("Pressed");
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (_) => SongsList(
                                             indicator: "Aisha",
-                                            dataProvider: widget.dataProvider,
-                                            songs: widget.dataProvider.songs,
-                                            categoryId: widget.dataProvider
+                                            dataProvider: _dataProvider,
+                                            songs: _dataProvider.songs,
+                                            categoryId: _dataProvider
                                                 .currentAlbum.categoryId,
+                                            getAndPostProvider:
+                                                _getAndPostProvider,
                                           )));
                             });
                   })

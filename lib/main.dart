@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:abulfadhwl_android/providers/get_and_post_provider.dart';
 import 'package:abulfadhwl_android/views/components/page_manager.dart';
 import 'package:abulfadhwl_android/services/service_locator.dart';
 import 'package:abulfadhwl_android/views/initial_pages/animated_splash_screen.dart';
@@ -40,6 +41,7 @@ class Abulfadhwl extends StatefulWidget {
 
 class _AbulfadhwlState extends State<Abulfadhwl> {
   final DataProvider _dataProvider = DataProvider();
+  final GetAndPostProvider _getAndPostProvider = GetAndPostProvider();
   PackageInfo _packageInfo = PackageInfo(
     appName: 'Unknown',
     packageName: 'Unknown',
@@ -54,16 +56,16 @@ class _AbulfadhwlState extends State<Abulfadhwl> {
     super.initState();
     _initPackageInfo();
 
-    _dataProvider.getAllCategories();
-    _dataProvider.getAllBooks();
-    _dataProvider.getAllHistories();
-    _dataProvider.getAllSlides();
-    _dataProvider.getAllArticles();
-    _dataProvider.getAllAnnouncements();
-    _dataProvider.getAllStreams();
-    _dataProvider.getAllLinks();
-    _dataProvider.getAllAnswers();
-    _dataProvider.getAllSongs();
+    _getAndPostProvider.getAllCategories();
+    _getAndPostProvider.getAllBooks();
+    _getAndPostProvider.getAllHistories();
+    _getAndPostProvider.getAllSlides();
+    _getAndPostProvider.getAllArticles();
+    _getAndPostProvider.getAllAnnouncements();
+    _getAndPostProvider.getAllStreams();
+    _getAndPostProvider.getAllLinks();
+    _getAndPostProvider.getAllAnswers();
+    _getAndPostProvider.getAllSongs();
 
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
@@ -156,6 +158,9 @@ const AndroidNotificationChannel channel = AndroidNotificationChannel(
       providers: [
         ChangeNotifierProvider.value(
           value: _dataProvider,
+        ),
+        ChangeNotifierProvider.value(
+          value: _getAndPostProvider,
         )
       ],
       child: MaterialApp(

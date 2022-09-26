@@ -10,16 +10,20 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 
+
 class AudioCard extends StatefulWidget {
+
+  final DataProvider dataProvider;
+
   final int index;
   final List<Song> songs;
-  final DataProvider dataProvider;
-  const AudioCard(
-      {Key? key,
-      required this.index,
-      required this.songs,
-      required this.dataProvider})
-      : super(key: key);
+
+  AudioCard({
+    Key? key,
+    required this.index,
+    required this.songs,
+    required this.dataProvider,
+  }) : super(key: key);
 
   @override
   _AudioCardState createState() => _AudioCardState();
@@ -31,7 +35,6 @@ class _AudioCardState extends State<AudioCard> {
 
   @override
   void initState() {
-
     super.initState();
   }
 
@@ -78,13 +81,11 @@ class _AudioCardState extends State<AudioCard> {
                     child: Slidable(
                         startActionPane: ActionPane(
                           motion: const ScrollMotion(),
-
-                          // dismissible: DismissiblePane(onDismissed: () {}),
-
                           children: [
                             SlidableAction(
                               onPressed: (context) => _shareAudio(),
-                              backgroundColor: Color.fromARGB(255, 216, 214, 211),
+                              backgroundColor:
+                                  Color.fromARGB(255, 216, 214, 211),
                               foregroundColor: Colors.orange,
                               icon: Icons.share,
                             ),
@@ -97,7 +98,8 @@ class _AudioCardState extends State<AudioCard> {
                             ),
                             SlidableAction(
                                 onPressed: (context) => _playAudio(),
-                                backgroundColor: Color.fromARGB(255, 244, 241, 237),
+                                backgroundColor:
+                                    Color.fromARGB(255, 244, 241, 237),
                                 foregroundColor: Colors.orange,
                                 icon: FontAwesomeIcons.play),
                           ],
@@ -183,17 +185,15 @@ class _AudioCardState extends State<AudioCard> {
                             ),
                           ),
                           Container(
-                            child: _audioHandler.mediaItem.value?.title ==
-                                    widget.songs[widget.index].title
-                                ? Padding(
-                                    padding:
-                                        EdgeInsets.only(right: 10, left: 10),
-                                    child: Icon(
-                                      FontAwesomeIcons.playCircle,
-                                      color: Colors.orange
-                                    ),
-                                  )
-                                : Container() )
+                              child: _audioHandler.mediaItem.value?.title ==
+                                      widget.songs[widget.index].title
+                                  ? Padding(
+                                      padding:
+                                          EdgeInsets.only(right: 10, left: 10),
+                                      child: Icon(FontAwesomeIcons.playCircle,
+                                          color: Colors.orange),
+                                    )
+                                  : Container())
                         ]))),
               );
             }));
@@ -232,8 +232,7 @@ class _AudioCardState extends State<AudioCard> {
     widget.dataProvider.download(
       api +
           'song/file/' +
-          widget.dataProvider.songs[widget.index].id
-              .toString(),
+          widget.dataProvider.songs[widget.index].id.toString(),
       widget.dataProvider.songs[widget.index].file,
       widget.dataProvider.songs[widget.index].title,
     );

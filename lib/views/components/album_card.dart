@@ -1,24 +1,23 @@
 import 'package:abulfadhwl_android/models/album.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
+import 'package:abulfadhwl_android/providers/get_and_post_provider.dart';
 import 'package:abulfadhwl_android/services/service_locator.dart';
 import 'package:abulfadhwl_android/views/components/page_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:abulfadhwl_android/views/other_pages/songs_list.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/more_button_constants.dart';
-// import 'package:vector_math/vector_math.dart' as math;
 
 class AlbumCard extends StatefulWidget {
   final Album album;
-  final DataProvider dataProvider;
+
   final int i;
 
   const AlbumCard({
     Key? key,
     required this.i,
     required this.album,
-    required this.dataProvider,
   }) : super(key: key);
 
   @override
@@ -32,18 +31,20 @@ class _AlbumCardState extends State<AlbumCard> {
   }
 
   Widget _downloadDialog(BuildContext context) {
-     double size = 0;
-          for (var song in widget.album.songs) {
-            size = size + song.size;
-          }
+    final _dataProvider = Provider.of<DataProvider>(context);
+    double size = 0;
+    for (var song in widget.album.songs) {
+      size = size + song.size;
+    }
     return AlertDialog(
       title: Text('Tafadhali Hakiki'),
-      content:
-          Text("Unataka Kupakua Sauti Zote, Zenye Ukubwa wa " + size.toStringAsFixed(1) + " MB"),
+      content: Text("Unataka Kupakua Sauti Zote, Zenye Ukubwa wa " +
+          size.toStringAsFixed(1) +
+          " MB"),
       actions: [
         TextButton(
             onPressed: () {
-              widget.dataProvider.downloadAlbum(widget.album.songs);
+              _dataProvider.downloadAlbum(widget.album.songs);
               Navigator.of(context).pop();
             },
             child: const Text('Ndio')),
@@ -58,9 +59,9 @@ class _AlbumCardState extends State<AlbumCard> {
 
   Widget _detailsDialog(BuildContext context) {
     double size = 0;
-          for (var song in widget.album.songs) {
-            size = size + song.size;
-          }
+    for (var song in widget.album.songs) {
+      size = size + song.size;
+    }
     return AlertDialog(
       contentPadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
       titlePadding: const EdgeInsets.fromLTRB(10, 20, 10, 20),
@@ -69,10 +70,11 @@ class _AlbumCardState extends State<AlbumCard> {
         style: TextStyle(fontSize: 15),
       ),
       content: Column(
-        mainAxisSize: MainAxisSize.min ,
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(" • "+widget.album.description!, style: TextStyle(fontSize: 15)),
+          Text(" • " + widget.album.description!,
+              style: TextStyle(fontSize: 15)),
           Text(
             "\n • Jumla ya Sauti ni: " + widget.album.songs.length.toString(),
             style: TextStyle(fontSize: 15),
@@ -114,6 +116,8 @@ class _AlbumCardState extends State<AlbumCard> {
   @override
   Widget build(BuildContext context) {
     final _dataProvider = Provider.of<DataProvider>(context);
+    final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
+
     final pageManager = getIt<PageManager>();
 
     return ValueListenableBuilder(
@@ -127,14 +131,16 @@ class _AlbumCardState extends State<AlbumCard> {
               onTap: () {
                 setState(() {
                   _dataProvider.currentAlbum = widget.album;
-                  widget.dataProvider.searchedAudio = 0;
+                  _dataProvider.searchedAudio = 0;
                 });
+
                 Navigator.push(context, MaterialPageRoute(builder: (_) {
                   return SongsList(
                     indicator: "",
                     songs: widget.album.songs,
-                    categoryId: widget.album.categoryId,
                     dataProvider: _dataProvider,
+                    categoryId: widget.album.categoryId,
+                    getAndPostProvider: _getAndPostProvider,
                   );
                 }));
               },

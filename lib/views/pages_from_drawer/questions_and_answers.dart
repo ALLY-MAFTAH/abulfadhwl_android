@@ -2,10 +2,10 @@
 
 import 'package:abulfadhwl_android/constants/api.dart';
 import 'package:abulfadhwl_android/home_page.dart';
+import 'package:abulfadhwl_android/providers/get_and_post_provider.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:sweetalert/sweetalert.dart';
 
 class QuestionsAndAnswers extends StatefulWidget {
@@ -21,7 +21,7 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
 
   @override
   Widget build(BuildContext context) {
-    final _dataObject = Provider.of<DataProvider>(context);
+    final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
 
     return Scaffold(
         key: _scaffoldKey,
@@ -44,7 +44,7 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
           ),
         ),
         body: RefreshIndicator(
-          onRefresh: _dataObject.reloadPage,
+          onRefresh: _getAndPostProvider.reloadPage,
           child: CustomScrollView(
               physics: const BouncingScrollPhysics(
                   parent: AlwaysScrollableScrollPhysics()),
@@ -121,7 +121,7 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                                                   new Future.delayed(
                                                       new Duration(seconds: 3),
                                                       () {
-                                                    _dataObject
+                                                    _getAndPostProvider
                                                         .addQuestion(
                                                       qn: _qnsController.text,
                                                     )
@@ -183,7 +183,7 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                     delegate: SliverChildListDelegate([
                   Padding(
                     padding: const EdgeInsets.only(top: 20, bottom: 5),
-                    child: _dataObject.answers.isNotEmpty
+                    child: _getAndPostProvider.answers.isNotEmpty
                         ? Text(
                             'MASWALI YALIYOJIBIWA',
                             textAlign: TextAlign.center,
@@ -232,7 +232,7 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                                             fontWeight: FontWeight.bold),
                                       ),
                                       SelectableText(
-                                        _dataObject.answers[index].qn,
+                                        _getAndPostProvider.answers[index].qn,
                                         style: TextStyle(
                                           fontSize: 12,
                                         ),
@@ -255,11 +255,11 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                                                   borderRadius:
                                                       BorderRadius.circular(5)),
                                               padding: EdgeInsets.all(5),
-                                              child: _dataObject.answers[index]
+                                              child: _getAndPostProvider.answers[index]
                                                           .audioAns ==
                                                       null
                                                   ? SelectableText(
-                                                      _dataObject.answers[index]
+                                                      _getAndPostProvider.answers[index]
                                                           .textAns,
                                                       textAlign:
                                                           TextAlign.justify,
@@ -287,7 +287,7 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                                                                       .open(
                                                                       Audio.network(api +
                                                                           'answer/audioAns/' +
-                                                                          _dataObject
+                                                                          _getAndPostProvider
                                                                               .answers[index]
                                                                               .id
                                                                               .toString()),
@@ -330,7 +330,7 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                           )
                         ],
                       ));
-                }, childCount: _dataObject.answers.length))
+                }, childCount: _getAndPostProvider.answers.length))
               ]),
         ));
   }

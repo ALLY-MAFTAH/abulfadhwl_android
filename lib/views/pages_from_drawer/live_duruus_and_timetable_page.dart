@@ -1,9 +1,9 @@
+import 'package:abulfadhwl_android/providers/get_and_post_provider.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image/network.dart';
 import 'package:provider/provider.dart';
 import 'package:abulfadhwl_android/constants/api.dart';
-import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:abulfadhwl_android/home_page.dart';
 
 class LiveDuruusAndTimetablePage extends StatefulWidget {
@@ -23,7 +23,7 @@ class _LiveDuruusAndTimetablePageState
 
   @override
   Widget build(BuildContext context) {
-    final _dataObject = Provider.of<DataProvider>(context);
+    final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -43,11 +43,11 @@ class _LiveDuruusAndTimetablePageState
         ),
       ),
       body: RefreshIndicator(
-        onRefresh: _dataObject.reloadPage,
+        onRefresh: _getAndPostProvider.reloadPage,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(
               parent: AlwaysScrollableScrollPhysics()),
-          child: _dataObject.streams.isEmpty
+          child: _getAndPostProvider.streams.isEmpty
               ? Container(
                   height: 300,
                   child: Column(
@@ -61,7 +61,7 @@ class _LiveDuruusAndTimetablePageState
                     SizedBox(
                       height: 10,
                     ),
-                    _dataObject.streams[0].status == 1
+                    _getAndPostProvider.streams[0].status == 1
                         ? Container(
                             child: Column(
                               children: <Widget>[
@@ -69,7 +69,7 @@ class _LiveDuruusAndTimetablePageState
                                   height: 10,
                                 ),
                                 Text(
-                                  _dataObject.streams[0].title,
+                                  _getAndPostProvider.streams[0].title,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -77,7 +77,7 @@ class _LiveDuruusAndTimetablePageState
                                   ),
                                 ),
                                 Text(
-                                  _dataObject.streams[0].description,
+                                  _getAndPostProvider.streams[0].description,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 17,
@@ -102,11 +102,11 @@ class _LiveDuruusAndTimetablePageState
                                               isPlaying
                                                   ? assetsAudioPlayer.pause()
                                                   : _playRadio(
-                                                      _dataObject
+                                                      _getAndPostProvider
                                                           .streams[0].url,
-                                                      _dataObject
+                                                      _getAndPostProvider
                                                           .streams[0].title,
-                                                      _dataObject.streams[0]
+                                                      _getAndPostProvider.streams[0]
                                                           .description,
                                                     );
                                             });
@@ -165,7 +165,7 @@ class _LiveDuruusAndTimetablePageState
                             child: Image(
                                 image: NetworkImageWithRetry(api +
                                     'stream/timetable/' +
-                                    _dataObject.streams[0].id.toString())),
+                                    _getAndPostProvider.streams[0].id.toString())),
                           )
                         ],
                       ),

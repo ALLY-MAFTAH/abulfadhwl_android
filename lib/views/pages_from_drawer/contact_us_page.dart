@@ -1,19 +1,19 @@
-// ignore_for_file: deprecated_member_use, import_of_legacy_library_into_null_safe
+// ignore_for_file: import_of_legacy_library_into_null_safe
 
 import 'package:abulfadhwl_android/models/link.dart';
-import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image/network.dart';
-import 'package:provider/provider.dart';
 import 'package:abulfadhwl_android/constants/api.dart';
 import 'package:abulfadhwl_android/home_page.dart';
 import 'package:sweetalert/sweetalert.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ContactUs extends StatefulWidget {
-  final DataProvider dataProvider;
+import '../../providers/get_and_post_provider.dart';
 
-  const ContactUs({Key? key, required this.dataProvider}) : super(key: key);
+class ContactUs extends StatefulWidget {
+  final GetAndPostProvider getAndPostProvider;
+
+  ContactUs({Key? key, required this.getAndPostProvider}) : super(key: key);
   @override
   _ContactUsState createState() => _ContactUsState();
 }
@@ -34,15 +34,14 @@ class _ContactUsState extends State<ContactUs> {
 
   @override
   void initState() {
-  
     ourLinks = [];
     othersLinks = [];
 
-    for (var i = 0; i < widget.dataProvider.links.length; i++) {
-      if (widget.dataProvider.links[i].type == "Ours") {
-        ourLinks.add(widget.dataProvider.links[i]);
+    for (var i = 0; i < widget.getAndPostProvider.links.length; i++) {
+      if (widget.getAndPostProvider.links[i].type == "Ours") {
+        ourLinks.add(widget.getAndPostProvider.links[i]);
       } else {
-        othersLinks.add(widget.dataProvider.links[i]);
+        othersLinks.add(widget.getAndPostProvider.links[i]);
       }
     }
     print(ourLinks);
@@ -51,7 +50,6 @@ class _ContactUsState extends State<ContactUs> {
 
   @override
   Widget build(BuildContext context) {
-    final _dataObject = Provider.of<DataProvider>(context);
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
@@ -72,7 +70,7 @@ class _ContactUsState extends State<ContactUs> {
           ),
         ),
         body: RefreshIndicator(
-            onRefresh: _dataObject.reloadPage,
+            onRefresh: widget.getAndPostProvider.reloadPage,
             child: Card(
               child: CustomScrollView(
                   physics: const BouncingScrollPhysics(
@@ -191,7 +189,7 @@ class _ContactUsState extends State<ContactUs> {
                                         if (!regExp.hasMatch(phoneValue)) {
                                           return 'Hii namba ya simu si sahihi';
                                         } else
-                                        return null;
+                                          return null;
                                       }
                                     },
                                     decoration: InputDecoration(
@@ -263,7 +261,7 @@ class _ContactUsState extends State<ContactUs> {
                                                 new Future.delayed(
                                                     new Duration(seconds: 3),
                                                     () {
-                                                  _dataObject
+                                                  widget.getAndPostProvider
                                                       .postComment(
                                                           fullName:
                                                               _fullNameController
@@ -390,6 +388,7 @@ class _ContactUsState extends State<ContactUs> {
   _launchURL(linkUrl) async {
     // const url = linkUrl;
     // if (await canLaunch(linkUrl)) {
+    // ignore: deprecated_member_use
     await launch(linkUrl);
     // } else {
     //   throw 'Could not launch $linkUrl';

@@ -1,4 +1,4 @@
-import 'package:abulfadhwl_android/providers/data_provider.dart';
+import 'package:abulfadhwl_android/providers/get_and_post_provider.dart';
 import 'package:abulfadhwl_android/views/other_pages/drawer_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 class HistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _dataObject = Provider.of<DataProvider>(context);
+    final _getAndPostObject = Provider.of<GetAndPostProvider>(context);
     return Scaffold(
       appBar: AppBar(
         iconTheme: new IconThemeData(),
@@ -17,11 +17,11 @@ class HistoryScreen extends StatelessWidget {
       ),
       drawer: DrawerPage(),
       body: RefreshIndicator(
-        onRefresh: _dataObject.reloadPage,
+        onRefresh: _getAndPostObject.reloadPage,
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(
               parent: AlwaysScrollableScrollPhysics()),
-          child: _dataObject.histories.isEmpty
+          child: _getAndPostObject.histories.isEmpty
               ? Container(
                   height: 300,
                   child: Column(
@@ -36,12 +36,12 @@ class HistoryScreen extends StatelessWidget {
                     decoration:
                         BoxDecoration(borderRadius: BorderRadius.circular(5)),
                     child: RefreshIndicator(
-                      onRefresh: _dataObject.reloadPage,
+                      onRefresh: _getAndPostObject.reloadPage,
                       child: ListView.builder(
                         physics: const BouncingScrollPhysics(
                             parent: AlwaysScrollableScrollPhysics()),
                         itemBuilder: (BuildContext context, int index) {
-                          return _dataObject.histories.isEmpty
+                          return _getAndPostObject.histories.isEmpty
                               ? Center(
                                   child: CircularProgressIndicator(),
                                 )
@@ -51,10 +51,11 @@ class HistoryScreen extends StatelessWidget {
                                     title: SizedBox(
                                       height: 70,
                                       child: Text(
-                                        _dataObject.histories[index].section
+                                        _getAndPostObject
+                                                .histories[index].section
                                                 .toString() +
                                             ". " +
-                                            _dataObject
+                                            _getAndPostObject
                                                 .histories[index].heading,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
@@ -89,7 +90,7 @@ class HistoryScreen extends StatelessWidget {
                                           child: Padding(
                                             padding: const EdgeInsets.all(5.0),
                                             child: SelectableText(
-                                              _dataObject
+                                              _getAndPostObject
                                                   .histories[index].content,
                                               style: TextStyle(),
                                               textAlign: TextAlign.justify,
@@ -101,7 +102,7 @@ class HistoryScreen extends StatelessWidget {
                                   ),
                                 );
                         },
-                        itemCount: _dataObject.histories.length,
+                        itemCount: _getAndPostObject.histories.length,
                       ),
                     ),
                   ),

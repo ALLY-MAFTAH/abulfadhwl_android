@@ -1,15 +1,13 @@
 import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:abulfadhwl_android/views/components/controls.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../constants/api.dart';
 
 class NowPlayingScreenSheet extends StatefulWidget {
-  final DataProvider dataProvider;
-
-  NowPlayingScreenSheet({Key? key, required this.dataProvider})
-      : super(key: key);
+  NowPlayingScreenSheet({Key? key}) : super(key: key);
 
   @override
   _NowPlayingScreenSheetState createState() => _NowPlayingScreenSheetState();
@@ -29,6 +27,8 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final _dataProvider = Provider.of<DataProvider>(context);
+
     return Scaffold(
       key: _scaffoldKey,
       body: SingleChildScrollView(
@@ -54,8 +54,7 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                       children: <Widget>[
                         CurrentSongTitle(),
                         Text(
-                          widget.dataProvider.currentSong.size.toString() +
-                              ' MB',
+                          _dataProvider.currentSong.size.toString() + ' MB',
                           maxLines: 1,
                           style: TextStyle(fontSize: 13),
                         )
@@ -69,7 +68,7 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                   onPressed: () {
                     Share.share(api +
                         'song/file/' +
-                        widget.dataProvider.currentSong.id.toString());
+                        _dataProvider.currentSong.id.toString());
                   },
                 ),
               ]),
@@ -143,13 +142,12 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                                 ),
                                 iconSize: 30,
                                 onPressed: () {
-                                  widget.dataProvider.download(
+                                  _dataProvider.download(
                                     api +
                                         'song/file/' +
-                                        widget.dataProvider.currentSong.id
-                                            .toString(),
-                                    widget.dataProvider.currentSong.file,
-                                    widget.dataProvider.currentSong.title,
+                                        _dataProvider.currentSong.id.toString(),
+                                    _dataProvider.currentSong.file,
+                                    _dataProvider.currentSong.title,
                                   );
                                 },
                               ),

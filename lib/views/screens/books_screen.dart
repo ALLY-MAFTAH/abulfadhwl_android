@@ -1,5 +1,4 @@
 import 'package:abulfadhwl_android/constants/api.dart';
-import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:abulfadhwl_android/views/other_pages/book_info_display.dart';
 import 'package:abulfadhwl_android/views/other_pages/drawer_page.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_image/network.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
+import '../../providers/get_and_post_provider.dart';
 import '../components/folded_card.dart';
 
 class BooksScreen extends StatefulWidget {
@@ -18,7 +18,7 @@ class _BooksScreenState extends State<BooksScreen> {
   @override
   Widget build(BuildContext context) {
     timeDilation = 1.0;
-    final _dataObject = Provider.of<DataProvider>(context);
+    final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
 
     return DefaultTabController(
       child: Scaffold(
@@ -64,12 +64,12 @@ class _BooksScreenState extends State<BooksScreen> {
               child: TabBarView(
                 children: <Widget>[
                   RefreshIndicator(
-                    onRefresh: _dataObject.reloadPage,
+                    onRefresh: _getAndPostProvider.reloadPage,
                     child: ListView.builder(
                       physics: const BouncingScrollPhysics(
                           parent: AlwaysScrollableScrollPhysics()),
                       itemBuilder: (BuildContext context, int index) {
-                        return _dataObject.books.isEmpty
+                        return _getAndPostProvider.books.isEmpty
                             ? Center(
                                 child: CircularProgressIndicator(),
                               )
@@ -95,15 +95,15 @@ class _BooksScreenState extends State<BooksScreen> {
                                             MaterialPageRoute(builder: (_) {
                                           return BookInfoDisplay(
                                             bookDetails:
-                                                _dataObject.books[index],
-                                            tagNum: _dataObject.books[index].id,
+                                                _getAndPostProvider.books[index],
+                                            tagNum: _getAndPostProvider.books[index].id,
                                           );
                                         }));
                                       },
                                       child: Column(
                                         children: [
                                           Hero(
-                                            child: _dataObject.books.isEmpty
+                                            child: _getAndPostProvider.books.isEmpty
                                                 ? Container(
                                                   child: Icon(Icons.image),
                                                 )
@@ -123,14 +123,14 @@ class _BooksScreenState extends State<BooksScreen> {
                                                         image: DecorationImage(
                                                             image: NetworkImageWithRetry(api +
                                                                 'book/cover/' +
-                                                                _dataObject
+                                                                _getAndPostProvider
                                                                     .books[
                                                                         index]
                                                                     .id
                                                                     .toString()),
                                                             fit: BoxFit.fill)),
                                                   ),
-                                            tag: _dataObject.books[index].id,
+                                            tag: _getAndPostProvider.books[index].id,
                                           ),
                                           Padding(
                                             padding:
@@ -147,9 +147,8 @@ class _BooksScreenState extends State<BooksScreen> {
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),
                                             child: Text(
-                                              _dataObject.books[index].title,
+                                              _getAndPostProvider.books[index].title,
                                               style: TextStyle(
-                                                // fontSize: 17,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                               textAlign: TextAlign.center,
@@ -161,10 +160,10 @@ class _BooksScreenState extends State<BooksScreen> {
                                   ),
                                 ));
                       },
-                      itemCount: _dataObject.books.length,
+                      itemCount: _getAndPostProvider.books.length,
                     ),
                   ),
-                  _dataObject.articles.isEmpty
+                  _getAndPostProvider.articles.isEmpty
                       ? Center(
                           child: CircularProgressIndicator(),
                         )
@@ -172,7 +171,7 @@ class _BooksScreenState extends State<BooksScreen> {
                           itemBuilder: (BuildContext context, int index) {
                             return FoldedCard(index: index);
                           },
-                          itemCount: _dataObject.articles.length,
+                          itemCount: _getAndPostProvider.articles.length,
                         )
                 ],
               ),

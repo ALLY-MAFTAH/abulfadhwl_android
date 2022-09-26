@@ -1,5 +1,6 @@
 import 'package:abulfadhwl_android/models/album.dart';
 import 'package:abulfadhwl_android/models/song.dart';
+import 'package:abulfadhwl_android/providers/get_and_post_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,10 +35,10 @@ class CustomSearchDelegate extends SearchDelegate {
 // third overwrite to show query result
   @override
   Widget buildResults(BuildContext context) {
-    final _dataProvider = Provider.of<DataProvider>(context);
+    final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
 
     List<Song> matchQuery = [];
-    for (var audio in _dataProvider.audios) {
+    for (var audio in _getAndPostProvider.audios) {
       if (audio.title.toLowerCase().contains(query.toLowerCase())) {
         matchQuery.add(audio);
       }
@@ -57,10 +58,11 @@ class CustomSearchDelegate extends SearchDelegate {
 // querying process at the runtime
   @override
   Widget buildSuggestions(BuildContext context) {
+    final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
     final _dataProvider = Provider.of<DataProvider>(context);
 
     List<Song> matchQuery = [];
-    for (var audio in _dataProvider.audios) {
+    for (var audio in _getAndPostProvider.audios) {
       if (audio.title.toLowerCase().contains(query.toLowerCase())) {
         matchQuery.add(audio);
       }
@@ -83,13 +85,13 @@ class CustomSearchDelegate extends SearchDelegate {
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (_) {
                     List<Song> selectedAlbumAudios = [];
-                    for (var aud in _dataProvider.audios) {
+                    for (var aud in _getAndPostProvider.audios) {
                       if (aud.albumId == result.albumId) {
                         selectedAlbumAudios.add(aud);
                       }
                     }
                     List<Album> allAlbums = [];
-                    for (var category in _dataProvider.categories) {
+                    for (var category in _getAndPostProvider.categories) {
                       for (var alb in category.albums) {
                         allAlbums.add(alb);
                       }
@@ -103,9 +105,10 @@ class CustomSearchDelegate extends SearchDelegate {
                     _dataProvider.searchedAudio = result.id;
                     return SongsList(
                       indicator: "",
-                      songs: selectedAlbumAudios,
-                      dataProvider: _dataProvider,
                       categoryId: categoryId,
+                      songs: selectedAlbumAudios,
+                      getAndPostProvider: _getAndPostProvider,
+                     dataProvider: _dataProvider,
                     );
                   }));
                 },
