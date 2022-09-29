@@ -235,6 +235,7 @@ class _AudioCardState extends State<AudioCard> {
           widget.dataProvider.songs[widget.index].id.toString(),
       widget.dataProvider.songs[widget.index].file,
       widget.dataProvider.songs[widget.index].title,
+      widget.dataProvider.songs[widget.index].albumId,
     );
   }
 

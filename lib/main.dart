@@ -66,6 +66,8 @@ class _AbulfadhwlState extends State<Abulfadhwl> {
     _getAndPostProvider.getAllLinks();
     _getAndPostProvider.getAllAnswers();
     _getAndPostProvider.getAllSongs();
+    _getAndPostProvider.getAllAlbums();
+    _dataProvider.getAllAlbums();
 
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
         FlutterLocalNotificationsPlugin();
@@ -84,12 +86,12 @@ class _AbulfadhwlState extends State<Abulfadhwl> {
     FirebaseMessaging.instance.subscribeToTopic('all');
     FirebaseMessaging.instance.getToken().then((token) => print(token));
 
-const AndroidNotificationChannel channel = AndroidNotificationChannel(
-  'high_importance_channel', // id
-  'High Importance Notifications', // title
-  importance: Importance.max,
-);
-     FlutterLocalNotificationsPlugin flutterLocNotiPlug =
+    const AndroidNotificationChannel channel = AndroidNotificationChannel(
+      'high_importance_channel', // id
+      'High Importance Notifications', // title
+      importance: Importance.max,
+    );
+    FlutterLocalNotificationsPlugin flutterLocNotiPlug =
         FlutterLocalNotificationsPlugin();
 
     flutterLocNotiPlug

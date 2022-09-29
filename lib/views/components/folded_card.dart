@@ -1,4 +1,3 @@
-
 import 'package:abulfadhwl_android/providers/get_and_post_provider.dart';
 import 'package:abulfadhwl_android/views/components/pdf_reader.dart';
 import 'package:flutter/material.dart';
@@ -82,7 +81,8 @@ class FoldedCard extends StatelessWidget {
                             radius: 15,
                             backgroundColor: Colors.white,
                             child: Text(
-                              _getAndPostProvider.articles[index].number.toString(),
+                              _getAndPostProvider.articles[index].number
+                                  .toString(),
                               style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.black,
@@ -144,7 +144,7 @@ class FoldedCard extends StatelessWidget {
 
   Widget _buildInnerWidget(context) {
     final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
-        final _dataProvider = Provider.of<DataProvider>(context);
+    final _dataProvider = Provider.of<DataProvider>(context);
 
     return Container(
       decoration: BoxDecoration(
@@ -184,7 +184,8 @@ class FoldedCard extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 120, right: 10),
                     child: Text(
-                      " • Imetolewa: " + _getAndPostProvider.articles[index].pubYear,
+                      " • Imetolewa: " +
+                          _getAndPostProvider.articles[index].pubYear,
                       style: TextStyle(color: Colors.grey),
                     ),
                   ),
@@ -234,11 +235,13 @@ class FoldedCard extends StatelessWidget {
                   bottom: 3,
                   child: IconButton(
                     onPressed: () => _dataProvider.download(
-                        api +
-                            'article/file/' +
-                            _getAndPostProvider.articles[index].id.toString(),
-                        _getAndPostProvider.articles[index].file,
-                        _getAndPostProvider.articles[index].title),
+                      api +
+                          'article/file/' +
+                          _getAndPostProvider.articles[index].id.toString(),
+                      _getAndPostProvider.articles[index].file,
+                      _getAndPostProvider.articles[index].title,
+                      0,
+                    ),
                     icon: Icon(
                       Icons.download,
                       size: 35,

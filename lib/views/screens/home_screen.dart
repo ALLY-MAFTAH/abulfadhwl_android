@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-        final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
+    final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
 
     final arr = <MyImage>[];
     for (var i = 0; i < _getAndPostProvider.slides.length; i++) {
@@ -92,8 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Marquee(
                                 pauseAfterRound: Duration(seconds: 2),
                                 blankSpace: 50,
-                                text: 
-                                    _getAndPostProvider.announcements[0].news,
+                                text: _getAndPostProvider.announcements[0].news,
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                             ),
@@ -157,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: Icon(Icons.download),
                                   onPressed: () {
                                     widget.dataProvider.download(arr[index].url,
-                                        arr[index].name, arr[index].title);
+                                        arr[index].name, arr[index].title, 0);
                                     print(arr[index].url);
                                   },
                                 ));

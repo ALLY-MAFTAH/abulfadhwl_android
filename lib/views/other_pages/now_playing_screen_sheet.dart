@@ -143,12 +143,14 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                                 iconSize: 30,
                                 onPressed: () {
                                   _dataProvider.download(
-                                    api +
-                                        'song/file/' +
-                                        _dataProvider.currentSong.id.toString(),
-                                    _dataProvider.currentSong.file,
-                                    _dataProvider.currentSong.title,
-                                  );
+                                      api +
+                                          'song/file/' +
+                                          _dataProvider.currentSong.id
+                                              .toString(),
+                                      _dataProvider.currentSong.file,
+                                      _dataProvider.currentSong.title,
+                                      _dataProvider.currentSong.albumId,
+                                     );
                                 },
                               ),
                             ],

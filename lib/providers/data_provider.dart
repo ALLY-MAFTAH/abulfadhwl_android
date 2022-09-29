@@ -1,9 +1,12 @@
-
-
 // ignore_for_file: argument_type_not_assignable_to_error_handler
+
+import 'dart:convert';
 
 import 'package:abulfadhwl_android/models/album.dart';
 import 'package:abulfadhwl_android/models/song.dart';
+import 'package:http/http.dart' as http;
+import 'package:audiotagger/audiotagger.dart';
+import 'package:audiotagger/models/tag.dart';
 import 'package:flutter/material.dart';
 import 'package:abulfadhwl_android/constants/api.dart';
 import 'dart:io';
@@ -13,6 +16,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:path/path.dart' as path;
+
+import 'dart:async';
+
+import '../../constants/api.dart';
 
 typedef void OnError(Exception exception);
 
@@ -33,9 +40,8 @@ class DataProvider extends ChangeNotifier {
   String progress = "0";
   String downloadedFile = "";
 
-  CancelToken cancelToken1 = CancelToken();
-  CancelToken cancelToken2 = CancelToken();
-  CancelToken token = CancelToken();
+  late Widget result;
+  Audiotagger tagger = new Audiotagger();
 
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -70,21 +76,11 @@ class DataProvider extends ChangeNotifier {
     };
 
     try {
-      final response = await _dio
-          .download(
+      final response = await _dio.download(
         url,
         savePath,
-        cancelToken: token,
         onReceiveProgress: _onReceiveProgress,
-      )
-          .catchError((DioError err) {
-        if (CancelToken.isCancel(err)) {
-          print('Request canceled! ' + err.message);
-        } else {
-          print('Failed to cancel');
-          token.cancel('cancelled');
-        }
-      });
+      );
       result['isSuccess'] = response.statusCode == 200;
       result['filePath'] = savePath;
       notifyListeners();
@@ -110,7 +106,7 @@ class DataProvider extends ChangeNotifier {
     };
     try {
       final response = await _dio.download(url, savePath,
-          cancelToken: cancelToken2, onReceiveProgress: _onReceiveProgress);
+          onReceiveProgress: _onReceiveProgress);
       result['isSuccess'] = response.statusCode == 200;
       result['filePath'] = savePath;
       notifyListeners();
@@ -149,19 +145,31 @@ class DataProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> download(String url, String fileName, String fileTitle) async {
+  Future<void> download(
+      String url, String fileName, String fileTitle, int albumId) async {
     final dir = await _getDownloadDirectory();
     final isPermissionStatusGranted = await requestPermission();
 
     if (isPermissionStatusGranted) {
       final savePath = path.join(dir!.path, fileName);
+
+      notifyListeners();
       await _startDownload(url, fileName, fileTitle, savePath);
+
+      if (albumId > 0) {
+        print(albums);
+        for (var alb in albums) {
+          if (alb.id == albumId) {
+            await writeTags(savePath, fileTitle, alb.name);
+          }
+        }
+      }
     } else {
       null;
     }
   }
 
-  Future<void> downloadAlbum(List<Song> albumSongs) async {
+  Future<void> downloadAlbum(List<Song> albumSongs, String albumName) async {
     final dir = await _getDownloadDirectory();
     final isPermissionStatusGranted = await requestPermission();
 
@@ -173,6 +181,7 @@ class DataProvider extends ChangeNotifier {
         );
         await _startAlbumDownload(api + 'song/file/' + albumSong.id.toString(),
             albumSong.file, albumSong.title, savePath);
+        await writeTags(savePath, albumSong.title, albumName);
       }
     } else {
       null;
@@ -189,9 +198,55 @@ class DataProvider extends ChangeNotifier {
     return true;
   }
 
-  void cancelDownload() {
-    print("Cancel Download Now!!!!!!");
-    token.cancel('cancelled');
-    // cancelToken.cancel();
+  Future writeTags(String filePathToWrite, String titleToWrite,
+      String albumNameToWrite) async {
+    Tag tags = Tag(
+      title: titleToWrite,
+      trackNumber: "",
+      artist: "Sheikh Abul Fadhwl Qassim Mafuta Qassim حفظه الله",
+      album: albumNameToWrite,
+      year: "2020",
+      // artwork: newArtwork,
+    );
+
+    final output = await tagger.writeTags(
+      path: filePathToWrite,
+      tag: tags,
+    );
+
+    result = Text(output.toString());
+
+    await tagger.readTagsAsMap(
+      path: filePathToWrite,
+    );
+    notifyListeners();
+  }
+
+  // ********** ALBUMS DATA ***********
+
+  List<Album> _albums = [];
+  List<Album> get albums => _albums;
+  set setAlbums(List emptyAlbums) => _albums = [];
+
+  Future<void> getAllAlbums() async {
+    List<Album> _fetchedAlbums = [];
+    try {
+      final response = await http.get(Uri.parse(api + 'albums/'));
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        data['albums'].forEach(($album) {
+          final dataSet = Album.fromMap($album);
+          _fetchedAlbums.add(dataSet);
+        });
+
+        _albums = _fetchedAlbums;
+        print(_albums);
+        print(_albums.length);
+      }
+    } catch (e) {
+      print('Albums Hazijaja');
+      print(e);
+    }
   }
 }

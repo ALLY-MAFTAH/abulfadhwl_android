@@ -108,7 +108,7 @@ class BookInfoDisplay extends StatelessWidget {
                             _dataProvider.download(
                               api + 'book/file/' + bookDetails.id.toString(),
                               bookDetails.file,
-                              bookDetails.title,
+                              bookDetails.title,0,
                             );
                           },
                         ),

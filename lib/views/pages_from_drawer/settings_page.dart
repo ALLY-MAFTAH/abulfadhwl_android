@@ -33,48 +33,73 @@
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:audiotagger/audiotagger.dart';
 import 'package:audiotagger/models/tag.dart';
+import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:path_provider/path_provider.dart';
+
+import '../../constants/api.dart';
+import '../../providers/data_provider.dart';
+import 'package:path/path.dart' as path;
 
 class Settings extends StatefulWidget {
+  final DataProvider dataProvider;
+
+  const Settings({Key? key, required this.dataProvider}) : super(key: key);
+
   @override
   _SettingsState createState() => _SettingsState();
 }
 
 class _SettingsState extends State<Settings> {
-  final filePath =
-      "/storage/emulated/0/11. Dhimma ya Wazazi Juu ya Malezi ya Watoto - 11.mp3";
-  // final artwork = "/sdcard/cover.jpg";
+  String filePath = "";
+  // "/storage/emulated/0/11. Dhimma ya Wazazi Juu ya Malezi ya Watoto - 11.mp3";
+  final newArtwork = "assets/icons/app_icon.png";
   late Widget result;
   Audiotagger tagger = new Audiotagger();
 
   @override
   void initState() {
-     setState(() {
-      result =  Text("Ready..");
+    reaaaad();
+    setState(() {
+      result = Text("Ready..");
     });
-   
     super.initState();
-    _checkPermissions();
   }
 
-  Future _checkPermissions() async {
-    if (!await Permission.storage.request().isGranted) {
-      await _checkPermissions();
+  Future<void> reaaaad() async {
+    final dir = await _getDownloadDirectory();
+    // final isPermissionStatusGranted = await _checkPermissions();
+
+    // if (isPermissionStatusGranted) {
+    filePath = path.join(dir!.path, widget.dataProvider.currentSong.file);
+    // await _startDownload(url, fileName, fileTitle, savePath);
+    // } else {
+    //   null;
+    // }
+  }
+
+  Future<Directory?> _getDownloadDirectory() async {
+    if (Platform.isAndroid) {
+      return await DownloadsPathProvider.downloadsDirectory;
     }
+
+    return await getApplicationDocumentsDirectory();
   }
 
-  Future _writeTags() async {
+
+  Future writeTags() async {
     Tag tags = Tag(
-      title: "Title of the song",
-      artist: "A fake artist",
+      title: "تلاص هبتنيب نتيب نتىبيب ",
+      trackNumber: "",
+      artist: "Sheikh Abul Fadhwl Qassim Mafuta Qassim حفظه الله",
       album: "A fake album",
       year: "2020",
-      // artwork: artwork,
+      // artwork: newArtwork,
     );
 
     final output = await tagger.writeTags(
@@ -87,7 +112,13 @@ class _SettingsState extends State<Settings> {
     });
   }
 
-  Future _readTags() async {
+  Future readTags() async {
+    print(11);
+    print(22);
+    print(23);
+    print(filePath);
+    print("widget.dataProvider.currentSong.file");
+    print(api + 'song/file/' + widget.dataProvider.currentSong.id.toString());
     final output = await tagger.readTagsAsMap(
       path: filePath,
     );
@@ -130,7 +161,7 @@ class _SettingsState extends State<Settings> {
               ElevatedButton(
                 child: Text("Read tags"),
                 onPressed: () async {
-                  await _readTags();
+                  await readTags();
                 },
               ),
               ElevatedButton(
@@ -148,7 +179,7 @@ class _SettingsState extends State<Settings> {
               ElevatedButton(
                 child: Text("Write tags"),
                 onPressed: () async {
-                  await _writeTags();
+                  await writeTags();
                 },
               ),
             ],

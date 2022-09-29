@@ -1,3 +1,4 @@
+import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:abulfadhwl_android/providers/get_and_post_provider.dart';
 import 'package:abulfadhwl_android/views/other_pages/oval_right_border_cliper.dart';
 import 'package:abulfadhwl_android/views/pages_from_drawer/about_us_page.dart';
@@ -14,6 +15,7 @@ class DrawerPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
+    final _dataProvider = Provider.of<DataProvider>(context);
     return ClipPath(
       clipper: OvalRightBorderClipper(),
       child: Drawer(
@@ -112,7 +114,8 @@ class DrawerPage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) {
                         return Announcements(
-                          announcementDetails: _getAndPostProvider.announcements,
+                          announcementDetails:
+                              _getAndPostProvider.announcements,
                         );
                       }));
                     },
@@ -159,7 +162,8 @@ class DrawerPage extends StatelessWidget {
                     ),
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) {
-                        return ContactUs(getAndPostProvider: _getAndPostProvider,
+                        return ContactUs(
+                          getAndPostProvider: _getAndPostProvider,
                         );
                       }));
                     },
@@ -183,7 +187,10 @@ class DrawerPage extends StatelessWidget {
                     ),
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) {
-                        return Settings();
+                        return Settings(
+                                                    dataProvider: _dataProvider,
+
+                        );
                       }));
                     },
                   ),

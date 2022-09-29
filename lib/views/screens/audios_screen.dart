@@ -148,6 +148,7 @@ class _AudiosScreenState extends State<AudiosScreen>
                                   fontWeight: FontWeight.bold,
                                 ),
                                 tabs: _tabs),
+                        
                           ),
                           Expanded(
                               child: TabBarView(

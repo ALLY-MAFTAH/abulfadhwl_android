@@ -1,6 +1,7 @@
 // ignore_for_file: argument_type_not_assignable_to_error_handler
 
 import 'dart:convert';
+import 'package:abulfadhwl_android/models/album.dart';
 import 'package:abulfadhwl_android/models/song.dart';
 import 'package:abulfadhwl_android/models/song_category.dart';
 import 'package:flutter/material.dart';
@@ -20,17 +21,6 @@ import 'package:abulfadhwl_android/models/stream.dart';
 typedef void OnError(Exception exception);
 
 class GetAndPostProvider extends ChangeNotifier {
-  List<SongCategory> _categories = [];
-  List<Song> _audios = [];
-  // int currentSongIndex = 0;
-  // Album currentAlbum =
-  //     Album(id: 0, name: "", description: "", categoryId: 0, songs: []);
-  // List<Song> songs = [];
-  // int searchedAudio = 0;
-
-  // Song currentSong =
-  //     Song(id: 0, albumId: 0, title: "", size: 0, duration: "", file: "");
-
 //
 //
 // ********** ANNOUNCEMENTS DATA ***********
@@ -347,6 +337,8 @@ class GetAndPostProvider extends ChangeNotifier {
   //
 
   // ********** AUDIOS DATA ***********
+  List<SongCategory> _categories = [];
+
   List<SongCategory> get categories => _categories;
   set setCategories(List emptycategories) => _categories = [];
 
@@ -372,6 +364,7 @@ class GetAndPostProvider extends ChangeNotifier {
     }
   }
 
+  List<Song> _audios = [];
   List<Song> get audios => _audios;
   set setAudios(List emptyaudios) => _audios = [];
 
@@ -397,6 +390,36 @@ class GetAndPostProvider extends ChangeNotifier {
     }
   }
 
+//
+//
+  // ********** ALBUMS DATA ***********
+
+  List<Album> _albums = [];
+  List<Album> get albums => _albums;
+  set setAlbums(List emptyAlbums) => _albums = [];
+
+  Future<void> getAllAlbums() async {
+    List<Album> _fetchedAlbums = [];
+    try {
+      final response = await http.get(Uri.parse(api + 'albums/'));
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+        data['albums'].forEach(($album) {
+          final dataSet = Album.fromMap($album);
+          _fetchedAlbums.add(dataSet);
+        });
+
+        _albums = _fetchedAlbums;
+        print(_albums);
+        print(_albums.length);
+      }
+    } catch (e) {
+      print('Albums Hazijaja');
+      print(e);
+    }
+  }
+
   //
   // ************** PAGE RELOAD
   Future<void> reloadPage() async {
@@ -410,6 +433,7 @@ class GetAndPostProvider extends ChangeNotifier {
     getAllStreams();
     getAllCategories();
     getAllSongs();
+    getAllAlbums();
     notifyListeners();
   }
 }

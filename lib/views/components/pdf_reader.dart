@@ -174,7 +174,7 @@ class _BookReaderState extends State<BookReader> {
         child: Icon(Icons.download),
         onPressed: () {
           _dataProvider.download(
-              widget.pdfUrl, widget.pdfName, widget.pdfTitle);
+              widget.pdfUrl, widget.pdfName, widget.pdfTitle,0);
         },
       ),
     );

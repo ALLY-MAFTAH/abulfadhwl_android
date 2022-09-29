@@ -44,7 +44,7 @@ class _AlbumCardState extends State<AlbumCard> {
       actions: [
         TextButton(
             onPressed: () {
-              _dataProvider.downloadAlbum(widget.album.songs);
+              _dataProvider.downloadAlbum(widget.album.songs, widget.album.name);
               Navigator.of(context).pop();
             },
             child: const Text('Ndio')),
