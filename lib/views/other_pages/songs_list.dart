@@ -86,16 +86,17 @@ class _SongsListState extends State<SongsList> {
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(categoryName,
+                style: TextStyle(
+                  fontSize: 17,
+                )),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Text(
                 _dataProvider.currentAlbum.name,
+                style: TextStyle(
+                    fontSize: 14, color: Color.fromARGB(255, 78, 76, 76)),
               ),
-            ),
-            Text(
-              categoryName,
-              style: TextStyle(
-                  fontSize: 15, color: Color.fromARGB(255, 78, 76, 76)),
             ),
           ],
         ),

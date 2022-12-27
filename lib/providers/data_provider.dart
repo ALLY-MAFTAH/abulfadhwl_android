@@ -39,6 +39,8 @@ class DataProvider extends ChangeNotifier {
 
   String progress = "0";
   String downloadedFile = "";
+  late Color? btnColor = Color.fromARGB(255, 96, 49, 3);
+  late Color? btnColorLight = Color.fromARGB(255, 235, 223, 212);
 
   late Widget result;
   Audiotagger tagger = new Audiotagger();
@@ -181,7 +183,7 @@ class DataProvider extends ChangeNotifier {
         );
         await _startAlbumDownload(api + 'song/file/' + albumSong.id.toString(),
             albumSong.file, albumSong.title, savePath);
-        await writeTags(savePath, albumSong.title, albumName);
+        writeTags(savePath, albumSong.title, albumName);
       }
     } else {
       null;
@@ -205,7 +207,7 @@ class DataProvider extends ChangeNotifier {
       trackNumber: "",
       artist: "Sheikh Abul Fadhwl Qassim Mafuta Qassim حفظه الله",
       album: albumNameToWrite,
-      year: "2020",
+      // year: "2020",
       // artwork: newArtwork,
     );
 

@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
@@ -165,12 +166,15 @@ class _AbulfadhwlState extends State<Abulfadhwl> {
           value: _getAndPostProvider,
         )
       ],
-      child: MaterialApp(
+      child: GetMaterialApp(
         title: _packageInfo.appName,
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            textTheme: GoogleFonts.ubuntuTextTheme(),
-            primarySwatch: Colors.orange),
+        theme: Theme.of(context).copyWith(
+          textTheme: GoogleFonts.ubuntuTextTheme(),
+          colorScheme: Theme.of(context).colorScheme.copyWith(
+                primary: Color.fromARGB(255, 96, 49, 3),
+              ),
+        ),
         home: AnimatedSplashScreen(),
       ),
     );

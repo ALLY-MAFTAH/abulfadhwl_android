@@ -3,8 +3,10 @@
 import 'package:abulfadhwl_android/constants/api.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:abulfadhwl_android/providers/get_and_post_provider.dart';
+import 'package:abulfadhwl_android/services/service_locator.dart';
 import 'package:animated_image_list/AnimatedImageList.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:marquee/marquee.dart';
 import 'package:abulfadhwl_android/views/pages_from_drawer/announcements_page.dart';
 import 'package:abulfadhwl_android/views/other_pages/drawer_page.dart';
@@ -72,13 +74,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.orange[50],
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (_) {
-                            return Announcements(
+                          Get.to(Announcements(
                               announcementDetails:
-                                  _getAndPostProvider.announcements,
-                            );
-                          }));
+                                  _getAndPostProvider.announcements));
                         },
                         child: Row(
                           children: <Widget>[
@@ -113,9 +111,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: EdgeInsets.all(5),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),
-                          color: Colors.orange,
+                          color: dataProvider.btnColor ,
                           child: Text(
-                            'تفسير القران الكريم',
+                            'تفسير القران الكريم'.tr,
                             textAlign: TextAlign.center,
                             textDirection: TextDirection.rtl,
                             style: TextStyle(
@@ -124,7 +122,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Get.snackbar("'Afwan",
+                                "Tafsiyr ya Qur-aan Bado Ipo Katika Maandalizi",
+                                snackPosition: SnackPosition.TOP,
+                                backgroundColor: Colors.white);
+                          },
                           elevation: 6,
                         ),
                       ),

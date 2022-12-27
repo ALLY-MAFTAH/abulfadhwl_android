@@ -63,6 +63,7 @@ dependencies:
   flutter_slidable: ^2.0.0
   folding_cell: "^1.0.2"
   audiotagger: ^2.2.1
+  get: ^4.6.5
 
 
   # The following adds the Cupertino Icons font to your application.

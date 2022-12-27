@@ -24,7 +24,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-        final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
+    final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
 
     final List<Widget> _screens = [
       HomeScreen(),
