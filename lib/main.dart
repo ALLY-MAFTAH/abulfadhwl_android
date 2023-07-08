@@ -88,8 +88,8 @@ class _AbulfadhwlState extends State<Abulfadhwl> {
     FirebaseMessaging.instance.getToken().then((token) => print(token));
 
     const AndroidNotificationChannel channel = AndroidNotificationChannel(
-      'high_importance_channel', // id
-      'High Importance Notifications', // title
+      'high_importance_channel', 
+      'High Importance Notifications', 
       importance: Importance.max,
     );
     FlutterLocalNotificationsPlugin flutterLocNotiPlug =
@@ -104,8 +104,7 @@ class _AbulfadhwlState extends State<Abulfadhwl> {
       RemoteNotification? notification = message.notification;
       AndroidNotification? android = message.notification?.android;
 
-      // If `onMessage` is triggered with a notification, construct our own
-      // local notification to show to users using the created channel.
+
       if (notification != null && android != null) {
         flutterLocalNotificationsPlugin.show(
             notification.hashCode,

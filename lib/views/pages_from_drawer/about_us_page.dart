@@ -1,13 +1,18 @@
 // ignore_for_file: import_of_legacy_library_into_null_safe
 
-import 'package:abulfadhwl_android/home_page.dart';
+import 'package:abulfadhwl_android/layout_page.dart';
 import 'package:flutter/material.dart';
 import 'package:marquee/marquee.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+
+import '../../providers/data_provider.dart';
 
 class AboutUs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _dataProvider = Provider.of<DataProvider>(context);
+
     int _currentYear = DateTime.now().year;
     return Scaffold(
       appBar: AppBar(
@@ -17,7 +22,7 @@ class AboutUs extends StatelessWidget {
           ),
           onPressed: () {
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-              return Home();
+              return LayoutPage();
             }));
           },
         ),
@@ -43,7 +48,7 @@ class AboutUs extends StatelessWidget {
                         )),
                     Container(
                       decoration: BoxDecoration(
-                          color: Colors.orange[50],
+                          color: _dataProvider.btnColorLight,
                           borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(10),
                               bottomRight: Radius.circular(10))),
@@ -64,9 +69,9 @@ class AboutUs extends StatelessWidget {
                           ),
                           CircleAvatar(
                             radius: 25,
-                            backgroundColor: Colors.orange,
+                            backgroundColor: _dataProvider.btnColor,
                             child: IconButton(
-                              color: Colors.black,
+                              color: Colors.white,
                               icon: Icon(Icons.share),
                               onPressed: () {
                                 Share.share(
@@ -91,7 +96,7 @@ class AboutUs extends StatelessWidget {
                 pauseAfterRound: Duration(seconds: 2),
                 blankSpace: 50,
                 text: 'Ndugu Katika Imani Usitusahau Katika Dua Zako  ',
-                style: TextStyle(),
+                style: TextStyle(color:_dataProvider.btnColor),
               ),
             ),
           ],
@@ -99,7 +104,7 @@ class AboutUs extends StatelessWidget {
       ),
       bottomNavigationBar: BottomAppBar(
         elevation: 10,
-        color: Colors.orange,
+        color: _dataProvider.btnColor,
         child: Container(
           height: 53,
           child: Column(
@@ -108,16 +113,16 @@ class AboutUs extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Icon(Icons.copyright, size: 15),
+                  Icon(Icons.copyright, size: 15,color:_dataProvider.btnColorLight),
                   Text(
                       _currentYear.toString() +
                           ' Markaz Shaykhil Islaam Ibn Taymiyyah',
-                      style: TextStyle(fontSize: 9)),
+                      style: TextStyle(fontSize: 9,color:_dataProvider.btnColorLight)),
                 ],
               ),
               Text(
-                'Vitu vyote katika Application hii vimehifadhiwa kwa hati miliki ',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 9),
+                'Vitu vyote katika Application hii vimehifadhiwa kwa haki miliki ',
+                style: TextStyle(fontWeight: FontWeight.bold,color:_dataProvider.btnColorLight , fontSize: 9),
                 textAlign: TextAlign.center,
               )
             ],

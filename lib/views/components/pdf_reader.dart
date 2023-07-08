@@ -48,14 +48,16 @@ class _BookReaderState extends State<BookReader> {
       builder: (context) => Positioned(
         top: details.globalSelectedRegion!.center.dy - 55,
         left: details.globalSelectedRegion?.bottomLeft.dx,
-        child: RaisedButton(
+        child: ElevatedButton(
           child: Text('Copy', style: TextStyle(fontSize: 17)),
           onPressed: () {
-            Clipboard.setData(ClipboardData(text: details.selectedText));
+            Clipboard.setData(ClipboardData(text: details.selectedText!));
             _pdfViewerController.clearSelection();
           },
-          color: Colors.white,
-          elevation: 10,
+         style: ElevatedButton.styleFrom(
+                            elevation: 6,
+                            backgroundColor:Colors.white,
+                          ),
         ),
       ),
     );
@@ -171,7 +173,7 @@ class _BookReaderState extends State<BookReader> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.download),
+        child: Icon(Icons.download),backgroundColor: _dataProvider.btnColor,
         onPressed: () {
           _dataProvider.download(
               widget.pdfUrl, widget.pdfName, widget.pdfTitle,0);

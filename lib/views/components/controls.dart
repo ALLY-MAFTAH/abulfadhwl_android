@@ -8,6 +8,9 @@ import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:marquee/marquee.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/data_provider.dart';
 
 class CurrentSongTitle extends StatelessWidget {
   const CurrentSongTitle({Key? key}) : super(key: key);
@@ -126,6 +129,8 @@ class RepeatButton extends StatelessWidget {
   const RepeatButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final _dataProvider = Provider.of<DataProvider>(context);
+
     final pageManager = getIt<PageManager>();
     return ValueListenableBuilder<RepeatState>(
       valueListenable: pageManager.repeatButtonNotifier,
@@ -141,13 +146,13 @@ class RepeatButton extends StatelessWidget {
           case RepeatState.repeatSong:
             icon = Icon(
               Icons.repeat_one,
-              color: Colors.orange,
+              color: _dataProvider.btnColor,
             );
             break;
           case RepeatState.repeatPlaylist:
             icon = Icon(
               Icons.repeat,
-              color: Colors.orange,
+              color: _dataProvider.btnColor,
             );
             break;
         }
@@ -165,6 +170,8 @@ class PreviousSongButton extends StatelessWidget {
   const PreviousSongButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final _dataProvider = Provider.of<DataProvider>(context);
+
     final pageManager = getIt<PageManager>();
     return ValueListenableBuilder<bool>(
       valueListenable: pageManager.isFirstSongNotifier,
@@ -174,7 +181,7 @@ class PreviousSongButton extends StatelessWidget {
             Icons.skip_previous,
           ),
           iconSize: 50,
-          color: Colors.orange,
+          color: _dataProvider.btnColor,
           onPressed: (isFirst) ? null : pageManager.previous,
         );
       },
@@ -186,6 +193,8 @@ class PlayButton extends StatelessWidget {
   const PlayButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final _dataProvider = Provider.of<DataProvider>(context);
+
     final pageManager = getIt<PageManager>();
     return ValueListenableBuilder<ButtonState>(
       valueListenable: pageManager.playButtonNotifier,
@@ -204,14 +213,14 @@ class PlayButton extends StatelessWidget {
             return IconButton(
               icon: Icon(FontAwesomeIcons.play),
               iconSize: 30,
-              color: Colors.orange,
+              color: _dataProvider.btnColor,
               onPressed: pageManager.play,
             );
           case ButtonState.playing:
             return IconButton(
               icon: Icon(FontAwesomeIcons.pause),
               iconSize: 30,
-              color: Colors.orange,
+              color: _dataProvider.btnColor,
               onPressed: pageManager.pause,
             );
         }
@@ -224,6 +233,8 @@ class LargePlayButton extends StatelessWidget {
   const LargePlayButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final _dataProvider = Provider.of<DataProvider>(context);
+
     final pageManager = getIt<PageManager>();
     return ValueListenableBuilder<ButtonState>(
       valueListenable: pageManager.playButtonNotifier,
@@ -244,7 +255,7 @@ class LargePlayButton extends StatelessWidget {
                 FontAwesomeIcons.play,
               ),
               iconSize: 50,
-              color: Colors.orange,
+              color: _dataProvider.btnColor,
               onPressed: pageManager.play,
             );
           case ButtonState.playing:
@@ -253,7 +264,7 @@ class LargePlayButton extends StatelessWidget {
                 FontAwesomeIcons.pause,
               ),
               iconSize: 50,
-              color: Colors.orange,
+              color: _dataProvider.btnColor,
               onPressed: pageManager.pause,
             );
         }
@@ -266,6 +277,8 @@ class NextSongButton extends StatelessWidget {
   const NextSongButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final _dataProvider = Provider.of<DataProvider>(context);
+
     final pageManager = getIt<PageManager>();
     return ValueListenableBuilder<bool>(
       valueListenable: pageManager.isLastSongNotifier,
@@ -275,7 +288,7 @@ class NextSongButton extends StatelessWidget {
             Icons.skip_next,
           ),
           iconSize: 50,
-          color: Colors.orange,
+          color: _dataProvider.btnColor,
           onPressed: (isLast) ? null : pageManager.next,
         );
       },
@@ -287,13 +300,15 @@ class ShuffleButton extends StatelessWidget {
   const ShuffleButton({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final _dataProvider = Provider.of<DataProvider>(context);
+
     final pageManager = getIt<PageManager>();
     return ValueListenableBuilder<bool>(
       valueListenable: pageManager.isShuffleModeEnabledNotifier,
       builder: (context, isEnabled, child) {
         return IconButton(
           icon: (isEnabled)
-              ? Icon(Icons.shuffle, color: Colors.orange, size: 30)
+              ? Icon(Icons.shuffle, color: _dataProvider.btnColor, size: 30)
               : Icon(Icons.shuffle, color: Colors.grey, size: 30),
           onPressed: pageManager.shuffle,
         );

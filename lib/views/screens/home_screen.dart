@@ -3,7 +3,6 @@
 import 'package:abulfadhwl_android/constants/api.dart';
 import 'package:abulfadhwl_android/providers/data_provider.dart';
 import 'package:abulfadhwl_android/providers/get_and_post_provider.dart';
-import 'package:abulfadhwl_android/services/service_locator.dart';
 import 'package:animated_image_list/AnimatedImageList.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,7 +20,6 @@ class MyImage {
 
 class HomeScreen extends StatefulWidget {
   final DataProvider dataProvider = DataProvider();
-  // final GetAndPostProvider getAndPostProvider = GetAndPostProvider();
 
   HomeScreen({Key? key}) : super(key: key);
   @override
@@ -51,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        iconTheme: new IconThemeData(),
+        iconTheme: new IconThemeData(color: widget.dataProvider.btnTextColor),
         title: Text(
           'Mwanzo',
           style: TextStyle(),
@@ -71,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ? Container()
                   : Container(
                       height: 25,
-                      color: Colors.orange[50],
+                      color: widget.dataProvider.btnColorLight,
                       child: InkWell(
                         onTap: () {
                           Get.to(Announcements(
@@ -107,11 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     children: <Widget>[
                       Expanded(
-                        child: RaisedButton(
-                          padding: EdgeInsets.all(5),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          color: dataProvider.btnColor ,
+                        child: ElevatedButton(
                           child: Text(
                             'تفسير القران الكريم'.tr,
                             textAlign: TextAlign.center,
@@ -128,7 +122,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 snackPosition: SnackPosition.TOP,
                                 backgroundColor: Colors.white);
                           },
-                          elevation: 6,
                         ),
                       ),
                     ],
@@ -143,7 +136,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: MediaQuery.of(context).size.height,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        // color: Colors.orange[100]
+                        // color: dataProvider.btnColor[100]
                       ),
                       child: Container(
                         child: AnimatedImageList(
@@ -155,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 start: 25,
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                      primary: Colors.orange[100]),
+                                      primary: widget.dataProvider.btnColor),
                                   child: Icon(Icons.download),
                                   onPressed: () {
                                     widget.dataProvider.download(arr[index].url,

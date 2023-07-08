@@ -42,7 +42,7 @@ dependencies:
   dio: any
   assets_audio_player: ^3.0.3+1
   google_fonts: any
-  sweetalert: ^0.0.1
+  # sweetalert: ^0.0.1
   animated_image_list: ^1.0.0
   get_it: ^7.2.0
   audio_service: ^0.18.3
@@ -51,7 +51,7 @@ dependencies:
   material_floating_search_bar: ^0.3.6
   searchfield: ^0.5.6
   flutter_downloader: ^1.7.2
-  permission_handler: ^8.3.0
+  permission_handler: ^10.2.0
   path_provider: ^2.0.8
   downloads_path_provider_28: ^0.1.2
   open_file: ^3.2.1

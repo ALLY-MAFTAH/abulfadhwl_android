@@ -3,13 +3,14 @@ import 'package:abulfadhwl_android/views/other_pages/drawer_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+
 class HistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _getAndPostObject = Provider.of<GetAndPostProvider>(context);
     return Scaffold(
       appBar: AppBar(
-        iconTheme: new IconThemeData(),
+        iconTheme: new IconThemeData(color: Colors.white),
         title: Text(
           'Historia',
           style: TextStyle(),

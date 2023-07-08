@@ -44,7 +44,8 @@ class _AlbumCardState extends State<AlbumCard> {
       actions: [
         TextButton(
             onPressed: () {
-              _dataProvider.downloadAlbum(widget.album.songs, widget.album.name);
+              _dataProvider.downloadAlbum(
+                  widget.album.songs, widget.album.name);
               Navigator.of(context).pop();
             },
             child: const Text('Ndio')),
@@ -146,7 +147,7 @@ class _AlbumCardState extends State<AlbumCard> {
               },
               child: Card(
                   color: _dataProvider.currentSong.albumId == widget.album.id
-                      ? Colors.orange[50]
+                      ? _dataProvider.btnColorLight
                       : Colors.white,
                   child: Padding(
                     padding: const EdgeInsets.only(left: 5.0),
@@ -158,14 +159,14 @@ class _AlbumCardState extends State<AlbumCard> {
                             Icon(
                               Icons.folder,
                               size: 60,
-                              color: Colors.orange[200],
+                              color: _dataProvider.btnColor,
                             ),
                             Text(
                               widget.album.songs.length.toString() + "\nAudios",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontSize: 11,
-                                  color: Colors.grey[600],
+                                  color: _dataProvider.btnColorLight,
                                   fontWeight:
                                       _dataProvider.currentSong.albumId ==
                                               widget.album.id
@@ -229,7 +230,7 @@ class _AlbumCardState extends State<AlbumCard> {
                         PopupMenuButton<String>(
                           icon: Icon(
                             Icons.more_vert,
-                            color: Colors.orange,
+                            color: _dataProvider.btnColor,
                           ),
                           elevation: 8,
                           shape: RoundedRectangleBorder(

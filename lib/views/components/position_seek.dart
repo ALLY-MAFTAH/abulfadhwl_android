@@ -55,9 +55,9 @@
 //                 value: percent * widget.duration.inMilliseconds.toDouble(),
 //                 style: SliderStyle(
 //                     thumbBorder:
-//                         NeumorphicBorder(color: Colors.orange, width: 10),
-//                     variant: Colors.orange,
-//                     accent: Colors.orange,
+//                         NeumorphicBorder(color: dataProvider.btnColor, width: 10),
+//                     variant: dataProvider.btnColor,
+//                     accent: dataProvider.btnColor,
 //                     disableDepth: true),
 //                 onChangeEnd: (double newValue1) {
 //                   setState(() {

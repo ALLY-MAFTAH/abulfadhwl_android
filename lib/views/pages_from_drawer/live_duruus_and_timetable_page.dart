@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image/network.dart';
 import 'package:provider/provider.dart';
 import 'package:abulfadhwl_android/constants/api.dart';
-import 'package:abulfadhwl_android/home_page.dart';
+import 'package:abulfadhwl_android/layout_page.dart';
+
+import '../../providers/data_provider.dart';
 
 class LiveDuruusAndTimetablePage extends StatefulWidget {
   @override
@@ -24,6 +26,7 @@ class _LiveDuruusAndTimetablePageState
   @override
   Widget build(BuildContext context) {
     final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
+    final _dataProvider = Provider.of<DataProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -33,7 +36,7 @@ class _LiveDuruusAndTimetablePageState
           ),
           onPressed: () {
             Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) {
-              return Home();
+              return LayoutPage();
             }));
           },
         ),
@@ -90,7 +93,7 @@ class _LiveDuruusAndTimetablePageState
                                   height: 85,
                                   width: 85,
                                   decoration: BoxDecoration(
-                                      color: Colors.orange[50],
+                                      color: _dataProvider.btnColorLight,
                                       borderRadius:
                                           BorderRadius.circular(42.5)),
                                   child: PlayerBuilder.isPlaying(
@@ -106,7 +109,8 @@ class _LiveDuruusAndTimetablePageState
                                                           .streams[0].url,
                                                       _getAndPostProvider
                                                           .streams[0].title,
-                                                      _getAndPostProvider.streams[0]
+                                                      _getAndPostProvider
+                                                          .streams[0]
                                                           .description,
                                                     );
                                             });
@@ -115,7 +119,7 @@ class _LiveDuruusAndTimetablePageState
                                             isPlaying
                                                 ? Icons.pause_rounded
                                                 : Icons.play_arrow_rounded,
-                                            color: Colors.orange,
+                                            color: _dataProvider.btnColor,
                                             size: 80,
                                           ),
                                         );
@@ -147,7 +151,7 @@ class _LiveDuruusAndTimetablePageState
                             const EdgeInsets.only(left: 20, top: 15, right: 20),
                         child: CircleAvatar(
                           radius: MediaQuery.of(context).size.width * 3 / 11,
-                          backgroundColor: Colors.orange[50],
+                          backgroundColor: _dataProvider.btnColorLight,
                           child: Image(
                             image: AssetImage("assets/icons/live.png"),
                           ),
@@ -165,7 +169,8 @@ class _LiveDuruusAndTimetablePageState
                             child: Image(
                                 image: NetworkImageWithRetry(api +
                                     'stream/timetable/' +
-                                    _getAndPostProvider.streams[0].id.toString())),
+                                    _getAndPostProvider.streams[0].id
+                                        .toString())),
                           )
                         ],
                       ),

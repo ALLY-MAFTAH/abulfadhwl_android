@@ -17,6 +17,7 @@ class FoldedCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
+    final _dataProvider = Provider.of<DataProvider>(context);
     return Padding(
       padding: const EdgeInsets.only(left: 8, top: 15, right: 8),
       child: Stack(
@@ -27,12 +28,12 @@ class FoldedCard extends StatelessWidget {
             child: Card(
               shape: RoundedRectangleBorder(
                   side: BorderSide(
-                    color: Colors.orange,
+                    color: _dataProvider.btnColor??Color.fromARGB(253, 73, 28, 1),
                   ),
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(10),
                       topRight: Radius.circular(10))),
-              color: Colors.orange[50],
+              color: _dataProvider.btnColorLight,
               elevation: 6,
               child: SimpleFoldingCell.create(
                 key: _foldingCellKey,
@@ -63,7 +64,7 @@ class FoldedCard extends StatelessWidget {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          color: Colors.orange,
+                          color: _dataProvider.btnColor,
                           borderRadius: BorderRadius.only(
                               topRight: Radius.circular(10),
                               bottomLeft: Radius.circular(10))),
@@ -75,7 +76,7 @@ class FoldedCard extends StatelessWidget {
                         children: [
                           Text(
                             "MAKALA NAMBA: ",
-                            style: TextStyle(fontSize: 17),
+                            style: TextStyle(fontSize: 17,color: Colors.white),
                           ),
                           CircleAvatar(
                             radius: 15,
@@ -102,13 +103,14 @@ class FoldedCard extends StatelessWidget {
 
   Widget _buildFrontWidget(context) {
     final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
+    final _dataProvider = Provider.of<DataProvider>(context);
     return InkWell(
       onTap: () => _foldingCellKey.currentState?.toggleFold(),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(10), topRight: Radius.circular(10)),
-          color: Colors.orange[50],
+          color: _dataProvider.btnColorLight ,
         ),
         alignment: Alignment.center,
         child: Stack(
@@ -226,7 +228,7 @@ class FoldedCard extends StatelessWidget {
                     icon: Icon(
                       Icons.share,
                       size: 33,
-                      color: Colors.orange,
+                      color: _dataProvider.btnColor,
                     ),
                   ),
                 ),
@@ -245,7 +247,7 @@ class FoldedCard extends StatelessWidget {
                     icon: Icon(
                       Icons.download,
                       size: 35,
-                      color: Colors.orange,
+                      color: _dataProvider.btnColor,
                     ),
                   ),
                 ),
@@ -268,7 +270,7 @@ class FoldedCard extends StatelessWidget {
                     icon: Icon(
                       Icons.menu_book_rounded,
                       size: 35,
-                      color: Colors.orange,
+                      color: _dataProvider.btnColor,
                     ),
                   ),
                 ),

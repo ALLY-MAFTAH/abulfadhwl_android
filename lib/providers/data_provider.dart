@@ -19,8 +19,6 @@ import 'package:path/path.dart' as path;
 
 import 'dart:async';
 
-import '../../constants/api.dart';
-
 typedef void OnError(Exception exception);
 
 class DataProvider extends ChangeNotifier {
@@ -39,8 +37,9 @@ class DataProvider extends ChangeNotifier {
 
   String progress = "0";
   String downloadedFile = "";
-  late Color? btnColor = Color.fromARGB(255, 96, 49, 3);
-  late Color? btnColorLight = Color.fromARGB(255, 235, 223, 212);
+  final Color? btnTextColor = Colors.white;
+  final Color? btnColor = Color.fromARGB(255, 96, 49, 3);
+  final Color? btnColorLight = Color.fromARGB(255, 235, 223, 212);
 
   late Widget result;
   Audiotagger tagger = new Audiotagger();
@@ -135,7 +134,7 @@ class DataProvider extends ChangeNotifier {
       showProgress: true,
       maxProgress: tot,
       progress: rec,
-      color: Colors.orange,
+      color: btnColor,
     );
     notifyListeners();
     final NotificationDetails platformChannelSpecifics =

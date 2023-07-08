@@ -1,12 +1,13 @@
 // ignore_for_file: unnecessary_null_comparison, import_of_legacy_library_into_null_safe
 
 import 'package:abulfadhwl_android/constants/api.dart';
-import 'package:abulfadhwl_android/home_page.dart';
+import 'package:abulfadhwl_android/layout_page.dart';
 import 'package:abulfadhwl_android/providers/get_and_post_provider.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sweetalert/sweetalert.dart';
+
+import '../../providers/data_provider.dart';
 
 class QuestionsAndAnswers extends StatefulWidget {
   @override
@@ -22,6 +23,7 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
   @override
   Widget build(BuildContext context) {
     final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
+    final _dataProvider = Provider.of<DataProvider>(context);
 
     return Scaffold(
         key: _scaffoldKey,
@@ -34,7 +36,7 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
             onPressed: () {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (_) {
-                return Home();
+                return LayoutPage();
               }));
             },
           ),
@@ -56,7 +58,7 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                       Padding(
                           padding: const EdgeInsets.all(5),
                           child: Card(
-                            color: Colors.orange[50],
+                            color: _dataProvider.btnColorLight,
                             child: Form(
                               key: _formKey,
                               child: Padding(
@@ -92,81 +94,85 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                                       children: <Widget>[
                                         FloatingActionButton(
                                           elevation: 8,
-                                          backgroundColor: Colors.orange,
+                                          backgroundColor:
+                                              _dataProvider.btnColor,
                                           child: Icon(
                                             Icons.send,
                                           ),
                                           onPressed: () {
-                                            if (_formKey.currentState!
-                                                .validate()) {
-                                              SweetAlert.show(context,
-                                                  subtitle:
-                                                      "Uko tayari kutuma hili swali?",
-                                                  style:
-                                                      SweetAlertStyle.confirm,
-                                                  showCancelButton: true,
-                                                  confirmButtonColor:
-                                                      Colors.orange,
-                                                  confirmButtonText: "Ndio",
-                                                  cancelButtonColor:
-                                                      Colors.grey,
-                                                  cancelButtonText: "Hapana",
-                                                  onPress: (bool isConfirm) {
-                                                if (isConfirm) {
-                                                  SweetAlert.show(context,
-                                                      subtitle:
-                                                          "Kuwa na subra swali linatumwa ...",
-                                                      style: SweetAlertStyle
-                                                          .loading);
-                                                  new Future.delayed(
-                                                      new Duration(seconds: 3),
-                                                      () {
-                                                    _getAndPostProvider
-                                                        .addQuestion(
-                                                      qn: _qnsController.text,
-                                                    )
-                                                        .then((value) {
-                                                      if (value != "") {
-                                                        SweetAlert.show(context,
-                                                            confirmButtonColor:
-                                                                Colors.orange,
-                                                            confirmButtonText:
-                                                                "Sawa",
-                                                            subtitle:
-                                                                "Swali limefanikiwa kutumwa",
-                                                            style:
-                                                                SweetAlertStyle
-                                                                    .success);
-                                                        _qnsController.clear();
-                                                        _qnsController
-                                                            .clearComposing();
-                                                      } else {
-                                                        SweetAlert.show(context,
-                                                            confirmButtonColor:
-                                                                Colors.orange,
-                                                            confirmButtonText:
-                                                                "Sawa",
-                                                            subtitle:
-                                                                "'Afwan, Swali halijafanikiwa kutumwa!",
-                                                            style:
-                                                                SweetAlertStyle
-                                                                    .error);
-                                                      }
-                                                    });
-                                                  });
-                                                } else {
-                                                  SweetAlert.show(context,
-                                                      confirmButtonColor:
-                                                          Colors.orange,
-                                                      confirmButtonText: "Sawa",
-                                                      subtitle:
-                                                          "Swali halijatumwa!",
-                                                      style: SweetAlertStyle
-                                                          .error);
-                                                }
-                                                return false;
-                                              });
-                                            }
+                                            // if (_formKey.currentState!
+                                            //     .validate()) {
+                                            //   SweetAlert.show(context,
+                                            //       subtitle:
+                                            //           "Uko tayari kutuma hili swali?",
+                                            //       style:
+                                            //           SweetAlertStyle.confirm,
+                                            //       showCancelButton: true,
+                                            //       confirmButtonColor:
+                                            //           _dataProvider.btnColor,
+                                            //       confirmButtonText: "Ndio",
+                                            //       cancelButtonColor:
+                                            //           Colors.grey,
+                                            //       cancelButtonText: "Hapana",
+                                            //       onPress: (bool isConfirm) {
+                                            //     if (isConfirm) {
+                                            //       SweetAlert.show(context,
+                                            //           subtitle:
+                                            //               "Kuwa na subra swali linatumwa ...",
+                                            //           style: SweetAlertStyle
+                                            //               .loading);
+                                            //       new Future.delayed(
+                                            //           new Duration(seconds: 3),
+                                            //           () {
+                                            //         _getAndPostProvider
+                                            //             .addQuestion(
+                                            //           qn: _qnsController.text,
+                                            //         )
+                                            //             .then((value) {
+                                            //           if (value != "") {
+                                            //             SweetAlert.show(context,
+                                            //                 confirmButtonColor:
+                                            //                     _dataProvider
+                                            //                         .btnColor,
+                                            //                 confirmButtonText:
+                                            //                     "Sawa",
+                                            //                 subtitle:
+                                            //                     "Swali limefanikiwa kutumwa",
+                                            //                 style:
+                                            //                     SweetAlertStyle
+                                            //                         .success);
+                                            //             _qnsController.clear();
+                                            //             _qnsController
+                                            //                 .clearComposing();
+                                            //           } else {
+                                            //             SweetAlert.show(context,
+                                            //                 confirmButtonColor:
+                                            //                     _dataProvider
+                                            //                         .btnColor,
+                                            //                 confirmButtonText:
+                                            //                     "Sawa",
+                                            //                 subtitle:
+                                            //                     "'Afwan, Swali halijafanikiwa kutumwa!",
+                                            //                 style:
+                                            //                     SweetAlertStyle
+                                            //                         .error);
+                                            //           }
+                                            //         });
+                                            //       });
+                                            //     } else {
+                                            //       SweetAlert.show(context,
+                                            //           confirmButtonColor:
+                                            //               _dataProvider
+                                            //                   .btnColor,
+                                            //           confirmButtonText: "Sawa",
+                                            //           subtitle:
+                                            //               "Swali halijatumwa!",
+                                            //           style: SweetAlertStyle
+                                            //               .error);
+                                            //     }
+                                            //     return false;
+                                            //   });
+                                            // }
                                           },
                                         ),
                                       ],
@@ -213,7 +219,7 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                                   const EdgeInsets.only(left: 35, right: 5),
                               child: Card(
                                 elevation: 8,
-                                color: Colors.orange[50],
+                                color: _dataProvider.btnColorLight,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
                                         topRight: Radius.circular(15),
@@ -255,11 +261,13 @@ class _QuestionsAndAnswersState extends State<QuestionsAndAnswers> {
                                                   borderRadius:
                                                       BorderRadius.circular(5)),
                                               padding: EdgeInsets.all(5),
-                                              child: _getAndPostProvider.answers[index]
+                                              child: _getAndPostProvider
+                                                          .answers[index]
                                                           .audioAns ==
                                                       null
                                                   ? SelectableText(
-                                                      _getAndPostProvider.answers[index]
+                                                      _getAndPostProvider
+                                                          .answers[index]
                                                           .textAns,
                                                       textAlign:
                                                           TextAlign.justify,

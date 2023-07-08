@@ -76,7 +76,7 @@ class _AudiosScreenState extends State<AudiosScreen>
     return widget.songCategories.isEmpty
         ? Scaffold(
             appBar: AppBar(
-              iconTheme: new IconThemeData(),
+              iconTheme: new IconThemeData(color: Colors.white),
               title: Text(
                 'Sauti',
                 style: TextStyle(),
@@ -108,7 +108,7 @@ class _AudiosScreenState extends State<AudiosScreen>
                   length: widget.songCategories.length,
                   child: Scaffold(
                       appBar: AppBar(
-                        iconTheme: new IconThemeData(),
+                        iconTheme: new IconThemeData(color: Colors.white),
                         title: Text(
                           'Sauti',
                           style: TextStyle(),
@@ -129,7 +129,7 @@ class _AudiosScreenState extends State<AudiosScreen>
                         children: [
                           Card(
                             elevation: 10,
-                            color: Colors.orange[50],
+                            color: _dataProvider.btnColorLight,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.only(
                                     bottomLeft: Radius.circular(10),
@@ -138,17 +138,17 @@ class _AudiosScreenState extends State<AudiosScreen>
                                 controller: _tabController,
                                 isScrollable: true,
                                 indicator: BoxDecoration(
-                                    color: Colors.orange,
+                                    color: _dataProvider.btnColor,
                                     borderRadius: BorderRadius.only(
                                         bottomLeft: Radius.circular(10),
                                         bottomRight: Radius.circular(10))),
+                                unselectedLabelColor: _dataProvider.btnColor,
                                 unselectedLabelStyle: GoogleFonts.ubuntu(
                                     fontWeight: FontWeight.normal),
                                 labelStyle: GoogleFonts.ubuntu(
                                   fontWeight: FontWeight.bold,
                                 ),
                                 tabs: _tabs),
-                        
                           ),
                           Expanded(
                               child: TabBarView(
@@ -167,10 +167,12 @@ class _AudiosScreenState extends State<AudiosScreen>
                                 height: 60,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: Colors.orange,
+                                  color: _dataProvider.btnColorLight ,
+                                  border: Border.all(color:_dataProvider.btnColor??Color.fromARGB(255, 112, 45, 2))
                                 ),
                                 child: Icon(
                                   Icons.play_arrow_rounded,
+                                  color: _dataProvider.btnColor,
                                   size: 60,
                                 )),
                             initialOffset: Offset(

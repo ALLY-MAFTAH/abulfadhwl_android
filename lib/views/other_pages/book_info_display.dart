@@ -40,7 +40,7 @@ class BookInfoDisplay extends StatelessWidget {
                           child: Container(
                             height: 300,
                             decoration: BoxDecoration(
-                                color: Colors.orange[50],
+                                color: _dataProvider.btnColorLight,
                                 borderRadius: BorderRadius.circular(15),
                                 image: DecorationImage(
                                     image: NetworkImageWithRetry(api +
@@ -67,7 +67,7 @@ class BookInfoDisplay extends StatelessWidget {
                     child: IconButton(
                       icon: Image(
                         image: AssetImage('assets/icons/dismiss_music@3x.png'),
-                        color: Colors.orange,
+                        color: _dataProvider.btnColor,
                       ),
                       onPressed: () {
                         Navigator.pop(context);
@@ -79,10 +79,11 @@ class BookInfoDisplay extends StatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        // ignore: deprecated_member_use
-                        RaisedButton(
-                          elevation: 6,
-                          color: Colors.orange,
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            elevation: 6,
+                            backgroundColor: _dataProvider.btnColor,
+                          ),
                           child: Text('SOMA',
                               style: TextStyle(color: Colors.white)),
                           onPressed: () {
@@ -99,23 +100,28 @@ class BookInfoDisplay extends StatelessWidget {
                         ),
 
                         // ignore: deprecated_member_use
-                        RaisedButton(
-                          elevation: 6,
-                          color: Colors.orange,
+                        ElevatedButton(
+style: ElevatedButton.styleFrom(
+                            elevation: 6,
+                            backgroundColor: _dataProvider.btnColor,
+                          ),                      
                           child: Text('PAKUA',
                               style: TextStyle(color: Colors.white)),
                           onPressed: () async {
                             _dataProvider.download(
                               api + 'book/file/' + bookDetails.id.toString(),
                               bookDetails.file,
-                              bookDetails.title,0,
+                              bookDetails.title,
+                              0,
                             );
                           },
                         ),
                         // ignore: deprecated_member_use
-                        RaisedButton(
-                          elevation: 6,
-                          color: Colors.orange,
+                        ElevatedButton(
+                         style: ElevatedButton.styleFrom(
+                            elevation: 6,
+                            backgroundColor: _dataProvider.btnColor,
+                          ),
                           child: Text('SAMBAZA',
                               style: TextStyle(color: Colors.white)),
                           onPressed: () {
@@ -148,12 +154,12 @@ class BookInfoDisplay extends StatelessWidget {
                   myValue: bookDetails.pubYear),
               Divider(),
               BookDetails(
-                  icon: FontAwesomeIcons.edit,
+                  icon: FontAwesomeIcons.penToSquare,
                   myKey: "Nambari ya Chapa:",
                   myValue: bookDetails.edition.toString()),
               Divider(),
               BookDetails(
-                  icon: FontAwesomeIcons.infoCircle,
+                  icon: FontAwesomeIcons.circleInfo,
                   myKey: "Maelezo Kuhusu Kitabu:",
                   myValue: bookDetails.description),
             ],

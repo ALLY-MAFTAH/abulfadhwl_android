@@ -22,7 +22,7 @@ class DrawerPage extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
               color: Colors.white,
-              boxShadow: [BoxShadow(color: Colors.orange)]),
+              boxShadow: [BoxShadow(color: _dataProvider.btnColor??Color.fromARGB(255, 86, 35, 1))]),
           width: 320,
           child: SafeArea(
             child: SingleChildScrollView(
@@ -188,8 +188,7 @@ class DrawerPage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) {
                         return Settings(
-                                                    dataProvider: _dataProvider,
-
+                          dataProvider: _dataProvider,
                         );
                       }));
                     },

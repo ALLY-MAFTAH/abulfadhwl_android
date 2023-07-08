@@ -6,6 +6,7 @@ import 'package:flutter_image/network.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
+import '../../providers/data_provider.dart';
 import '../../providers/get_and_post_provider.dart';
 import '../components/folded_card.dart';
 
@@ -17,13 +18,15 @@ class BooksScreen extends StatefulWidget {
 class _BooksScreenState extends State<BooksScreen> {
   @override
   Widget build(BuildContext context) {
+    final DataProvider dataProvider = DataProvider();
+
     timeDilation = 1.0;
     final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
 
     return DefaultTabController(
       child: Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(),
+          iconTheme: IconThemeData(color: dataProvider.btnTextColor),
           title: Text(
             'Vitabu na Makala',
             style: TextStyle(),
@@ -34,17 +37,18 @@ class _BooksScreenState extends State<BooksScreen> {
           children: [
             Card(
               elevation: 6,
-              color: Colors.orange[50],
+              color: dataProvider.btnColorLight,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(10),
                       bottomRight: Radius.circular(10))),
               child: TabBar(
                 indicator: BoxDecoration(
-                    color: Colors.orange,
+                    color: dataProvider.btnColor,
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(10),
                         bottomRight: Radius.circular(10))),
+                unselectedLabelColor: dataProvider.btnColor,
                 unselectedLabelStyle:
                     GoogleFonts.ubuntu(fontWeight: FontWeight.normal),
                 labelStyle: GoogleFonts.ubuntu(
@@ -81,12 +85,7 @@ class _BooksScreenState extends State<BooksScreen> {
                                 ),
                                 child: Card(
                                   elevation: 6,
-                                  color: Colors.orange[50],
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topRight: Radius.circular(40),
-                                        bottomLeft: Radius.circular(40)),
-                                  ),
+                                  color: dataProvider.btnColorLight,
                                   child: Padding(
                                     padding: const EdgeInsets.all(5),
                                     child: InkWell(
@@ -94,32 +93,52 @@ class _BooksScreenState extends State<BooksScreen> {
                                         Navigator.push(context,
                                             MaterialPageRoute(builder: (_) {
                                           return BookInfoDisplay(
-                                            bookDetails:
-                                                _getAndPostProvider.books[index],
-                                            tagNum: _getAndPostProvider.books[index].id,
+                                            bookDetails: _getAndPostProvider
+                                                .books[index],
+                                            tagNum: _getAndPostProvider
+                                                .books[index].id,
                                           );
                                         }));
                                       },
                                       child: Column(
                                         children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 8.0),
+                                            child: Text(
+                                              "Jina la Kitabu",
+                                              style: TextStyle(
+                                                fontSize: 12,
+                                                color: Color.fromARGB(
+                                                    255, 100, 99, 99),
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              _getAndPostProvider
+                                                  .books[index].title,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          ),
                                           Hero(
-                                            child: _getAndPostProvider.books.isEmpty
+                                            child: _getAndPostProvider
+                                                    .books.isEmpty
                                                 ? Container(
-                                                  child: Icon(Icons.image),
-                                                )
+                                                    child: Icon(Icons.image),
+                                                  )
                                                 : Container(
-                                                    height: 200,
+                                                    height: 300,
                                                     width:
                                                         MediaQuery.of(context)
                                                             .size
                                                             .width,
                                                     decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius.only(
-                                                          topRight:
-                                                              Radius.circular(
-                                                                  40),
-                                                        ),
                                                         image: DecorationImage(
                                                             image: NetworkImageWithRetry(api +
                                                                 'book/cover/' +
@@ -130,29 +149,8 @@ class _BooksScreenState extends State<BooksScreen> {
                                                                     .toString()),
                                                             fit: BoxFit.fill)),
                                                   ),
-                                            tag: _getAndPostProvider.books[index].id,
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 8.0),
-                                            child: Text(
-                                              "Jina la Kitabu",
-                                              style: TextStyle(
-                                                fontSize: 12,
-                                                color: Colors.grey,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              _getAndPostProvider.books[index].title,
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                              textAlign: TextAlign.center,
-                                            ),
+                                            tag: _getAndPostProvider
+                                                .books[index].id,
                                           ),
                                         ],
                                       ),

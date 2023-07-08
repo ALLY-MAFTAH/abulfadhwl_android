@@ -35,7 +35,7 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
         child: Column(
           children: <Widget>[
             Container(
-              color: Colors.orange[50],
+              color: _dataProvider.btnColorLight,
               height: 60,
               child: Row(children: <Widget>[
                 Container(
@@ -63,7 +63,7 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                   ),
                 ),
                 IconButton(
-                  color: Colors.orange,
+                  color: _dataProvider.btnColor,
                   icon: Icon(Icons.share),
                   onPressed: () {
                     Share.share(api +
@@ -109,21 +109,15 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                             ),
                             CircleAvatar(
                               radius: 100,
+                              backgroundColor: _dataProvider.btnColorLight,
                               child: Stack(
                                 alignment: Alignment.center,
                                 children: [
                                   Image(
                                     image: AssetImage(
-                                        'assets/images/ALLY W  008.png'),
-                                    colorBlendMode: BlendMode.darken,
+                                        'assets/images/ALLY W  008.png',),
+                                    color: _dataProvider.btnColor,
                                   ),
-                                  Center(
-                                    child: CircleAvatar(
-                                      radius: 120,
-                                      backgroundColor:
-                                          Colors.white.withOpacity(0.7),
-                                    ),
-                                  )
                                 ],
                               ),
                             ),
@@ -138,19 +132,18 @@ class _NowPlayingScreenSheetState extends State<NowPlayingScreenSheet> {
                               IconButton(
                                 icon: Icon(
                                   Icons.download,
-                                  color: Colors.orange,
+                                  color: _dataProvider.btnColor,
                                 ),
                                 iconSize: 30,
                                 onPressed: () {
                                   _dataProvider.download(
-                                      api +
-                                          'song/file/' +
-                                          _dataProvider.currentSong.id
-                                              .toString(),
-                                      _dataProvider.currentSong.file,
-                                      _dataProvider.currentSong.title,
-                                      _dataProvider.currentSong.albumId,
-                                     );
+                                    api +
+                                        'song/file/' +
+                                        _dataProvider.currentSong.id.toString(),
+                                    _dataProvider.currentSong.file,
+                                    _dataProvider.currentSong.title,
+                                    _dataProvider.currentSong.albumId,
+                                  );
                                 },
                               ),
                             ],

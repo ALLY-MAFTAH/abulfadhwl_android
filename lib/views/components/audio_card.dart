@@ -10,9 +10,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 
-
 class AudioCard extends StatefulWidget {
-
   final DataProvider dataProvider;
 
   final int index;
@@ -76,7 +74,7 @@ class _AudioCardState extends State<AudioCard> {
                 child: Card(
                     color: _audioHandler.mediaItem.value?.title ==
                             widget.songs[widget.index].title
-                        ? Colors.orange[50]
+                        ? widget.dataProvider.btnColorLight
                         : Colors.white,
                     child: Slidable(
                         startActionPane: ActionPane(
@@ -86,27 +84,27 @@ class _AudioCardState extends State<AudioCard> {
                               onPressed: (context) => _shareAudio(),
                               backgroundColor:
                                   Color.fromARGB(255, 216, 214, 211),
-                              foregroundColor: Colors.orange,
+                              foregroundColor: widget.dataProvider.btnColor,
                               icon: Icons.share,
                             ),
                             SlidableAction(
                               onPressed: (context) => _downloadAudio(),
                               backgroundColor:
                                   Color.fromARGB(255, 229, 227, 224),
-                              foregroundColor: Colors.orange,
+                              foregroundColor: widget.dataProvider.btnColor,
                               icon: Icons.download,
                             ),
                             SlidableAction(
                                 onPressed: (context) => _playAudio(),
                                 backgroundColor:
                                     Color.fromARGB(255, 244, 241, 237),
-                                foregroundColor: Colors.orange,
+                                foregroundColor: widget.dataProvider.btnColor,
                                 icon: FontAwesomeIcons.play),
                           ],
                         ),
                         child: Row(children: <Widget>[
                           Container(
-                            color: Colors.orange,
+                            color: widget.dataProvider.btnColor,
                             height: 60,
                             width: 5,
                           ),
@@ -136,7 +134,7 @@ class _AudioCardState extends State<AudioCard> {
                                               widget.songs[widget.index].id ==
                                                       widget.dataProvider
                                                           .searchedAudio
-                                                  ? Colors.orange
+                                                  ? widget.dataProvider.btnColor
                                                   : Colors.black),
                                     ),
                                   ),
@@ -152,7 +150,7 @@ class _AudioCardState extends State<AudioCard> {
                                               widget.songs[widget.index].id ==
                                                       widget.dataProvider
                                                           .searchedAudio
-                                                  ? Colors.orange
+                                                  ? widget.dataProvider.btnColor
                                                   : Colors.grey[600],
                                           fontWeight: _audioHandler
                                                       .mediaItem.value?.title ==
@@ -175,7 +173,7 @@ class _AudioCardState extends State<AudioCard> {
                                   fontSize: 12,
                                   color: widget.songs[widget.index].id ==
                                           widget.dataProvider.searchedAudio
-                                      ? Colors.orange
+                                      ? widget.dataProvider.btnColor
                                       : Colors.black,
                                   fontWeight:
                                       _audioHandler.mediaItem.value?.title ==
@@ -190,8 +188,8 @@ class _AudioCardState extends State<AudioCard> {
                                   ? Padding(
                                       padding:
                                           EdgeInsets.only(right: 10, left: 10),
-                                      child: Icon(FontAwesomeIcons.playCircle,
-                                          color: Colors.orange),
+                                      child: Icon(FontAwesomeIcons.circlePlay,
+                                          color: widget.dataProvider.btnColor),
                                     )
                                   : Container())
                         ]))),

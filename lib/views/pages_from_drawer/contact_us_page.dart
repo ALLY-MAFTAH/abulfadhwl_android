@@ -4,10 +4,11 @@ import 'package:abulfadhwl_android/models/link.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image/network.dart';
 import 'package:abulfadhwl_android/constants/api.dart';
-import 'package:abulfadhwl_android/home_page.dart';
-import 'package:sweetalert/sweetalert.dart';
+import 'package:abulfadhwl_android/layout_page.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../providers/data_provider.dart';
 import '../../providers/get_and_post_provider.dart';
 
 class ContactUs extends StatefulWidget {
@@ -50,6 +51,8 @@ class _ContactUsState extends State<ContactUs> {
 
   @override
   Widget build(BuildContext context) {
+    final _dataProvider = Provider.of<DataProvider>(context);
+
     return Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
@@ -60,7 +63,7 @@ class _ContactUsState extends State<ContactUs> {
             onPressed: () {
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (_) {
-                return Home();
+                return LayoutPage();
               }));
             },
           ),
@@ -108,7 +111,7 @@ class _ContactUsState extends State<ContactUs> {
                                         MediaQuery.of(context).size.width / 2,
                                     child: ElevatedButton.icon(
                                       style: ElevatedButton.styleFrom(
-                                          primary: Colors.orange[50],
+                                          backgroundColor: _dataProvider.btnColor,
                                           alignment: Alignment.centerLeft),
                                       icon: Padding(
                                         padding: const EdgeInsets.all(5),
@@ -233,87 +236,88 @@ class _ContactUsState extends State<ContactUs> {
                                     children: <Widget>[
                                       FloatingActionButton(
                                         elevation: 10,
-                                        backgroundColor: Colors.orange,
+                                        backgroundColor: _dataProvider.btnColor,
                                         child: Icon(
                                           Icons.send,
-                                          color: Colors.black,
                                         ),
                                         onPressed: () {
-                                          if (_formKey.currentState!
-                                              .validate()) {
-                                            SweetAlert.show(context,
-                                                subtitle:
-                                                    "Uko tayari kutuma ujumbe huu?",
-                                                style: SweetAlertStyle.confirm,
-                                                showCancelButton: true,
-                                                confirmButtonColor:
-                                                    Colors.orange,
-                                                confirmButtonText: "Ndio",
-                                                cancelButtonColor: Colors.grey,
-                                                cancelButtonText: "Hapana",
-                                                onPress: (bool isConfirm) {
-                                              if (isConfirm) {
-                                                SweetAlert.show(context,
-                                                    subtitle:
-                                                        "Kuwa na subra ujumbe unatumwa ...",
-                                                    style: SweetAlertStyle
-                                                        .loading);
-                                                new Future.delayed(
-                                                    new Duration(seconds: 3),
-                                                    () {
-                                                  widget.getAndPostProvider
-                                                      .postComment(
-                                                          fullName:
-                                                              _fullNameController
-                                                                  .text,
-                                                          phone:
-                                                              _phoneController
-                                                                  .text,
-                                                          message:
-                                                              _messageController
-                                                                  .text)
-                                                      .then((value) {
-                                                    if (value != "") {
-                                                      SweetAlert.show(context,
-                                                          confirmButtonColor:
-                                                              Colors.orange,
-                                                          confirmButtonText:
-                                                              "Sawa",
-                                                          subtitle:
-                                                              "Ahsante! Ujumbe wako tumeupokea",
-                                                          style: SweetAlertStyle
-                                                              .success);
-                                                      _fullNameController
-                                                          .clear();
-                                                      _messageController
-                                                          .clear();
-                                                      _phoneController.clear();
-                                                    } else {
-                                                      SweetAlert.show(context,
-                                                          confirmButtonColor:
-                                                              Colors.orange,
-                                                          confirmButtonText:
-                                                              "Sawa",
-                                                          subtitle:
-                                                              "'Afwan, Ujumbe haujafanikiwa kutumwa!",
-                                                          style: SweetAlertStyle
-                                                              .error);
-                                                    }
-                                                  });
-                                                });
-                                              } else {
-                                                SweetAlert.show(context,
-                                                    confirmButtonColor:
-                                                        Colors.orange,
-                                                    confirmButtonText: "Sawa",
-                                                    subtitle:
-                                                        "Ujumbe umeakhirishwa kutumwa!",
-                                                    style:
-                                                        SweetAlertStyle.error);
-                                              }
-                                              return false;
-                                            });
-                                          }
+                                          // if (_formKey.currentState!
+                                          //     .validate()) {
+                                          //   SweetAlert.show(context,
+                                          //       subtitle:
+                                          //           "Uko tayari kutuma ujumbe huu?",
+                                          //       style: SweetAlertStyle.confirm,
+                                          //       showCancelButton: true,
+                                          //       confirmButtonColor:
+                                          //           _dataProvider.btnColor,
+                                          //       confirmButtonText: "Ndio",
+                                          //       cancelButtonColor: Colors.grey,
+                                          //       cancelButtonText: "Hapana",
+                                          //       onPress: (bool isConfirm) {
+                                          //     if (isConfirm) {
+                                          //       SweetAlert.show(context,
+                                          //           subtitle:
+                                          //               "Kuwa na subra ujumbe unatumwa ...",
+                                          //           style: SweetAlertStyle
+                                          //               .loading);
+                                          //       new Future.delayed(
+                                          //           new Duration(seconds: 3),
+                                          //           () {
+                                          //         widget.getAndPostProvider
+                                          //             .postComment(
+                                          //                 fullName:
+                                          //                     _fullNameController
+                                          //                         .text,
+                                          //                 phone:
+                                          //                     _phoneController
+                                          //                         .text,
+                                          //                 message:
+                                          //                     _messageController
+                                          //                         .text)
+                                          //             .then((value) {
+                                          //           if (value != "") {
+                                          //             SweetAlert.show(context,
+                                          //                 confirmButtonColor:
+                                          //                     _dataProvider
+                                          //                         .btnColor,
+                                          //                 confirmButtonText:
+                                          //                     "Sawa",
+                                          //                 subtitle:
+                                          //                     "Ahsante! Ujumbe wako tumeupokea",
+                                          //                 style: SweetAlertStyle
+                                          //                     .success);
+                                          //             _fullNameController
+                                          //                 .clear();
+                                          //             _messageController
+                                          //                 .clear();
+                                          //             _phoneController.clear();
+                                          //           } else {
+                                          //             SweetAlert.show(context,
+                                          //                 confirmButtonColor:
+                                          //                     _dataProvider
+                                          //                         .btnColor,
+                                          //                 confirmButtonText:
+                                          //                     "Sawa",
+                                          //                 subtitle:
+                                          //                     "'Afwan, Ujumbe haujafanikiwa kutumwa!",
+                                          //                 style: SweetAlertStyle
+                                          //                     .error);
+                                          //           }
+                                          //         });
+                                          //       });
+                                          //     } else {
+                                          //       SweetAlert.show(context,
+                                          //           confirmButtonColor:
+                                          //               _dataProvider.btnColor,
+                                          //           confirmButtonText: "Sawa",
+                                          //           subtitle:
+                                          //               "Ujumbe umeakhirishwa kutumwa!",
+                                          //           style:
+                                          //               SweetAlertStyle.error);
+                                          //     }
+                                          //     return false;
+                                          //   });
+                                          // }
                                         },
                                       ),
                                     ],

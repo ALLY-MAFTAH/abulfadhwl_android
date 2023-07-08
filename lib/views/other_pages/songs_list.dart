@@ -95,7 +95,7 @@ class _SongsListState extends State<SongsList> {
               child: Text(
                 _dataProvider.currentAlbum.name,
                 style: TextStyle(
-                    fontSize: 14, color: Color.fromARGB(255, 78, 76, 76)),
+                    fontSize: 14, color: _dataProvider.btnColorLight ),
               ),
             ),
           ],
@@ -146,7 +146,7 @@ class _SongsListState extends State<SongsList> {
                                 offset: Offset(2.0, 2.0),
                               )
                             ],
-                            color: Colors.orange[50],
+                            color: _dataProvider.btnColorLight,
                           ),
                           height: 60,
                           child: Row(

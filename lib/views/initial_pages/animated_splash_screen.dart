@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:abulfadhwl_android/home_page.dart';
+import 'package:abulfadhwl_android/layout_page.dart';
 import 'package:flutter/material.dart';
 
 class AnimatedSplashScreen extends StatefulWidget {
@@ -21,7 +21,7 @@ class SplashScreenState extends State<AnimatedSplashScreen>
 
   void navigationPage() {
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) {
-      return Home();
+      return LayoutPage();
     }));
   }
 

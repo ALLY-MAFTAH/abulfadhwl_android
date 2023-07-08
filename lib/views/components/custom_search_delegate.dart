@@ -36,6 +36,7 @@ class CustomSearchDelegate extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     final _getAndPostProvider = Provider.of<GetAndPostProvider>(context);
+    final _dataProvider = Provider.of<DataProvider>(context);
 
     List<Song> matchQuery = [];
     for (var audio in _getAndPostProvider.audios) {
@@ -48,7 +49,10 @@ class CustomSearchDelegate extends SearchDelegate {
       itemBuilder: (context, index) {
         var result = matchQuery[index];
         return ListTile(
-          title: Text(result.title),
+          title: Text(
+            result.title,
+            style: TextStyle(color: _dataProvider.btnColor),
+          ),
         );
       },
     );
@@ -108,7 +112,7 @@ class CustomSearchDelegate extends SearchDelegate {
                       categoryId: categoryId,
                       songs: selectedAlbumAudios,
                       getAndPostProvider: _getAndPostProvider,
-                     dataProvider: _dataProvider,
+                      dataProvider: _dataProvider,
                     );
                   }));
                 },
@@ -116,7 +120,9 @@ class CustomSearchDelegate extends SearchDelegate {
                   width: MediaQuery.of(context).size.width,
                   child: Text(
                     result.title,
-                    style: TextStyle(fontWeight: FontWeight.normal),
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        color: _dataProvider.btnColor),
                   ),
                 ),
               ),
